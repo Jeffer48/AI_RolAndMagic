@@ -1,0 +1,105 @@
+<resources>
+    <string name="app_name">AI Rol&amp;Magic</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="reset_pass">Reset password</string>
+    <string name="my_games">My Games</string>
+    <string name="create_lobby">Create lobby</string>
+    <string name="join_lobby">Join lobby</string>
+    <string name="user_name">User name</string>
+    <string name="sign_up">Sign up</string>
+    <string name="confirm_pass">Confirm password</string>
+    <string name="game_code">code</string>
+    <string name="join">join</string>
+    <string name="create_open">Create and open lobby</string>
+    <string name="start_game">Start game</string>
+    <string name="opening_scene">Describe the opening scene</string>
+    <string name="game_name">Name of the game</string>
+    <string name="ai_data">AI Data</string>
+    <string name="api_key">API KEY</string>
+    <string name="base_url">BASE URL</string>
+    <string name="model_name">MODEL NAME</string>
+    <string name="create">Create</string>
+    <string name="invitation_code">Invitation Code</string>
+    <string name="joined_players">Joined Players</string>
+    <string name="host">Host</string>
+    <string name="copy_invitation_code">Copy invitation code</string>
+    <string name="btn_dropdown">Dropdown button</string>
+    <string name="select_option">Select option</string>
+    <string name="success_register">Registration Successful!</string>
+    <string name="close">Close</string>
+
+    <!-- Mensajes Varios -->
+    <string name="alert_loadding">Loading...</string>
+
+    <!-- Mensajes de Exito -->
+    <string name="msg_success">Success!</string>
+    <string name="msg_account_created">Your adventurer account has been successfully created.</string>
+    
+    <!-- Mensajes de Error -->
+    <string name="err_email_format">Please enter a valid email</string>
+    <string name="err_pass_long">Password must be at least 6 characters</string>
+    <string name="err_pass_confirm">Passwords do not match</string>
+    <string name="err_registered_email">The email you entered is already registered by another adventurer.</string>
+    <string name="err_warning">Warning!</string>
+
+    <!-- Creación de personaje -->
+    <string name="cc_character_name">Character name</string>
+    <string name="cc_alignment">Alignment</string>
+    <string name="cc_morality">Morality</string>
+    <string name="cc_background">Background</string>
+    <string name="cc_species">Species</string>
+    <string name="cc_sub_species">Sub-Species</string>
+    <string name="cc_class">Class</string>
+    <string name="cc_align_morality_desc">Alignment - Morality Description</string>
+
+    <!-- Especies -->
+    <string name="species_human">Human</string>
+    <string name="species_dragonborn">Dragonborn</string>
+    <string name="species_dwarf">Dwarf</string>
+    <string name="species_elf">Elf</string>
+    <string name="species_gnome">Gnome</string>
+    <string name="species_goliath">Goliath</string>
+    <string name="species_halfling">Halfling</string>
+    <string name="species_half_elf">Half-Elf</string>
+    <string name="species_half_orc">Half-Orc</string>
+    <string name="species_orc">Orc</string>
+    <string name="species_tiefling">Tiefling</string>
+
+    <!-- Alineamiento -->
+    <string name="align_lawful">Lawful</string>
+    <string name="align_neutral">Neutral</string>
+    <string name="align_chaotic">Chaotic</string>
+
+    <!-- Moralidad -->
+    <string name="morality_good">Good</string>
+    <string name="morality_neutral">Neutral</string>
+    <string name="morality_bad">Bad</string>
+
+    <!-- Clases -->
+    <string name="class_barbarian">Barbarian</string>
+    <string name="class_bard">Bard</string>
+    <string name="class_cleric">Cleric</string>
+    <string name="class_druid">Druid</string>
+    <string name="class_fighter">Fighter</string>
+    <string name="class_monk">Monk</string>
+    <string name="class_paladin">Paladin</string>
+    <string name="class_ranger">Ranger</string>
+    <string name="class_rogue">Rogue</string>
+    <string name="class_sorcerer">Sorcerer</string>
+    <string name="class_warlock">Warlock</string>
+    <string name="class_wizard">Wizard</string>
+
+    <!-- Alineación Descripción -->
+    <string name="am_description_lg">Lawful Good (LG) creatures can be counted on to do the right thing as expected by society. They combine a commitment to oppose evil with the discipline to fight relentlessly.</string>
+    <string name="am_description_ng">Neutral Good (NG) folk do the best they can to help others according to their needs. They work with kings and magistrates but do not feel beholden to them.</string>
+    <string name="am_description_cg">Chaotic Good (CG) creatures act as their conscience directs, with little regard for what others expect. They believe in goodness and right, but do not rely on laws or regulations.</string>
+    <string name="am_description_ln">Lawful Neutral (LN) individuals act in accordance with law, tradition, or personal codes. Order and organization are paramount to them.</string>
+    <string name="am_description_n">Neutral (N) is the alignment of those who prefer to steer clear of moral questions and don\'t take sides, doing what seems best at the time. (Often called True Neutral).</string>
+    <string name="am_description_cn">Chaotic Neutral (CN) creatures follow their whims, holding their personal freedom above all else. They are often unpredictable.</string>
+    <string name="am_description_le">Lawful Evil (LE) creatures methodically take what they want, within the limits of a code of tradition, loyalty, or order. They care about structure, not good.</string>
+    <string name="am_description_ne">Neutral Evil (NE) is the alignment of those who do whatever they can get away with, without compassion or qualms.</string>
+    <string name="am_description_ce">Chaotic Evil (CE) creatures act with arbitrary violence, spurred by greed, hatred, or bloodlust. They are the most dangerous.</string>
+</resources>

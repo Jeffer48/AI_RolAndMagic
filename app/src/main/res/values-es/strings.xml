@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AI Rol&amp;Magic</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="create_account">Crear cuenta</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="reset_pass">Reestablecer contraseña</string>
+    <string name="my_games">Mis Partidas</string>
+    <string name="create_lobby">Crear lobby</string>
+    <string name="join_lobby">Unirse a partida</string>
+    <string name="user_name">Nombre de usuario</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="confirm_pass">Confirmar contraseña</string>
+    <string name="game_code">código</string>
+    <string name="join">Join</string>
+    <string name="create_open">Crear e iniciar el lobby</string>
+    <string name="start_game">Iniciar partida</string>
+    <string name="opening_scene">Describe la escena inicial</string>
+    <string name="game_name">Nombre de la partida</string>
+    <string name="ai_data">Datos de la IA</string>
+    <string name="api_key">API KEY</string>
+    <string name="base_url">BASE URL</string>
+    <string name="model_name">MODEL NAME</string>
+    <string name="create">Crear</string>
+    <string name="invitation_code">Codigo de Invitación</string>
+    <string name="joined_players">Jugadores Unidos</string>
+    <string name="host">Anfitrión</string>
+    <string name="copy_invitation_code">Copiar código de invitación</string>
+    <string name="btn_dropdown">Botón desplegable</string>
+    <string name="select_option">Seleccione una opción</string>
+    <string name="success_register">Usuario registrado con éxito!</string>
+    <string name="close">Cerrar</string>
+
+    <!-- Mensajes Varios -->
+    <string name="alert_loadding">Cargando...</string>
+
+    <!-- Mensajes de Exito -->
+    <string name="msg_success">¡Éxito!</string>
+    <string name="msg_account_created">Tu cuenta de aventurero ha sido creada correctamente.</string>
+
+    <!-- Mensajes de Error -->
+    <string name="err_email_format">Email no válido</string>
+    <string name="err_pass_long">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="err_pass_confirm">Las contraseñas no coinciden</string>
+    <string name="err_registered_email">El email que has introducido ya está registrado por otro aventurero.</string>
+    <string name="err_warning">¡Atención!</string>
+
+    <!-- Creación de personaje -->
+    <string name="cc_character_name">Nombre de personaje</string>
+    <string name="cc_alignment">Alineamiento</string>
+    <string name="cc_morality">Moralidad</string>
+    <string name="cc_background">Transfondo</string>
+    <string name="cc_species">Especie</string>
+    <string name="cc_sub_species">Sub-Especie</string>
+    <string name="cc_class">Clase</string>
+    <string name="cc_align_morality_desc">Alineamiento - Moralidad Descripción</string>
+
+    <!-- Especies -->
+    <string name="species_human">Humano</string>
+    <string name="species_dragonborn">Dracónido</string>
+    <string name="species_dwarf">Enano</string>
+    <string name="species_elf">Elfo</string>
+    <string name="species_gnome">Gnomo</string>
+    <string name="species_goliath">Goliant</string>
+    <string name="species_halfling">Mediano</string>
+    <string name="species_half_elf">Medio-Elfo</string>
+    <string name="species_half_orc">Medio-Orco</string>
+    <string name="species_orc">Orco</string>
+    <string name="species_tiefling">Tiefling</string>
+
+    <!-- Alineamiento -->
+    <string name="align_lawful">Legal</string>
+    <string name="align_neutral">Neutral</string>
+    <string name="align_chaotic">Caótico</string>
+
+    <!-- Moralidad -->
+    <string name="morality_good">Bueno</string>
+    <string name="morality_neutral">Neutral</string>
+    <string name="morality_bad">Malo</string>
+
+    <!-- Clases -->
+    <string name="class_barbarian">Bárbaro</string>
+    <string name="class_bard">Bardo</string>
+    <string name="class_cleric">Clérigo</string>
+    <string name="class_druid">Druida</string>
+    <string name="class_fighter">Guerrero</string>
+    <string name="class_monk">Monje</string>
+    <string name="class_paladin">Paladín</string>
+    <string name="class_ranger">Explorador</string>
+    <string name="class_rogue">Pícaro</string>
+    <string name="class_sorcerer">Hechicero</string>
+    <string name="class_warlock">Brujo</string>
+    <string name="class_wizard">Mago</string>
+
+    <!-- Alineación Descripción -->
+    <string name="am_description_lg">Legal Bueno (LB) Actúan como se espera de una buena persona en sociedad. Combinan el compromiso de oponerse al mal con la disciplina para luchar sin descanso.</string>
+    <string name="am_description_ng">Neutral Bueno (NB) Hacen lo mejor que una persona buena puede hacer para ayudar a otros según sus necesidades. Trabajan con autoridades, pero no se sienten ligados a ellas.</string>
+    <string name="am_description_cg">Caótico Bueno (CB) Actúan según su conciencia, con poca consideración por lo que otros esperan. Creen en el bien y el derecho, pero no recurren a las leyes.</string>
+    <string name="am_description_ln">Legal Neutral (LN) Actúan de acuerdo con la ley, la tradición o un código personal. El orden y la organización son primordiales.</string>
+    <string name="am_description_n">Neutral (N) Prefieren mantenerse al margen de las cuestiones morales y no toman partido, haciendo lo que les parece mejor en el momento. (A menudo se llama Neutral Verdadero).</string>
+    <string name="am_description_cn">Caótico Neutral (CN) Siguen sus caprichos, poniendo su libertad personal por encima de todo. Pueden ser impredecibles.</string>
+    <string name="am_description_le">Legal Malvado (LM) Toman metódicamente lo que quieren, operando dentro de los límites de un código de tradición, lealtad u orden. Les importa la estructura, no el bien.</string>
+    <string name="am_description_ne">Neutral Malvado (NM) Es el alineamiento de aquellos que hacen lo que pueden salirse con la suya, sin compasión ni escrúpulos.</string>
+    <string name="am_description_ce">Caótico Malvado (CM) Actúan con violencia arbitraria e impulsiva, impulsados por la codicia, el odio o la sed de sangre. Son los más peligrosos.</string>
+</resources>
