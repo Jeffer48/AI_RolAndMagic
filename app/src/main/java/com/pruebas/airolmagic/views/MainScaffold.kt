@@ -5,9 +5,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.ColorFilter
@@ -22,12 +27,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pruebas.airolmagic.R
+import com.pruebas.airolmagic.data.SessionViewModel
+import com.pruebas.airolmagic.views.layout.NavBar
+import com.pruebas.airolmagic.views.layout.SideBar
 
 @Composable
-fun MainScaffold(navController: NavHostController, content: @Composable () -> Unit){
-    val currentRoute = navController.currentBackStackEntry?.destination?.route
+fun MainScaffold(navController: NavHostController,sessionViewModel: SessionViewModel, content: @Composable () -> Unit){
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    val showTopBar = currentRoute == GamesListScreen::class.qualifiedName
     val imageBitmap: ImageBitmap = ImageBitmap.imageResource(res = LocalContext.current.resources,id = R.drawable.dark_matter)
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
     val invertColorMatrix = ColorMatrix(
         floatArrayOf(
@@ -45,30 +58,36 @@ fun MainScaffold(navController: NavHostController, content: @Composable () -> Un
         ShaderBrush(ImageShader(image = imageBitmap, tileModeX = TileMode.Repeated, tileModeY = TileMode.Repeated))
     }
 
-    Scaffold(
-        content = { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(colorResource(R.color.bg_black_purple))
-            ) {
-                Spacer(
-                    modifier = Modifier.fillMaxSize()
-                        .drawWithCache{
-                            onDrawBehind {
-                                scale(scale = scaleFactor){
-                                    drawRect(brush = tiledBrush, colorFilter = invertColorFilter, alpha = alphaFactor)
-                                }
-                            }
-                        }
-                )
+    ModalNavigationDrawer(
+        drawerContent = { SideBar(navController,sessionViewModel) },
+        drawerState = drawerState
+    ) {
+        Scaffold(
+            topBar = { if(showTopBar) NavBar(scope = scope, drawerState = drawerState) },
+            content = { innerPadding ->
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(innerPadding)
-                        .padding(15.dp)
-                ){ content() }
+                        .background(colorResource(R.color.bg_black_purple))
+                ) {
+                    Spacer(
+                        modifier = Modifier.fillMaxSize()
+                            .drawWithCache{
+                                onDrawBehind {
+                                    scale(scale = scaleFactor){
+                                        drawRect(brush = tiledBrush, colorFilter = invertColorFilter, alpha = alphaFactor)
+                                    }
+                                }
+                            }
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                            .padding(15.dp)
+                    ){ content() }
+                }
             }
-        }
-    )
+        )
+    }
 }

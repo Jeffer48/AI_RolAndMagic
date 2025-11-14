@@ -17,17 +17,17 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
 
     when(sessionState) {
         is SessionState.Loading -> {  }
-        is SessionState.LoggedOut -> { navController.navigate(LoginScreen){ popUpTo(LoadingScreen) { inclusive = true } }  }
-        is SessionState.LoggedIn -> { navController.navigate(GamesListScreen){ popUpTo(LoadingScreen) { inclusive = true } }   }
+        is SessionState.LoggedOut -> { navController.navigate(LoginScreen){ popUpTo(LoadingScreen) { inclusive = true } } }
+        is SessionState.LoggedIn -> { navController.navigate(GamesListScreen){ popUpTo(LoadingScreen) { inclusive = true } } }
     }
 
     NavHost(navController, startDestination = LoadingScreen){
         composable<LoadingScreen>{
-            MainScaffold(navController) { LoadingView() }
+            MainScaffold(navController, sessionViewModel) { LoadingView() }
         }
 
         composable<LoginScreen>{
-            MainScaffold(navController) {LoginView(
+            MainScaffold(navController, sessionViewModel) {LoginView(
                 onNavigateToGames = {
                     navController.navigate(GamesListScreen){
                         popUpTo(LoginScreen) { inclusive = true }
@@ -39,30 +39,30 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
         }
 
         composable<RegisterScreen> {
-            MainScaffold(navController) {RegisterView(onNavigateToLogin = { navController.navigate(LoginScreen) })}
+            MainScaffold(navController,sessionViewModel) {RegisterView(onNavigateToLogin = { navController.navigate(LoginScreen) })}
         }
 
         composable<GamesListScreen>{
-            MainScaffold(navController) {GamesListView(
+            MainScaffold(navController, sessionViewModel) {GamesListView(
                 onNavigateToJoinLobby = { navController.navigate(JoinGameScreen) },
                 onNavigateToCreateLobby = { navController.navigate(CreateLobbyScreen) }
             )}
         }
 
         composable<CreateLobbyScreen>{
-            MainScaffold(navController) {CreateLobbyView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
+            MainScaffold(navController,sessionViewModel) {CreateLobbyView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
         }
 
         composable<JoinGameScreen>{
-            MainScaffold(navController) {JoinGameView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
+            MainScaffold(navController,sessionViewModel) {JoinGameView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
         }
 
         composable<CharacterCreationScreen>{
-            MainScaffold(navController) {CharacterCreationView()}
+            MainScaffold(navController,sessionViewModel) {CharacterCreationView()}
         }
 
         composable<WaitLobbyScreen>{
-            MainScaffold(navController) {WaitLobbyView()}
+            MainScaffold(navController,sessionViewModel) {WaitLobbyView()}
         }
     }
 }

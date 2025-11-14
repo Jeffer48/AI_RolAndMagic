@@ -30,6 +30,7 @@
     <string name="select_option">Select option</string>
     <string name="success_register">Registration Successful!</string>
     <string name="close">Close</string>
+    <string name="log_out">Log Out</string>
 
     <!-- Mensajes Varios -->
     <string name="alert_loadding">Loading...</string>

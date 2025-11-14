@@ -28,11 +28,6 @@ fun GamesListView(
     onNavigateToCreateLobby: () -> Unit
 ){
     Column(Modifier.fillMaxSize()) {
-        Row(
-            modifier = Modifier.fillMaxWidth().height(70.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ){ HeaderBar() }
-        Spacer(modifier = Modifier.height(10.dp))
         Column(
             modifier = Modifier.fillMaxWidth().weight(1f)
         ){ GameButton("Partida 1", "Jugador") }
@@ -50,16 +45,6 @@ fun GamesListView(
             ){OptionButton(text = R.string.join_lobby, onClick = onNavigateToJoinLobby)}
         }
     }
-}
-
-@Composable
-fun HeaderBar(){
-    Text(
-        text = stringResource(R.string.my_games),
-        fontFamily = MedievalSharp,
-        fontSize = 35.sp,
-        color = colorResource(R.color.semi_white)
-    )
 }
 
 @Composable
