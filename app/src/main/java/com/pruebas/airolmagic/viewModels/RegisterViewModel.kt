@@ -1,4 +1,4 @@
-package com.pruebas.airolmagic.data
+package com.pruebas.airolmagic.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

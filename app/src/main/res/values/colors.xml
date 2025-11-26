@@ -13,4 +13,8 @@
     <color name="gray_font">#9CA3AF</color>
     <color name="error">#D63031</color>
     <color name="success">#2ECC71</color>
+    <color name="btn_unsel_darkblue">#171624</color>
+    <color name="btn_unsel_border">#0f3460</color>
+    <color name="btn_sel_blue">#0F3460</color>
+    <color name="btn_sel_border">#F7B731</color>
 </resources>

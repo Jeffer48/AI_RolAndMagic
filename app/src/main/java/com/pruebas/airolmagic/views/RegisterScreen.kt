@@ -25,8 +25,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.data.RegisterViewModel
-import com.pruebas.airolmagic.data.RegistrationState
+import com.pruebas.airolmagic.viewModels.RegisterViewModel
+import com.pruebas.airolmagic.viewModels.RegistrationState
 import com.pruebas.airolmagic.ui.theme.Lora
 
 @Composable

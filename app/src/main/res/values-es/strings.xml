@@ -32,9 +32,13 @@
     <string name="success_register">Usuario registrado con éxito!</string>
     <string name="close">Cerrar</string>
     <string name="log_out">Cerrar Sesión</string>
+    <string name="next">siguiente</string>
+    <string name="back">Atrás</string>
+    <string name="gaming_set">Set de Juego</string>
 
     <!-- Mensajes Varios -->
     <string name="alert_loadding">Cargando...</string>
+    <string name="choose_gaming_set">Elige un set de juego</string>
 
     <!-- Mensajes de Exito -->
     <string name="msg_success">¡Éxito!</string>
@@ -51,11 +55,14 @@
     <string name="cc_character_name">Nombre de personaje</string>
     <string name="cc_alignment">Alineamiento</string>
     <string name="cc_morality">Moralidad</string>
-    <string name="cc_background">Transfondo</string>
+    <string name="cc_background">Trasfondo</string>
     <string name="cc_species">Especie</string>
     <string name="cc_sub_species">Sub-Especie</string>
     <string name="cc_class">Clase</string>
     <string name="cc_align_morality_desc">Alineamiento - Moralidad Descripción</string>
+    <string name="cc_step">PASO</string>
+    <string name="cc_of_step">DE</string>
+    <string name="cc_combat_style">Define tu estilo de combate</string>
 
     <!-- Especies -->
     <string name="species_human">Humano</string>
@@ -93,6 +100,98 @@
     <string name="class_sorcerer">Hechicero</string>
     <string name="class_warlock">Brujo</string>
     <string name="class_wizard">Mago</string>
+
+    <!-- Trasfondos -->
+    <string name="background_acolyte">Acólito</string>
+    <string name="background_criminal">Criminal</string>
+    <string name="background_sage">Sabio</string>
+    <string name="background_soldier">Soldado</string>
+    <string name="background_customized">Personalizado</string>
+
+    <!-- Detalles de Trasfondos -->
+    <string name="bg_details_ability_scores">Puntos de habilidad</string>
+    <string name="bg_details_feat">Proeza</string>
+    <string name="bg_details_skills">Competencias en habilidades</string>
+    <string name="bg_details_tool_proficiencies">Competencias con herramientas</string>
+    <string name="bg_details_equipment">Equipamiento</string>
+
+    <!-- Proezas -->
+    <string name="feat_alert">Alerta</string>
+    <string name="feat_crafter">Artesano</string>
+    <string name="feat_healer">Sanador</string>
+    <string name="feat_lucky">Afortunado</string>
+    <string name="feat_magic_initiate">Iniciado Mágico</string>
+    <string name="feat_musician">Músico</string>
+    <string name="feat_savage_attacker">Atacante Salvaje</string>
+    <string name="feat_skilled">Hábil</string>
+    <string name="feat_tough">Resistente</string>
+
+    <!-- Habilidades -->
+    <string name="skill_strength">Fuerza (str)</string>
+    <string name="skill_dexterity">Destreza (dex)</string>
+    <string name="skill_constitution">Constitución (con)</string>
+    <string name="skill_intelligence">Inteligencia (int)</string>
+    <string name="skill_wisdom">Sabiduría (wis)</string>
+    <string name="skill_charisma">Carisma (cha)</string>
+    <!--Competencias -->
+    <string name="skill_insight">Perspicacia</string>
+    <string name="skill_religion">Religion</string>
+    <string name="skill_sleight_of_hand">Juego de manos</string>
+    <string name="skill_stealth">Sigilo</string>
+    <string name="skill_arcana">Arcanos</string>
+    <string name="skill_history">Historia</string>
+    <string name="skill_athletics">Atletismo</string>
+    <string name="skill_intimidation">Intimidación</string>
+
+    <!-- Equipamiento -->
+    <string name="equipment_calligrapher_supplies">Suministros de caligrafía</string>
+    <string name="equipment_alchemists_supplies">Suministros de alquimista</string>
+    <string name="equipment_brewers_supplies">Suministros de cervecero</string>
+    <string name="equipment_carpenters_tools">Herramientas de carpintero</string>
+    <string name="equipment_cartographers_tools">Herramientas de cartógrafo</string>
+    <string name="equipment_cobblers_tools">Herramientas de zapatero</string>
+    <string name="equipment_cooks_utensils">Utensilios de cocinero</string>
+    <string name="equipment_glassblowers_tools">Herramientas de soplador de vidrio</string>
+    <string name="equipment_jewelers_tools">Herramientas de joyero</string>
+    <string name="equipment_leatherworkers_tools">Herramientas de curtidor</string>
+    <string name="equipment_masons_tools">Herramientas de albañil</string>
+    <string name="equipment_painters_supplies">Suministros de pintor</string>
+    <string name="equipment_potters_tools">Herramientas de alfarero</string>
+    <string name="equipment_smiths_tools">Herramientas de herrero</string>
+    <string name="equipment_tinkers_tools">Herramientas de hojalatero</string>
+    <string name="equipment_weavers_tools">Herramientas de tejedor</string>
+    <string name="equipment_woodcarvers_tools">Herramientas de tallista</string>
+
+    <string name="equipment_dice_set">Juego de dados</string>
+    <string name="equipment_dragonchess_set">Ajedrez de dragón</string>
+    <string name="equipment_playing_card_set">Baraja de cartas</string>
+    <string name="equipment_three_dragon_ante_set">Juego de Tres Dragones</string>
+
+    <string name="equipment_bagpipes">Gaitas</string>
+    <string name="equipment_drum">Tambor</string>
+    <string name="equipment_dulcimer">Dulcémele</string>
+    <string name="equipment_flute">Flauta</string>
+    <string name="equipment_lute">Laúd</string>
+    <string name="equipment_lyre">Lira</string>
+    <string name="equipment_horn">Cuerno</string>
+    <string name="equipment_pan_flute">Flauta de pan</string>
+    <string name="equipment_shawm">Chirimía</string>
+    <string name="equipment_viol">Viola</string>
+
+    <string name="equipment_disguise_kit">Kit de disfraz</string>
+    <string name="equipment_forgery_kit">Kit de falsificación</string>
+    <string name="equipment_herbalism_kit">Kit de herboristería</string>
+    <string name="equipment_navigators_tools">Herramientas de navegante</string>
+    <string name="equipment_poisoners_kit">Kit de envenenador</string>
+    <string name="equipment_thieves_tools">Herramientas de ladrón</string>
+    <string name="equipment_vehicles_land">Vehículos (Terrestres)</string>
+    <string name="equipment_vehicles_water">Vehículos (Acuáticos)</string>
+
+    <!-- Descripción de Equipamiento -->
+    <string name="equipment_acolyte">Suministros de caligrafía, Libro (oraciones), Símbolo sagrado, Pergamino (10 hojas), Túnica, 8 PO</string>
+    <string name="equipment_criminal">2 Dagas, Herramientas de ladrón, Palanca, 2 Bolsas, Ropa de viajero, 16 PO</string>
+    <string name="equipment_sage">Bastón, Suministros de caligrafía, Libro (historia), Pergamino (8 hojas), Túnica, 8 PO</string>
+    <string name="equipment_soldier">Lanza, Arco corto, 20 Flechas, Set de juego (mismo que el anterior), Kit de curandero, Carcaj, Ropa de viajero, 14 PO</string>
 
     <!-- Alineación Descripción -->
     <string name="am_description_lg">Legal Bueno (LB) Actúan como se espera de una buena persona en sociedad. Combinan el compromiso de oponerse al mal con la disciplina para luchar sin descanso.</string>

@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.navigation.compose.rememberNavController
-import com.pruebas.airolmagic.data.SessionViewModel
+import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
 
 class MainActivity : ComponentActivity() {

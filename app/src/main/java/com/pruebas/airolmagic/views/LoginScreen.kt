@@ -26,9 +26,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.data.LoginState
-import com.pruebas.airolmagic.data.LoginViewModel
-import com.pruebas.airolmagic.data.SessionViewModel
+import com.pruebas.airolmagic.viewModels.LoginState
+import com.pruebas.airolmagic.viewModels.LoginViewModel
+import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.ui.theme.Lora
 
 @Composable

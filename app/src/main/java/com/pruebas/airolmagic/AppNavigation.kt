@@ -6,10 +6,10 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.serialization.RouteEncoder
-import com.pruebas.airolmagic.data.SessionState
-import com.pruebas.airolmagic.data.SessionViewModel
+import com.pruebas.airolmagic.viewModels.SessionState
+import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.views.*
+import com.pruebas.airolmagic.views.characterCreation.CharacterCreationNavigation
 
 @Composable
 fun AppNavigation(navController: NavHostController, sessionViewModel: SessionViewModel){
@@ -43,26 +43,24 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
         }
 
         composable<GamesListScreen>{
-            MainScaffold(navController, sessionViewModel) {GamesListView(
+            MainScaffold(navController) {GamesListView(
                 onNavigateToJoinLobby = { navController.navigate(JoinGameScreen) },
                 onNavigateToCreateLobby = { navController.navigate(CreateLobbyScreen) }
             )}
         }
 
         composable<CreateLobbyScreen>{
-            MainScaffold(navController,sessionViewModel) {CreateLobbyView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
+            MainScaffold(navController) {CreateLobbyView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
         }
 
         composable<JoinGameScreen>{
-            MainScaffold(navController,sessionViewModel) {JoinGameView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
-        }
-
-        composable<CharacterCreationScreen>{
-            MainScaffold(navController,sessionViewModel) {CharacterCreationView()}
+            MainScaffold(navController) {JoinGameView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
         }
 
         composable<WaitLobbyScreen>{
-            MainScaffold(navController,sessionViewModel) {WaitLobbyView()}
+            MainScaffold(navController) {WaitLobbyView()}
         }
+
+        composable<CharacterCreationScreen>{ CharacterCreationNavigation() }
     }
 }

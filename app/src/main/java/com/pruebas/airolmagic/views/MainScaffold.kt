@@ -29,12 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.data.SessionViewModel
+import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.views.layout.NavBar
 import com.pruebas.airolmagic.views.layout.SideBar
 
 @Composable
-fun MainScaffold(navController: NavHostController,sessionViewModel: SessionViewModel, content: @Composable () -> Unit){
+fun MainScaffold(navController: NavHostController,sessionViewModel: SessionViewModel = SessionViewModel(), content: @Composable () -> Unit){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val showTopBar = currentRoute == GamesListScreen::class.qualifiedName

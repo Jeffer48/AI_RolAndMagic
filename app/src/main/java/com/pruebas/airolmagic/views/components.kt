@@ -2,15 +2,23 @@ package com.pruebas.airolmagic.views
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -37,6 +45,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle.Companion.Italic
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
@@ -226,6 +236,121 @@ fun PreDialog(texto: String, txtHead: String, color: Int,onDismissRequest: () ->
                         fontSize = 15.sp
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun TextDescription(text: String, modifier: Modifier = Modifier){
+    Text(
+        modifier = modifier,
+        text = text,
+        color = Color.Gray,
+        fontFamily = Lora,
+        fontStyle = Italic,
+        textAlign = TextAlign.Center,
+    )
+}
+
+@Composable
+fun ButtonOptions(text: Int, selected: Boolean = false, onSelected: () -> Unit = {}){
+    val colorBackground = if(selected) colorResource(R.color.btn_sel_blue) else colorResource(R.color.btn_unsel_darkblue)
+    val colorBorder = if(selected) colorResource(R.color.btn_sel_border) else colorResource(R.color.btn_unsel_border)
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth().height(75.dp).background(color = colorBackground)
+            .border(width = 1.dp, color = colorBorder, shape = RoundedCornerShape(10.dp))
+            .clickable(onClick = { onSelected() }),
+        contentAlignment = Alignment.Center
+    ){
+        Text(
+            text = stringResource(text),
+            fontFamily = MedievalSharp,
+            fontSize = 25.sp,
+            color = colorResource(R.color.semi_white),
+        )
+    }
+}
+
+@Composable
+fun MenuWithMiddleContent(
+    pagTitle: String = "",
+    title: String,
+    subtitle: String = "",
+    backButton: Boolean = false,
+    onBackClicked: () -> Unit,
+    onNextClicked: () -> Unit,
+    content: @Composable () -> Unit
+){
+    Column(Modifier.fillMaxSize()){
+        Column(Modifier.fillMaxWidth()){
+            if(pagTitle != "") {
+                Text(
+                    text = pagTitle,
+                    fontFamily = Lora,
+                    fontSize = 15.sp,
+                    color = Color.DarkGray
+                )
+            }
+            Text(
+                text = title,
+                fontFamily = MedievalSharp,
+                fontSize = 40.sp,
+                color = colorResource(R.color.semi_white)
+            )
+            if(subtitle != "") {
+                Text(
+                    text = subtitle,
+                    fontFamily = Lora,
+                    fontSize = 15.sp,
+                    color = Color.Gray
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Box(Modifier.fillMaxWidth().weight(1f)){ content() }
+
+        Row(
+            modifier = Modifier.fillMaxWidth().height(70.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ){
+            if(backButton) {
+                Button(
+                    onClick = { onBackClicked() },
+                    modifier = Modifier.weight(1f).height(50.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                    ),
+                    border = BorderStroke(width = 1.dp, color = colorResource(R.color.yellow_font))
+                ) {
+                    Text(
+                        text = stringResource(R.string.back),
+                        fontFamily = MedievalSharp,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 25.sp,
+                        color = colorResource(R.color.yellow_font)
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+            }
+            Button(
+                onClick = { onNextClicked() },
+                modifier = Modifier.weight(1f).height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(R.color.yellow_font)
+                )
+            ){
+                Text(
+                    text = stringResource(R.string.next),
+                    fontFamily = MedievalSharp,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 25.sp,
+                    color = colorResource(R.color.black)
+                )
             }
         }
     }

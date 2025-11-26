@@ -25,10 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.data.SessionViewModel
+import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.ui.theme.Lora
-import com.pruebas.airolmagic.views.GamesListScreen
-import com.pruebas.airolmagic.views.LoadingScreen
 import com.pruebas.airolmagic.views.LoginScreen
 
 @Composable
