@@ -28,8 +28,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.viewModels.BackgroundRepository
-import com.pruebas.airolmagic.viewModels.gamingSetItems
+import com.pruebas.airolmagic.data.BackgroundRepository
+import com.pruebas.airolmagic.data.gamingSetItems
 import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.views.ButtonOptions
 import com.pruebas.airolmagic.views.DropdownButton

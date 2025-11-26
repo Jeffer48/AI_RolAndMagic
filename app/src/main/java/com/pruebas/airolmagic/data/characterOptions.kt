@@ -1,7 +1,6 @@
-package com.pruebas.airolmagic.viewModels
+package com.pruebas.airolmagic.data
 
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.data.BackgroundData
 
 val speciesItems = listOf(
     R.string.species_human,

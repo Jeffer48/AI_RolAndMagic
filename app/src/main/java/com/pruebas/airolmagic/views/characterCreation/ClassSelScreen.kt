@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.viewModels.classItems
+import com.pruebas.airolmagic.data.classItems
 import com.pruebas.airolmagic.views.ButtonOptions
 import com.pruebas.airolmagic.views.MenuWithMiddleContent
 
