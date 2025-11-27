@@ -31,23 +31,32 @@ import com.pruebas.airolmagic.R
 import com.pruebas.airolmagic.data.BackgroundRepository
 import com.pruebas.airolmagic.data.gamingSetItems
 import com.pruebas.airolmagic.ui.theme.Lora
+import com.pruebas.airolmagic.viewModels.CharacterViewModel
 import com.pruebas.airolmagic.views.ButtonOptions
 import com.pruebas.airolmagic.views.DropdownButton
 import com.pruebas.airolmagic.views.MenuWithMiddleContent
 
 @Composable
-fun BackgroundSelView(onBackClicked: () -> Unit){
+fun BackgroundSelView(
+    onBackClicked: () -> Unit,
+    onNextClicked: () -> Unit,
+    characterViewModel: CharacterViewModel
+){
     val backgroundOptions = remember { BackgroundRepository.list }
     var selectedBackground by remember { mutableStateOf(backgroundOptions.first()) }
     var selectedItem by remember { mutableStateOf(R.string.choose_gaming_set) }
+    if(characterViewModel.getBackgroundData() != 0) selectedBackground = backgroundOptions.find { it.id == characterViewModel.getBackgroundData() }!!
 
     MenuWithMiddleContent(
         backButton = true,
         pagTitle = "${stringResource(R.string.cc_step)} 2 ${stringResource(R.string.cc_of_step)} 8",
         title = stringResource(R.string.cc_background),
-        subtitle = stringResource(R.string.cc_combat_style),
+        subtitle = stringResource(R.string.cc_define_background),
         onBackClicked = { onBackClicked() },
-        onNextClicked = {  }
+        onNextClicked = {
+            characterViewModel.setBackgroundData(background = selectedBackground)
+            onNextClicked()
+        }
     ){
         Column(Modifier.fillMaxSize()) {
             LazyColumn(

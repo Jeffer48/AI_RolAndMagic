@@ -8,9 +8,11 @@ import androidx.activity.viewModels
 import androidx.navigation.compose.rememberNavController
 import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
+import com.pruebas.airolmagic.viewModels.CharacterViewModel
 
 class MainActivity : ComponentActivity() {
     private val session: SessionViewModel by viewModels()
+    private val character: CharacterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AIRolMagicTheme {
                 val navController = rememberNavController()
-                AppNavigation(navController = navController, sessionViewModel = session)
+                AppNavigation(navController = navController, sessionViewModel = session, characterViewModel = character)
             }
         }
     }

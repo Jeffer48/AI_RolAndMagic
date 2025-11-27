@@ -38,6 +38,7 @@
     <!-- Mensajes Varios -->
     <string name="alert_loadding">Loading...</string>
     <string name="choose_gaming_set">Choose one kind of Gaming Set</string>
+    <string name="placeholder_text">Placeholder text</string>
 
     <!-- Mensajes de Exito -->
     <string name="msg_success">Success!</string>
@@ -62,6 +63,12 @@
     <string name="cc_step">STEP</string>
     <string name="cc_of_step">OF</string>
     <string name="cc_combat_style">Define your combat style</string>
+    <string name="cc_define_background">Define your background</string>
+    <string name="cc_define_species">Choose your specie</string>
+    <string name="cc_stats">Stats</string>
+    <string name="cc_define_stats">Define your stats</string>
+    <string name="cc_extra_stats">Extra stats</string>
+    <string name="cc_details">Details</string>
 
     <!-- Especies -->
     <string name="species_human">Human</string>

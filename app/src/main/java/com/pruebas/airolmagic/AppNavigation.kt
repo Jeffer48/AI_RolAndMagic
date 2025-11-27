@@ -6,13 +6,18 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.pruebas.airolmagic.viewModels.CharacterViewModel
 import com.pruebas.airolmagic.viewModels.SessionState
 import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.views.*
 import com.pruebas.airolmagic.views.characterCreation.CharacterCreationNavigation
 
 @Composable
-fun AppNavigation(navController: NavHostController, sessionViewModel: SessionViewModel){
+fun AppNavigation(
+    navController: NavHostController,
+    sessionViewModel: SessionViewModel,
+    characterViewModel: CharacterViewModel
+){
     val sessionState by sessionViewModel.sessionState.collectAsState()
 
     when(sessionState) {
@@ -61,6 +66,6 @@ fun AppNavigation(navController: NavHostController, sessionViewModel: SessionVie
             MainScaffold(navController) {WaitLobbyView()}
         }
 
-        composable<CharacterCreationScreen>{ CharacterCreationNavigation() }
+        composable<CharacterCreationScreen>{ CharacterCreationNavigation(characterViewModel) }
     }
 }
