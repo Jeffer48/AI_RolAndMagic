@@ -69,6 +69,21 @@
     <string name="cc_define_stats">Define your stats</string>
     <string name="cc_extra_stats">Extra stats</string>
     <string name="cc_details">Details</string>
+    <string name="cc_languages">Languages</string>
+    <string name="cc_characteristics">Characteristics</string>
+    <string name="cc_spells_and_cantrips">Spells and Cantrips</string>
+
+    <!-- Idiomas -->
+    <string name="language_common">Common</string>
+    <string name="language_common_sign">Common sign language</string>
+    <string name="language_draconic">Draconic</string>
+    <string name="language_dwarvish">Dwarvish</string>
+    <string name="language_elvish">Elvish</string>
+    <string name="language_giant">Giant</string>
+    <string name="language_gnomish">Gnomish</string>
+    <string name="language_goblin">Goblin</string>
+    <string name="language_halfling">Halfling</string>
+    <string name="language_orc">Orc</string>
 
     <!-- Especies -->
     <string name="species_human">Human</string>
@@ -209,4 +224,35 @@
     <string name="am_description_le">Lawful Evil (LE) creatures methodically take what they want, within the limits of a code of tradition, loyalty, or order. They care about structure, not good.</string>
     <string name="am_description_ne">Neutral Evil (NE) is the alignment of those who do whatever they can get away with, without compassion or qualms.</string>
     <string name="am_description_ce">Chaotic Evil (CE) creatures act with arbitrary violence, spurred by greed, hatred, or bloodlust. They are the most dangerous.</string>
+
+    <!-- Trucos, Armas Mágicas (coste de maná: 0) -->
+    <string name="cantrips">Cantrips</string>
+    <string name="cantrips_fire_bolt">Fire Bolt</string>
+    <string name="cantrips_ray_of_frost">Ray of Frost</string>
+    <string name="cantrips_eldritch_blast">Eldritch Blast</string>
+    <string name="cantrips_sacred_flame">Sacred Flame</string>
+    <string name="cantrips_mage_hand">Mage Hand</string>
+    <string name="cantrips_light">Light</string>
+    <string name="cantrips_minor_illusion">Minor Illusion</string>
+    <string name="cantrips_vicious_mockery">Vicious Mockery</string>
+
+    <!-- Hechizos -->
+    <string name="spells">Spells</string>
+    <!-- Ofensivos -->
+    <string name="spells_magic_missile">Magic Missile</string>
+    <string name="spells_thunderwave">Thunderwave</string>
+    <string name="spells_fireball">Fireball</string>
+    <string name="spells_lightning_bolt">Lightning Bolt</string>
+    <!-- Defensivos y Curativos -->
+    <string name="spells_cure_wounds">Cure Wounds</string>
+    <string name="spells_healing_word">Healing Word</string>
+    <string name="spells_shield">Shield</string>
+    <string name="spells_mage_armor">Mage Armor</string>
+    <string name="spells_revivify">Revivify</string>
+    <!-- Utilidad y Control -->
+    <string name="spells_sleep">Sleep</string>
+    <string name="spells_invisibility">Invisibility</string>
+    <string name="spells_fly">Fly</string>
+    <string name="spells_detect_magic">Detect Magic</string>
+    <string name="spells_hold_person">Hold Person</string>
 </resources>

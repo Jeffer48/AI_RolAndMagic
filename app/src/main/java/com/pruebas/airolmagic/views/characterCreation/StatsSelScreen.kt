@@ -3,14 +3,11 @@ package com.pruebas.airolmagic.views.characterCreation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -46,6 +43,7 @@ fun StatsSelView(
     onNextClicked: () -> Unit
 ){
     val backgroundId by remember { mutableStateOf(characterViewModel.getBackgroundId()) }
+    val clenAttributes by remember { mutableStateOf(characterViewModel.getCleanAttributes()) }
     var totalPoints by remember { mutableStateOf(27) }
     var extraPoints by remember { mutableStateOf(3) }
     var strValue by remember { mutableStateOf(8) }
@@ -60,6 +58,16 @@ fun StatsSelView(
     var extraN1 by remember { mutableStateOf(R.string.placeholder_text) }
     var extraN2 by remember { mutableStateOf(R.string.placeholder_text) }
     var extraN3 by remember { mutableStateOf(R.string.placeholder_text) }
+
+    if(clenAttributes != null){
+        strValue = clenAttributes!!.strength
+        desValue = clenAttributes!!.dexterity
+        conValue = clenAttributes!!.constitution
+        intValue = clenAttributes!!.intelligence
+        sabValue = clenAttributes!!.wisdom
+        carValue = clenAttributes!!.charisma
+        totalPoints = 0
+    }
 
     if(backgroundId != 0){
         when(backgroundId){
@@ -88,7 +96,7 @@ fun StatsSelView(
 
     fun changeValue(value: Int, skillValue: Int): Int{
         var newValue = 0
-        if(value == 1 && skillValue < 15 && totalPoints > 0) {
+        if(value == 1 && skillValue < 18 && totalPoints > 0) {
             newValue = 1
             totalPoints -= 1
         }
@@ -126,7 +134,7 @@ fun StatsSelView(
         }
     ){
         Column(
-            modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
+            modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())
         ){
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Absolute.Right) {
                 Text(text = "${totalPoints}", fontFamily = MedievalSharp, color = colorResource(R.color.semi_white), fontSize = 22.sp)
@@ -157,17 +165,17 @@ fun StatsSelView(
                 }
             }
             Column(Modifier.fillMaxWidth()){
-                adittionalStats(label = extraN1, value = extraV1, onClickedBtn = { new ->
+                SetStatsBox(counter = false,label = extraN1, value = extraV1, onClickedBtn = { new ->
                     if(new > 0 && extraPoints > 0){ extraV1 += 1; extraPoints -= 1 }
                     if(new < 0 && extraV1 > 0){ extraV1 -= 1; extraPoints += 1 }
                 })
                 Spacer(modifier = Modifier.height(10.dp))
-                adittionalStats(label = extraN2, value = extraV2, onClickedBtn = { new ->
+                SetStatsBox(counter = false,label = extraN2, value = extraV2, onClickedBtn = { new ->
                     if(new > 0 && extraPoints > 0){ extraV2 += 1; extraPoints -= 1 }
                     if(new < 0 && extraV2 > 0){ extraV2 -= 1; extraPoints += 1 }
                 })
                 Spacer(modifier = Modifier.height(10.dp))
-                adittionalStats(label = extraN3, value = extraV3, onClickedBtn = { new ->
+                SetStatsBox(counter = false,label = extraN3, value = extraV3, onClickedBtn = { new ->
                     if(new > 0 && extraPoints > 0){ extraV3 += 1; extraPoints -= 1 }
                     if(new < 0 && extraV3 > 0){ extraV3 -= 1; extraPoints += 1 }
                 })
@@ -177,7 +185,7 @@ fun StatsSelView(
 }
 
 @Composable
-fun adittionalStats(label: Int, value: Int, onClickedBtn: (Int) -> Unit){
+fun SetStatsBox(counter: Boolean = true,label: Int,value: Int, onClickedBtn: (Int) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -213,56 +221,18 @@ fun adittionalStats(label: Int, value: Int, onClickedBtn: (Int) -> Unit){
             Spacer(modifier = Modifier.width(8.dp))
             AddRemoveStatButton(symbol = "+", onClickedBtn = onClickedBtn)
         }
-    }
-}
-
-@Composable
-fun SetStatsBox(label: Int,value: Int, onClickedBtn: (Int) -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(60.dp)
-            .background(colorResource(R.color.bg_black_purple))
-            .border(width = 1.dp, color = colorResource(R.color.btn_unsel_border), shape = RoundedCornerShape(10.dp))
-            .padding(10.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ){
-        Box(Modifier.weight(1f)){
-            Text(
-                text = stringResource(label).uppercase(),
-                fontFamily = Lora,
-                fontSize = 16.sp,
-                color = Color.LightGray
-            )
-        }
-        Row(Modifier.width(110.dp)){
-            AddRemoveStatButton(symbol = "-", onClickedBtn = onClickedBtn)
-            Spacer(modifier = Modifier.width(8.dp))
+        if(counter) {
             Box(
-                modifier = Modifier.height(25.dp).width(30.dp),
+                modifier = Modifier.height(30.dp).width(35.dp),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Text(
-                    text = "${value}",
+                    text = "${floor(((value.toDouble() - 10) / 2)).toInt()}",
                     fontFamily = Lora,
                     fontSize = 20.sp,
                     color = colorResource(R.color.semi_white)
                 )
             }
-            Spacer(modifier = Modifier.width(8.dp))
-            AddRemoveStatButton(symbol = "+", onClickedBtn = onClickedBtn)
-        }
-        Box(
-            modifier = Modifier.height(30.dp).width(35.dp),
-            contentAlignment = Alignment.Center
-        ){
-            Text(
-                text = "${floor(((value.toDouble()-10)/2)).toInt()}",
-                fontFamily = Lora,
-                fontSize = 20.sp,
-                color = colorResource(R.color.semi_white)
-            )
         }
     }
 }

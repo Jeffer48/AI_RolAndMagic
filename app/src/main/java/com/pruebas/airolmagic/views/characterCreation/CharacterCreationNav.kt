@@ -4,11 +4,16 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.pruebas.airolmagic.data.lists.isMagicClass
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
+import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.views.MainScaffold
 
 @Composable
-fun CharacterCreationNavigation(characterViewModel: CharacterViewModel){
+fun CharacterCreationNavigation(
+    characterViewModel: CharacterViewModel,
+    sessionViewModel: SessionViewModel
+){
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "class"){
@@ -41,7 +46,20 @@ fun CharacterCreationNavigation(characterViewModel: CharacterViewModel){
         }
 
         composable("extras"){
-            MainScaffold(navController) { ExtrasSelView( characterViewModel = characterViewModel, onBackClicked = { navController.navigate("species") }, ) }
+            MainScaffold(navController) { ExtrasSelView(
+                characterViewModel = characterViewModel,
+                sessionViewModel = sessionViewModel,
+                onBackClicked = { navController.navigate("stats") },
+                onNextClicked = { if(isMagicClass(characterViewModel.getClassData())) navController.navigate("spells") }
+            )}
+        }
+
+        composable("spells"){
+            MainScaffold(navController) { SpellsSelView(
+                characterViewModel = characterViewModel,
+                onBackClicked = { navController.navigate("extras") },
+                onNextClicked = {  }
+            )}
         }
     }
 }

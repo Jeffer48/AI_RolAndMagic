@@ -55,7 +55,7 @@ data class InventoryData(
 )
 
 enum class ItemType {
-    WEAPON, ARMOR, AMMO, CONSUMABLE, ITEM
+    WEAPON, ARMOR, AMMO, CONSUMABLE, ITEM, SPELL
 }
 
 @Serializable
@@ -77,6 +77,7 @@ data class ItemData(
     val damage: String? = null,      // "1d8"
     val damageType: String? = null,  // "slashing"
     val properties: List<String>? = null, // ["versatile"]
+    val cost: Int? = null,           // 1 Es para la magia
 
     // Campos de Armaduras
     val acBase: Int? = null,         // 16

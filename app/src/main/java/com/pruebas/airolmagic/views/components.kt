@@ -32,6 +32,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.PopupProperties
 import com.pruebas.airolmagic.R
 import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
 import com.pruebas.airolmagic.ui.theme.Lora
@@ -89,6 +91,82 @@ fun TransparentTextField(label: Int, value_txt: String, isError: Boolean = false
             errorContainerColor = Color.Transparent,
             errorTextColor = colorResource(R.color.semi_white),
         )
+    )
+}
+
+@Composable
+fun ColoredTextField(singleLine: Boolean = true, textValue: String, onValueChange: (String) -> Unit){
+    TextField(
+        modifier = Modifier.fillMaxWidth().height(55.dp)
+            .border(width = 1.dp, color = colorResource(R.color.btn_unsel_border), shape = RoundedCornerShape(8.dp)),
+        value = textValue,
+        singleLine = singleLine,
+        placeholder = { Text(text = "Ej. Thorin...") },
+        onValueChange = { onValueChange(it) },
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = colorResource(R.color.semi_white),
+            unfocusedTextColor = colorResource(R.color.semi_white),
+            focusedContainerColor = colorResource(R.color.btn_unsel_darkblue),
+            unfocusedContainerColor = colorResource(R.color.btn_unsel_darkblue),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            focusedPlaceholderColor = Color.Gray,
+            unfocusedPlaceholderColor = Color.Gray,
+        ),
+    )
+}
+
+@Composable
+fun DropdownBox(
+    selected: Int,
+    items: List<Int>,
+    expanded: Boolean,
+    height: Int = 55,
+    onClick: () -> Unit,
+    onDismissRequest: () -> Unit,
+    onItemSelected: (Int) -> Unit
+){
+    Box(
+        modifier = Modifier
+            .fillMaxWidth().clickable(onClick = { onClick() }).height(height.dp)
+            .background(color = colorResource(R.color.btn_unsel_darkblue))
+            .border(width = 1.dp, color = colorResource(R.color.btn_unsel_border), shape = RoundedCornerShape(8.dp))
+    ){
+        Row(
+            modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Text(
+                text = stringResource(selected),
+                fontFamily = Lora,
+                color = colorResource(R.color.semi_white)
+            )
+            Icon(
+                painter = painterResource(R.drawable.ic_dropdown),
+                contentDescription = stringResource(R.string.btn_dropdown),
+                tint = colorResource(R.color.semi_white)
+            )
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { onDismissRequest() },
+            containerColor = colorResource(R.color.btn_sel_blue),
+            properties = PopupProperties(focusable = false),
+        ){
+            items.forEach { item ->
+                DropdownBoxItem(item, onItemSelected)
+            }
+        }
+    }
+}
+
+@Composable
+fun DropdownBoxItem(item: Int, onItemSelected: (Int) -> Unit){
+    DropdownMenuItem(
+        text = { Text(text = stringResource(item), color = colorResource(R.color.semi_white)) },
+        onClick = { onItemSelected(item) }
     )
 }
 
@@ -354,4 +432,15 @@ fun MenuWithMiddleContent(
             }
         }
     }
+}
+
+//Componentes para titulos
+@Composable
+fun TextSubtitleWhite(text: String){
+    Text(
+        text = text,
+        color = colorResource(R.color.semi_white),
+        fontFamily = Lora,
+        fontWeight = FontWeight.SemiBold
+    )
 }

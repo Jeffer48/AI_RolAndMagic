@@ -1,22 +1,68 @@
 package com.pruebas.airolmagic.viewModels
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.pruebas.airolmagic.data.BackgroundData
 import com.pruebas.airolmagic.data.ClassData
 import com.pruebas.airolmagic.data.RaceData
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.w3c.dom.CharacterData
 import com.pruebas.airolmagic.R
 import com.pruebas.airolmagic.data.AttributesData
+import com.pruebas.airolmagic.data.CharacterProfile
+import com.pruebas.airolmagic.data.InventoryData
+import com.pruebas.airolmagic.data.InventoryItem
+import com.pruebas.airolmagic.data.ItemData
+import com.pruebas.airolmagic.data.ItemType
+import com.pruebas.airolmagic.data.ManaCalculator
 import com.pruebas.airolmagic.data.StatsData
+import com.pruebas.airolmagic.data.WalletData
+import com.pruebas.airolmagic.data.database.SpellsCantripsRepository
+import kotlinx.coroutines.launch
+import kotlin.math.floor
 
-class CharacterViewModel: ViewModel() {
-    private val _characterData = MutableStateFlow<CharacterData?>(null)
+class CharacterViewModel(
+    application: Application,
+    private val scRepository: SpellsCantripsRepository
+): AndroidViewModel(application) {
+    private val manaCalculator = ManaCalculator()
+    private val appContext = application.applicationContext
+    private val _characterData = MutableStateFlow<CharacterProfile?>(null)
+    private val _characterDataTemp = MutableStateFlow<CharacterProfile?>(null)
     private val _classData = MutableStateFlow<ClassData?>(null)
     private var _backgroundData = MutableStateFlow<BackgroundData?>(null)
     private val _speciesData = MutableStateFlow<RaceData?>(null)
     private val _statsData = MutableStateFlow<StatsData?>(null)
     private val _attributesData = MutableStateFlow<AttributesData?>(null)
+    private val _attributesCleanData = MutableStateFlow<AttributesData?>(null)
+    private val _inventoryData = MutableStateFlow<InventoryData?>(null)
+    private val _inventoryItemsList = MutableStateFlow<List<InventoryItem>>(emptyList())
+
+    fun saveUserData(){
+        val intelligence: Int = if(_attributesData.value?.intelligence == null) 0 else _attributesData.value?.intelligence!!
+        val classId: Int = if(_classData.value?.id == null) 0 else _classData.value?.id!!
+        val manaPoints: Int = manaCalculator.calculateMana(classId = classId, intelligence = intelligence, level = 1)
+
+        _inventoryData.value = InventoryData(
+            items = _inventoryItemsList.value
+        )
+
+        _characterData.value = CharacterProfile(
+            userId = _characterDataTemp.value?.userId ?: "",
+            name = _characterDataTemp.value?.name ?: "",
+            alignment = _characterDataTemp.value?.alignment ?: "",
+            languages = _characterDataTemp.value?.languages ?: "",
+            mana_points = manaPoints,
+            max_mana_points = manaPoints,
+
+            race = _speciesData.value!!,
+            classN = _classData.value!!,
+            stats = _statsData.value!!,
+            wallet = WalletData(),
+            inventory = _inventoryData.value!!
+        )
+    }
 
     fun setClassData(className: String, classId: Int){
         _classData.value = ClassData(
@@ -64,6 +110,15 @@ class CharacterViewModel: ViewModel() {
         var sab = sab
         var car = car
 
+        _attributesCleanData.value = AttributesData(
+            strength = str,
+            dexterity = des,
+            constitution = con,
+            intelligence = int,
+            wisdom = sab,
+            charisma = car
+        )
+
         when(backgroundId){
             R.string.background_acolyte -> {
                 int += ext1
@@ -101,6 +156,72 @@ class CharacterViewModel: ViewModel() {
         )
     }
 
+    private var _alignment = R.string.align_neutral
+    private var _morality = R.string.morality_neutral
+    private var _language = R.string.language_common_sign
+    fun setCharacterExtras(userId: String,name: String, alignment: String, languages: String, alignmentId: Int, moralityId: Int, languagesId: Int){
+        _alignment = alignmentId
+        _morality = moralityId
+        _language = languagesId
+
+        _characterDataTemp.value = CharacterProfile(
+            userId = userId,
+            name = name,
+            alignment = alignment,
+            languages = languages,
+        )
+    }
+
+    fun setSpellsAndCantrips(spells: List<Int>, cantrips: List<Int>) {
+        viewModelScope.launch {
+            val spellsCatalog: Map<String, InventoryItem>
+            val cantripsCatalog: Map<String, InventoryItem>
+
+            try{
+                spellsCatalog = scRepository.loadSpellsCatalog()
+                cantripsCatalog = scRepository.loadCantripsCatalog()
+            }catch(e: Exception){
+                e.printStackTrace()
+                return@launch
+            }
+
+            val selectedSpells = spells.mapNotNull { resourceId ->
+                val catalogId = getResourceKey(resourceId)
+                val baseItem = spellsCatalog[catalogId]
+
+                if(baseItem != null){
+                    baseItem.copy(
+                        instanceId = catalogId,
+                        catalogId = catalogId,
+                        name = appContext.getString(resourceId),
+                    )
+                }
+                else{
+                    Log.w("ViewModel", "El Hechizo con clave $resourceId no encontrado en Firebase.")
+                    null
+                }
+            }
+            if(selectedSpells.isNotEmpty()) _inventoryItemsList.value += selectedSpells
+
+            val selectedCantrips = cantrips.mapNotNull { resourceId ->
+                val catalogId = getResourceKey(resourceId)
+                val baseItem = cantripsCatalog[catalogId]
+
+                if(baseItem != null){
+                    baseItem.copy(
+                        instanceId = catalogId,
+                        catalogId = catalogId,
+                        name = appContext.getString(resourceId),
+                    )
+                }
+                else{
+                    Log.w("ViewModel", "El truco con clave $resourceId no encontrado en Firebase.")
+                    null
+                }
+            }
+            if(selectedCantrips.isNotEmpty()) _inventoryItemsList.value += selectedCantrips
+        }
+    }
 
     fun getClassData(): Int {
         val classId = _classData.value?.id
@@ -124,5 +245,39 @@ class CharacterViewModel: ViewModel() {
         val speciesId = _speciesData.value?.id
 
         return if(speciesId == null) 0 else speciesId
+    }
+
+    fun getCleanAttributes(): AttributesData? {
+        val cleanAttributes = _attributesCleanData.value
+        return cleanAttributes
+    }
+
+    fun getAlignment(): Int {
+        return _alignment
+    }
+
+    fun getMorality(): Int {
+        return _morality
+    }
+
+    fun getCharacterName(): String {
+        val characterName = _characterData.value?.name
+        return characterName ?: ""
+    }
+
+    fun getExtraLanguage(): Int {
+        return _language
+    }
+
+    fun getResourceKey(resourceId: Int): String{
+        var resourceName = ""
+
+        try{
+            resourceName = appContext.resources.getResourceEntryName(resourceId)
+        }catch(e: Exception){
+            e.printStackTrace()
+        }
+
+        return resourceName
     }
 }

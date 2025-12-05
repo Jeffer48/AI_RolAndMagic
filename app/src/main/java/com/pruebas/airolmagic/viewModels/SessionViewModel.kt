@@ -53,6 +53,12 @@ class SessionViewModel: ViewModel() {
         _sessionState.value = SessionState.LoggedOut
     }
 
+    fun getUserId(): String {
+        val userId = auth.currentUser?.uid
+
+        return userId ?: ""
+    }
+
     private suspend fun callGetUserDataFunction(): UserData {
         val result = Firebase.functions
             .getHttpsCallable("onGetUserData") { limitedUseAppCheckTokens = true }

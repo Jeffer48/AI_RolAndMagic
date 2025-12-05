@@ -66,10 +66,25 @@
     <string name="cc_combat_style">Define tu estilo de combate</string>
     <string name="cc_define_background">Define tu trasfondo</string>
     <string name="cc_define_species">Elige tu especie</string>
-    <string name="cc_stats">Stadisticas</string>
+    <string name="cc_stats">Estadisticas</string>
     <string name="cc_define_stats">Define tus estadisticas</string>
     <string name="cc_extra_stats">Estadisticas Adicionales</string>
     <string name="cc_details">Detalles</string>
+    <string name="cc_languages">Idiomas</string>
+    <string name="cc_characteristics">Características</string>
+    <string name="cc_spells_and_cantrips">Hechizos y Trucos</string>
+
+    <!-- Idiomas -->
+    <string name="language_common">Común</string>
+    <string name="language_common_sign">Lenguage de señas común</string>
+    <string name="language_draconic">Draconico</string>
+    <string name="language_dwarvish">Enano</string>
+    <string name="language_elvish">Elfico</string>
+    <string name="language_giant">Gigante</string>
+    <string name="language_gnomish">Gnómico</string>
+    <string name="language_goblin">Goblin</string>
+    <string name="language_halfling">Mediano</string>
+    <string name="language_orc">Orco</string>
 
     <!-- Especies -->
     <string name="species_human">Humano</string>
@@ -210,4 +225,35 @@
     <string name="am_description_le">Legal Malvado (LM) Toman metódicamente lo que quieren, operando dentro de los límites de un código de tradición, lealtad u orden. Les importa la estructura, no el bien.</string>
     <string name="am_description_ne">Neutral Malvado (NM) Es el alineamiento de aquellos que hacen lo que pueden salirse con la suya, sin compasión ni escrúpulos.</string>
     <string name="am_description_ce">Caótico Malvado (CM) Actúan con violencia arbitraria e impulsiva, impulsados por la codicia, el odio o la sed de sangre. Son los más peligrosos.</string>
+
+    <!-- Trucos, Armas Mágicas (coste de maná: 0) -->
+    <string name="cantrips">Trucos</string>
+    <string name="cantrips_fire_bolt">Descarga de Fuego</string>
+    <string name="cantrips_ray_of_frost">Rayo de Escarcha</string>
+    <string name="cantrips_eldritch_blast">Descarga Sobrenatural</string>
+    <string name="cantrips_sacred_flame">Llama Sagrada</string>
+    <string name="cantrips_mage_hand">Mano de Mago</string>
+    <string name="cantrips_light">Luz</string>
+    <string name="cantrips_minor_illusion">Ilusión Menor</string>
+    <string name="cantrips_vicious_mockery">Burla Dañina</string>
+
+    <!-- Hechizos -->
+    <string name="spells">Hechizos</string>
+    <!-- Ofensivos -->
+    <string name="spells_magic_missile">Proyectil Mágico</string>
+    <string name="spells_thunderwave">Onda Atronadora</string>
+    <string name="spells_fireball">Bola de Fuego</string>
+    <string name="spells_lightning_bolt">Rayo Relampagueante</string>
+    <!-- Defensivos y Curativos -->
+    <string name="spells_cure_wounds">Curar Heridas</string>
+    <string name="spells_healing_word">Palabra de Curación</string>
+    <string name="spells_shield">Escudo</string>
+    <string name="spells_mage_armor">Armadura de Mago</string>
+    <string name="spells_revivify">Revivir</string>
+    <!-- Utilidad y Control -->
+    <string name="spells_sleep">Dormir</string>
+    <string name="spells_invisibility">Invisibilidad</string>
+    <string name="spells_fly">Volar</string>
+    <string name="spells_detect_magic">Detectar Magia</string>
+    <string name="spells_hold_person">Paralizar Persona</string>
 </resources>

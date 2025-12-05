@@ -66,6 +66,6 @@ fun AppNavigation(
             MainScaffold(navController) {WaitLobbyView()}
         }
 
-        composable<CharacterCreationScreen>{ CharacterCreationNavigation(characterViewModel) }
+        composable<CharacterCreationScreen>{ CharacterCreationNavigation(characterViewModel,sessionViewModel) }
     }
 }

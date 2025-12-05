@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.firebase.functions)
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.firestore)
     debugImplementation(libs.firebase.appcheck.debug) //Borrar en la versión final
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -47,6 +47,19 @@ val backgroundItems = listOf(
     R.string.background_soldier
 )
 
+val languageItems = listOf(
+    R.string.language_common,
+    R.string.language_common_sign,
+    R.string.language_draconic,
+    R.string.language_dwarvish,
+    R.string.language_elvish,
+    R.string.language_giant,
+    R.string.language_gnomish,
+    R.string.language_goblin,
+    R.string.language_halfling,
+    R.string.language_orc
+)
+
 object BackgroundRepository{
     val list = listOf<BackgroundData>(
         BackgroundData(
