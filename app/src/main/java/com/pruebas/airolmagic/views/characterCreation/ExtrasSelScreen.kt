@@ -69,7 +69,7 @@ fun ExtrasSelView(
     MenuWithMiddleContent(
         backButton = true,
         isLastPage = !isMagicClass,
-        pagTitle = "${stringResource(R.string.cc_step)} 4 ${stringResource(R.string.cc_of_step)} 8",
+        pagTitle = "${stringResource(R.string.cc_step)} 5",
         title = stringResource(R.string.cc_details),
         onBackClicked = { onBackClicked() },
         onNextClicked = {

@@ -57,7 +57,7 @@ fun SpellsSelView(
     MenuWithMiddleContent(
         backButton = true,
         isLastPage = true,
-        pagTitle = "${stringResource(R.string.cc_step)} 4 ${stringResource(R.string.cc_of_step)} 8",
+        pagTitle = "${stringResource(R.string.cc_step)} 6",
         title = stringResource(R.string.cc_spells_and_cantrips),
         onBackClicked = { onBackClicked() },
         onNextClicked = {

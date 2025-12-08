@@ -28,7 +28,7 @@ fun ClassSelView(onNextClicked: () -> Unit, characterViewModel: CharacterViewMod
     if(selectedClassId != 0) selectedClassName = stringResource(selectedClassId)
 
     MenuWithMiddleContent(
-        pagTitle = "${stringResource(R.string.cc_step)} 1 ${stringResource(R.string.cc_of_step)} 8",
+        pagTitle = "${stringResource(R.string.cc_step)} 1",
         title = stringResource(R.string.cc_class),
         subtitle = stringResource(R.string.cc_combat_style),
         onBackClicked = {  },

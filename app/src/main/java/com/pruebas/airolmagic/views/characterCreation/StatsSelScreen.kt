@@ -122,7 +122,7 @@ fun StatsSelView(
     val offset = remember { mutableStateOf(0f) }
     MenuWithMiddleContent(
         backButton = true,
-        pagTitle = "${stringResource(R.string.cc_step)} 4 ${stringResource(R.string.cc_of_step)} 8",
+        pagTitle = "${stringResource(R.string.cc_step)} 4",
         title = stringResource(R.string.cc_stats),
         subtitle = stringResource(R.string.cc_define_stats),
         onBackClicked = { onBackClicked() },

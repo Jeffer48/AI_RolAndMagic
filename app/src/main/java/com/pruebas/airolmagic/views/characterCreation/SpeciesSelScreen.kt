@@ -32,7 +32,7 @@ fun SpeciesSelView(
 
     MenuWithMiddleContent(
         backButton = true,
-        pagTitle = "${stringResource(R.string.cc_step)} 3 ${stringResource(R.string.cc_of_step)} 8",
+        pagTitle = "${stringResource(R.string.cc_step)} 3",
         title = stringResource(R.string.cc_species),
         subtitle = stringResource(R.string.cc_define_species),
         onBackClicked = { onBackClicked() },

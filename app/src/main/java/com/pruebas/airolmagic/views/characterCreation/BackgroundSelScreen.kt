@@ -47,7 +47,7 @@ fun BackgroundSelView(
 
     MenuWithMiddleContent(
         backButton = true,
-        pagTitle = "${stringResource(R.string.cc_step)} 2 ${stringResource(R.string.cc_of_step)} 8",
+        pagTitle = "${stringResource(R.string.cc_step)} 2",
         title = stringResource(R.string.cc_background),
         subtitle = stringResource(R.string.cc_define_background),
         onBackClicked = { onBackClicked() },
