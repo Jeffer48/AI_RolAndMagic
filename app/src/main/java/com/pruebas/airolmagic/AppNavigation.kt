@@ -62,10 +62,17 @@ fun AppNavigation(
             MainScaffold(navController) {JoinGameView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
         }
 
+        composable<CharacterCreationScreen>{
+            CharacterCreationNavigation(
+                characterViewModel = characterViewModel,
+                sessionViewModel = sessionViewModel,
+                onNavigateToWaitLobby = { navController.navigate(WaitLobbyScreen) },
+                onFailedToCreateCharacter = { navController.navigate(GamesListScreen) }
+            )
+        }
+
         composable<WaitLobbyScreen>{
             MainScaffold(navController) {WaitLobbyView()}
         }
-
-        composable<CharacterCreationScreen>{ CharacterCreationNavigation(characterViewModel,sessionViewModel) }
     }
 }

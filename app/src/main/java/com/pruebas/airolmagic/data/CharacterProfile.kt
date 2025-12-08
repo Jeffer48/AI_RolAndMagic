@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CharacterProfile(
-    val id: String = "",
+    var id: String = "",
     val userId: String = "",
     val name: String = "",
     val level: Int = 1,

@@ -47,7 +47,7 @@ fun getCantripsAmount(classId: Int): Int {
         R.string.class_wizard -> 3
         R.string.class_sorcerer -> 4
         R.string.class_warlock -> 2
-        R.string.class_cleric -> 3
+        R.string.class_cleric -> 2
         R.string.class_bard -> 2
         R.string.class_druid -> 2
         else -> 0

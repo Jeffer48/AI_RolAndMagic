@@ -12,7 +12,9 @@ import com.pruebas.airolmagic.views.MainScaffold
 @Composable
 fun CharacterCreationNavigation(
     characterViewModel: CharacterViewModel,
-    sessionViewModel: SessionViewModel
+    sessionViewModel: SessionViewModel,
+    onNavigateToWaitLobby: () -> Unit,
+    onFailedToCreateCharacter: () -> Unit
 ){
     val navController = rememberNavController()
 
@@ -52,7 +54,8 @@ fun CharacterCreationNavigation(
                 sessionViewModel = sessionViewModel,
                 isMagicClass = isMagic,
                 onBackClicked = { navController.navigate("stats") },
-                onNextClicked = { if(isMagic) navController.navigate("spells") }
+                onNextClicked = { if(isMagic) navController.navigate("spells") else onNavigateToWaitLobby() },
+                onFailedToCreateCharacter = { onFailedToCreateCharacter() }
             )}
         }
 
@@ -60,7 +63,8 @@ fun CharacterCreationNavigation(
             MainScaffold(navController) { SpellsSelView(
                 characterViewModel = characterViewModel,
                 onBackClicked = { navController.navigate("extras") },
-                onNextClicked = {  }
+                onNextClicked = { onNavigateToWaitLobby() },
+                onFailedToCreateCharacter = { onFailedToCreateCharacter() }
             )}
         }
     }

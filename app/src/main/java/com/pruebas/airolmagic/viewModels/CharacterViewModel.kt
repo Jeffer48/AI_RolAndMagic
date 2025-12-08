@@ -16,6 +16,7 @@ import com.pruebas.airolmagic.data.InventoryItem
 import com.pruebas.airolmagic.data.ManaCalculator
 import com.pruebas.airolmagic.data.StatsData
 import com.pruebas.airolmagic.data.WalletData
+import com.pruebas.airolmagic.data.database.CharacterRepository
 import com.pruebas.airolmagic.data.database.SpellsCantripsRepository
 import com.pruebas.airolmagic.data.database.ItemsRepository
 import kotlinx.coroutines.launch
@@ -23,7 +24,8 @@ import kotlinx.coroutines.launch
 class CharacterViewModel(
     application: Application,
     private val scRepository: SpellsCantripsRepository,
-    private val itemsRepository: ItemsRepository
+    private val itemsRepository: ItemsRepository,
+    private val characterRepository: CharacterRepository
 ): AndroidViewModel(application) {
     private val manaCalculator = ManaCalculator()
     private val appContext = application.applicationContext
@@ -39,7 +41,7 @@ class CharacterViewModel(
     private val _inventoryItemsList = MutableStateFlow<List<InventoryItem>>(emptyList())
     private val _spellsCantripsList = MutableStateFlow<List<Int>>(emptyList())
 
-    fun saveUserData(){
+    fun saveUserData(onSuccess: () -> Unit, onError: () -> Unit){
         viewModelScope.launch {
             val intelligence: Int = if (_attributesData.value?.intelligence == null) 0 else _attributesData.value?.intelligence!!
             val classId: Int = if (_classData.value?.id == null) 0 else _classData.value?.id!!
@@ -74,6 +76,15 @@ class CharacterViewModel(
             )
 
             Log.d("ViewModel", "CharacterData: ${_characterData.value}")
+            val result = characterRepository.saveCharacterToFirebase(_characterData.value!!)
+
+            result.onSuccess {
+                Log.d("ViewModel", "Character saved successfully")
+                onSuccess()
+            }.onFailure {
+                Log.e("ViewModel", "Error saving character", it)
+                onError()
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 package com.pruebas.airolmagic.views.characterCreation
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,11 +29,18 @@ import com.pruebas.airolmagic.data.lists.getClassSpells
 import com.pruebas.airolmagic.data.lists.getSpellsAmount
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
 import com.pruebas.airolmagic.views.ButtonOptions
+import com.pruebas.airolmagic.views.ErrorDialog
+import com.pruebas.airolmagic.views.LoadingDialog
 import com.pruebas.airolmagic.views.MenuWithMiddleContent
 import com.pruebas.airolmagic.views.TextSubtitleWhite
 
 @Composable
-fun SpellsSelView(characterViewModel: CharacterViewModel, onBackClicked: () -> Unit, onNextClicked: () -> Unit){
+fun SpellsSelView(
+    characterViewModel: CharacterViewModel,
+    onBackClicked: () -> Unit,
+    onNextClicked: () -> Unit,
+    onFailedToCreateCharacter: () -> Unit
+){
     val classId = characterViewModel.getClassData()
     val classSpells: List<Int>? = getClassSpells(classId)
     val classCantrips: List<Int>? = getClassCantrips(classId)
@@ -42,6 +48,11 @@ fun SpellsSelView(characterViewModel: CharacterViewModel, onBackClicked: () -> U
     var countCantrips: Int by remember { mutableStateOf(getCantripsAmount(classId)) }
     val selectedSpells = remember { mutableStateListOf<Int>() }
     val selectedCantrips = remember { mutableStateListOf<Int>() }
+    var showLoadingDialog by remember { mutableStateOf(false) }
+    var showErrorDialog by remember { mutableStateOf(false) }
+
+    if(showLoadingDialog) LoadingDialog()
+    if(showErrorDialog) ErrorDialog(texto = stringResource(R.string.err_saving_character), onDismissRequest = { showErrorDialog = false; onFailedToCreateCharacter(); })
 
     MenuWithMiddleContent(
         backButton = true,
@@ -51,9 +62,12 @@ fun SpellsSelView(characterViewModel: CharacterViewModel, onBackClicked: () -> U
         onBackClicked = { onBackClicked() },
         onNextClicked = {
             if(countSpells == 0 && countCantrips == 0) {
+                showLoadingDialog = true
                 characterViewModel.setSpellsAndCantrips(spells = selectedSpells, cantrips = selectedCantrips)
-                characterViewModel.saveUserData()
-                onNextClicked()
+                characterViewModel.saveUserData(
+                    onSuccess = { onNextClicked(); showLoadingDialog = false },
+                    onError = { showErrorDialog = true }
+                )
             }
         }
     ){

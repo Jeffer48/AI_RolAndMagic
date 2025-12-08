@@ -54,6 +54,7 @@
     <string name="err_pass_confirm">Las contraseñas no coinciden</string>
     <string name="err_registered_email">El email que has introducido ya está registrado por otro aventurero.</string>
     <string name="err_warning">¡Atención!</string>
+    <string name="err_saving_character">No se pudo guardar el personaje</string>
 
     <!-- Creación de personaje -->
     <string name="cc_character_name">Nombre de personaje</string>

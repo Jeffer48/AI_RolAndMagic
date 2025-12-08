@@ -21,8 +21,14 @@ class MainActivity : ComponentActivity() {
                 val dataSources = DataSources()
                 val repository = SpellsCantripsRepository(dataSources)
                 val itemsRepository = ItemsRepository(dataSources)
+                val characterRepository = CharacterRepository()
                 @Suppress("UNCHECKED_CAST")
-                return CharacterViewModel(application, scRepository = repository, itemsRepository = itemsRepository) as T
+                return CharacterViewModel(
+                    application,
+                    scRepository = repository,
+                    itemsRepository = itemsRepository,
+                    characterRepository = characterRepository
+                ) as T
             }
         }
     }

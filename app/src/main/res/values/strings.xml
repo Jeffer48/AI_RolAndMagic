@@ -53,6 +53,7 @@
     <string name="err_pass_confirm">Passwords do not match</string>
     <string name="err_registered_email">The email you entered is already registered by another adventurer.</string>
     <string name="err_warning">Warning!</string>
+    <string name="err_saving_character">Failed to save character</string>
 
     <!-- Creación de personaje -->
     <string name="cc_character_name">Character name</string>

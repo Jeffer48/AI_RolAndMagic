@@ -35,6 +35,8 @@ import com.pruebas.airolmagic.viewModels.CharacterViewModel
 import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.views.ColoredTextField
 import com.pruebas.airolmagic.views.DropdownBox
+import com.pruebas.airolmagic.views.ErrorDialog
+import com.pruebas.airolmagic.views.LoadingDialog
 import com.pruebas.airolmagic.views.MenuWithMiddleContent
 import com.pruebas.airolmagic.views.TextSubtitleWhite
 
@@ -44,7 +46,8 @@ fun ExtrasSelView(
     onBackClicked: () -> Unit,
     onNextClicked: () -> Unit,
     sessionViewModel: SessionViewModel,
-    isMagicClass: Boolean
+    isMagicClass: Boolean,
+    onFailedToCreateCharacter: () -> Unit
 ) {
     var char_name by remember { mutableStateOf(characterViewModel.getCharacterName()) }
     var alignDrop by remember { mutableStateOf(false) }
@@ -55,6 +58,11 @@ fun ExtrasSelView(
     var language by remember { mutableStateOf(characterViewModel.getExtraLanguage()) }
     var text_align by remember { mutableStateOf("") }
     var text_language by remember { mutableStateOf("") }
+    var showLoadingDialog by remember { mutableStateOf(false) }
+    var showErrorDialog by remember { mutableStateOf(false) }
+
+    if(showLoadingDialog) LoadingDialog()
+    if(showErrorDialog) ErrorDialog(texto = stringResource(R.string.err_saving_character), onDismissRequest = { showErrorDialog = false; onFailedToCreateCharacter() })
 
     text_align = stringResource(align) + " - " + stringResource(morality)
     text_language = stringResource(R.string.language_common) + ", " + stringResource(language)
@@ -75,8 +83,14 @@ fun ExtrasSelView(
                     moralityId = morality,
                     languagesId = language
                 )
-                if(isMagicClass) characterViewModel.saveUserData()
-                onNextClicked()
+                if(isMagicClass) onNextClicked()
+                else{
+                    showLoadingDialog = true
+                    characterViewModel.saveUserData(
+                        onSuccess = { onNextClicked(); showLoadingDialog = false },
+                        onError = { showErrorDialog = true }
+                    )
+                }
             }
         }
     ){
