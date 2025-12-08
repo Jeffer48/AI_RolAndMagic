@@ -1,5 +1,6 @@
 package com.pruebas.airolmagic.views.characterCreation
 
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,17 +40,19 @@ fun SpellsSelView(characterViewModel: CharacterViewModel, onBackClicked: () -> U
     val classCantrips: List<Int>? = getClassCantrips(classId)
     var countSpells: Int by remember { mutableStateOf(getSpellsAmount(classId)) }
     var countCantrips: Int by remember { mutableStateOf(getCantripsAmount(classId)) }
-    val selectedSpells: List<Int> = remember { mutableListOf() }
-    val selectedCantrips: List<Int> = remember { mutableListOf() }
+    val selectedSpells = remember { mutableStateListOf<Int>() }
+    val selectedCantrips = remember { mutableStateListOf<Int>() }
 
     MenuWithMiddleContent(
         backButton = true,
+        isLastPage = true,
         pagTitle = "${stringResource(R.string.cc_step)} 4 ${stringResource(R.string.cc_of_step)} 8",
         title = stringResource(R.string.cc_spells_and_cantrips),
         onBackClicked = { onBackClicked() },
         onNextClicked = {
             if(countSpells == 0 && countCantrips == 0) {
                 characterViewModel.setSpellsAndCantrips(spells = selectedSpells, cantrips = selectedCantrips)
+                characterViewModel.saveUserData()
                 onNextClicked()
             }
         }
@@ -76,20 +80,18 @@ fun SpellsSelView(characterViewModel: CharacterViewModel, onBackClicked: () -> U
                         ){
 
                             classSpells.forEach { spell ->
-                                var selected by remember { mutableStateOf(false) }
+                                val isSelected = selectedSpells.contains(spell)
                                 ButtonOptions(
                                     text = spell,
-                                    selected = selected,
+                                    selected = isSelected,
                                     onSelected = {
-                                        if (selected) {
-                                            selected = false
+                                        if (isSelected) {
                                             countSpells += 1
-                                            selectedSpells.toMutableList().remove(spell)
+                                            selectedSpells.remove(spell)
                                         } else {
                                             if (countSpells > 0) {
-                                                selected = true
                                                 countSpells -= 1
-                                                selectedSpells.toMutableList().add(spell)
+                                                selectedSpells.add(spell)
                                             }
                                         }
                                     }
@@ -118,14 +120,19 @@ fun SpellsSelView(characterViewModel: CharacterViewModel, onBackClicked: () -> U
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ){
                             classCantrips.forEach { cantrip ->
-                                var selected by remember { mutableStateOf(false) }
+                                val isSelected = selectedCantrips.contains(cantrip)
                                 ButtonOptions(
                                     text = cantrip,
-                                    selected = selected,
+                                    selected = isSelected,
                                     onSelected = {
-                                        if (selected) { selected = false; countCantrips += 1; selectedCantrips.toMutableList().remove(cantrip) }
-                                        else {
-                                            if (countCantrips > 0) { selected = true; countCantrips -= 1; selectedCantrips.toMutableList().add(cantrip) }
+                                        if (isSelected) {
+                                            countCantrips += 1
+                                            selectedCantrips.remove(cantrip)
+                                        } else {
+                                            if (countCantrips > 0) {
+                                                countCantrips -= 1
+                                                selectedCantrips.add(cantrip)
+                                            }
                                         }
                                     }
                                 )

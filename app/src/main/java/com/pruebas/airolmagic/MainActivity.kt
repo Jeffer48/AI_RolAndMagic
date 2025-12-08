@@ -20,8 +20,9 @@ class MainActivity : ComponentActivity() {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 val dataSources = DataSources()
                 val repository = SpellsCantripsRepository(dataSources)
+                val itemsRepository = ItemsRepository(dataSources)
                 @Suppress("UNCHECKED_CAST")
-                return CharacterViewModel(application, repository) as T
+                return CharacterViewModel(application, scRepository = repository, itemsRepository = itemsRepository) as T
             }
         }
     }

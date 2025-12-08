@@ -43,7 +43,8 @@ fun ExtrasSelView(
     characterViewModel: CharacterViewModel,
     onBackClicked: () -> Unit,
     onNextClicked: () -> Unit,
-    sessionViewModel: SessionViewModel
+    sessionViewModel: SessionViewModel,
+    isMagicClass: Boolean
 ) {
     var char_name by remember { mutableStateOf(characterViewModel.getCharacterName()) }
     var alignDrop by remember { mutableStateOf(false) }
@@ -59,6 +60,7 @@ fun ExtrasSelView(
     text_language = stringResource(R.string.language_common) + ", " + stringResource(language)
     MenuWithMiddleContent(
         backButton = true,
+        isLastPage = !isMagicClass,
         pagTitle = "${stringResource(R.string.cc_step)} 4 ${stringResource(R.string.cc_of_step)} 8",
         title = stringResource(R.string.cc_details),
         onBackClicked = { onBackClicked() },
@@ -73,6 +75,7 @@ fun ExtrasSelView(
                     moralityId = morality,
                     languagesId = language
                 )
+                if(isMagicClass) characterViewModel.saveUserData()
                 onNextClicked()
             }
         }

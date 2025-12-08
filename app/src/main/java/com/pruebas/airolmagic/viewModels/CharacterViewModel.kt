@@ -13,18 +13,17 @@ import com.pruebas.airolmagic.data.AttributesData
 import com.pruebas.airolmagic.data.CharacterProfile
 import com.pruebas.airolmagic.data.InventoryData
 import com.pruebas.airolmagic.data.InventoryItem
-import com.pruebas.airolmagic.data.ItemData
-import com.pruebas.airolmagic.data.ItemType
 import com.pruebas.airolmagic.data.ManaCalculator
 import com.pruebas.airolmagic.data.StatsData
 import com.pruebas.airolmagic.data.WalletData
 import com.pruebas.airolmagic.data.database.SpellsCantripsRepository
+import com.pruebas.airolmagic.data.database.ItemsRepository
 import kotlinx.coroutines.launch
-import kotlin.math.floor
 
 class CharacterViewModel(
     application: Application,
-    private val scRepository: SpellsCantripsRepository
+    private val scRepository: SpellsCantripsRepository,
+    private val itemsRepository: ItemsRepository
 ): AndroidViewModel(application) {
     private val manaCalculator = ManaCalculator()
     private val appContext = application.applicationContext
@@ -38,30 +37,44 @@ class CharacterViewModel(
     private val _attributesCleanData = MutableStateFlow<AttributesData?>(null)
     private val _inventoryData = MutableStateFlow<InventoryData?>(null)
     private val _inventoryItemsList = MutableStateFlow<List<InventoryItem>>(emptyList())
+    private val _spellsCantripsList = MutableStateFlow<List<Int>>(emptyList())
 
     fun saveUserData(){
-        val intelligence: Int = if(_attributesData.value?.intelligence == null) 0 else _attributesData.value?.intelligence!!
-        val classId: Int = if(_classData.value?.id == null) 0 else _classData.value?.id!!
-        val manaPoints: Int = manaCalculator.calculateMana(classId = classId, intelligence = intelligence, level = 1)
+        viewModelScope.launch {
+            val intelligence: Int = if (_attributesData.value?.intelligence == null) 0 else _attributesData.value?.intelligence!!
+            val classId: Int = if (_classData.value?.id == null) 0 else _classData.value?.id!!
+            val manaPoints: Int = manaCalculator.calculateMana(
+                classId = classId,
+                intelligence = intelligence,
+                level = 1
+            )
+            saveItemsData(items = _backgroundData.value?.equipment!!)
+            saveItemsData(items = _spellsCantripsList.value)
 
-        _inventoryData.value = InventoryData(
-            items = _inventoryItemsList.value
-        )
+            _inventoryData.value = InventoryData(
+                items = _inventoryItemsList.value
+            )
 
-        _characterData.value = CharacterProfile(
-            userId = _characterDataTemp.value?.userId ?: "",
-            name = _characterDataTemp.value?.name ?: "",
-            alignment = _characterDataTemp.value?.alignment ?: "",
-            languages = _characterDataTemp.value?.languages ?: "",
-            mana_points = manaPoints,
-            max_mana_points = manaPoints,
+            _characterData.value = CharacterProfile(
+                userId = _characterDataTemp.value?.userId ?: "",
+                name = _characterDataTemp.value?.name ?: "",
+                alignment = _characterDataTemp.value?.alignment ?: "",
+                languages = _characterDataTemp.value?.languages ?: "",
+                mana_points = manaPoints,
+                max_mana_points = manaPoints,
+                background = appContext.getString(_backgroundData.value?.backgroundName ?: 0),
+                backgroundTag = appContext.getString(_backgroundData.value?.tagId ?: 0),
+                backgroundTagDetails = appContext.getString(_backgroundData.value?.tagDescriptionId ?: 0),
 
-            race = _speciesData.value!!,
-            classN = _classData.value!!,
-            stats = _statsData.value!!,
-            wallet = WalletData(),
-            inventory = _inventoryData.value!!
-        )
+                race = _speciesData.value!!,
+                classN = _classData.value!!,
+                stats = _statsData.value!!,
+                wallet = WalletData(gold = _backgroundData.value?.gold ?: 0),
+                inventory = _inventoryData.value!!
+            )
+
+            Log.d("ViewModel", "CharacterData: ${_characterData.value}")
+        }
     }
 
     fun setClassData(className: String, classId: Int){
@@ -103,12 +116,8 @@ class CharacterViewModel(
 
     fun setStatsData(str: Int, des: Int, con: Int, int: Int, sab: Int, car: Int, ext1: Int, ext2: Int, ext3: Int){
         val backgroundId = _backgroundData.value?.backgroundName
-        var str = str
-        var des = des
-        var con = con
-        var int = int
-        var sab = sab
-        var car = car
+        var str = str; var des = des; var con = con
+        var int = int; var sab = sab; var car = car
 
         _attributesCleanData.value = AttributesData(
             strength = str,
@@ -120,26 +129,10 @@ class CharacterViewModel(
         )
 
         when(backgroundId){
-            R.string.background_acolyte -> {
-                int += ext1
-                sab += ext2
-                car += ext3
-            }
-            R.string.background_criminal -> {
-                des += ext1
-                con += ext2
-                int += ext3
-            }
-            R.string.background_sage -> {
-                con += ext1
-                int += ext2
-                sab += ext3
-            }
-            R.string.background_soldier -> {
-                des += ext1
-                str += ext2
-                con += ext3
-            }
+            R.string.background_acolyte -> { int += ext1; sab += ext2; car += ext3 }
+            R.string.background_criminal -> { des += ext1; con += ext2; int += ext3 }
+            R.string.background_sage -> { con += ext1; int += ext2; sab += ext3 }
+            R.string.background_soldier -> { des += ext1; str += ext2; con += ext3 }
         }
 
         _attributesData.value = AttributesData(
@@ -173,54 +166,8 @@ class CharacterViewModel(
     }
 
     fun setSpellsAndCantrips(spells: List<Int>, cantrips: List<Int>) {
-        viewModelScope.launch {
-            val spellsCatalog: Map<String, InventoryItem>
-            val cantripsCatalog: Map<String, InventoryItem>
-
-            try{
-                spellsCatalog = scRepository.loadSpellsCatalog()
-                cantripsCatalog = scRepository.loadCantripsCatalog()
-            }catch(e: Exception){
-                e.printStackTrace()
-                return@launch
-            }
-
-            val selectedSpells = spells.mapNotNull { resourceId ->
-                val catalogId = getResourceKey(resourceId)
-                val baseItem = spellsCatalog[catalogId]
-
-                if(baseItem != null){
-                    baseItem.copy(
-                        instanceId = catalogId,
-                        catalogId = catalogId,
-                        name = appContext.getString(resourceId),
-                    )
-                }
-                else{
-                    Log.w("ViewModel", "El Hechizo con clave $resourceId no encontrado en Firebase.")
-                    null
-                }
-            }
-            if(selectedSpells.isNotEmpty()) _inventoryItemsList.value += selectedSpells
-
-            val selectedCantrips = cantrips.mapNotNull { resourceId ->
-                val catalogId = getResourceKey(resourceId)
-                val baseItem = cantripsCatalog[catalogId]
-
-                if(baseItem != null){
-                    baseItem.copy(
-                        instanceId = catalogId,
-                        catalogId = catalogId,
-                        name = appContext.getString(resourceId),
-                    )
-                }
-                else{
-                    Log.w("ViewModel", "El truco con clave $resourceId no encontrado en Firebase.")
-                    null
-                }
-            }
-            if(selectedCantrips.isNotEmpty()) _inventoryItemsList.value += selectedCantrips
-        }
+        _spellsCantripsList.value += spells
+        _spellsCantripsList.value += cantrips
     }
 
     fun getClassData(): Int {
@@ -279,5 +226,49 @@ class CharacterViewModel(
         }
 
         return resourceName
+    }
+
+    //Funciones privadas
+    private suspend fun saveItemsData(items: List<Int>){
+            var weaponsCatalog: Map<String, InventoryItem> = emptyMap()
+            var armorCatalog: Map<String, InventoryItem> = emptyMap()
+            var itemsCatalog: Map<String, InventoryItem> = emptyMap()
+            var ammoCatalog: Map<String, InventoryItem> = emptyMap()
+            var consumablesCatalog: Map<String, InventoryItem> = emptyMap()
+            var spellsCatalog: Map<String, InventoryItem> = emptyMap()
+            var cantripsCatalog: Map<String, InventoryItem> = emptyMap()
+
+            try {
+                weaponsCatalog = itemsRepository.loadWeaponsCatalog()
+                armorCatalog = itemsRepository.loadArmorCatalog()
+                itemsCatalog = itemsRepository.loadItemsCatalog()
+                ammoCatalog = itemsRepository.loadAmmoCatalog()
+                consumablesCatalog = itemsRepository.loadConsumablesCatalog()
+                spellsCatalog = scRepository.loadSpellsCatalog()
+                cantripsCatalog = scRepository.loadCantripsCatalog()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            val fullCatalog = weaponsCatalog + armorCatalog + itemsCatalog + ammoCatalog + consumablesCatalog + spellsCatalog + cantripsCatalog
+            val selectedItems = items.mapNotNull { resourceId ->
+                val catalogId = getResourceKey(resourceId)
+                val baseItem = fullCatalog[catalogId]
+
+                if (baseItem != null) {
+                    baseItem.copy(
+                        instanceId = catalogId,
+                        catalogId = catalogId,
+                        name = appContext.getString(resourceId),
+                    )
+                } else {
+                    Log.w(
+                        "ViewModel",
+                        "El item con clave $catalogId no fue encontrado en Firebase."
+                    )
+                    null
+                }
+            }
+            if(selectedItems.isNotEmpty()) _inventoryItemsList.value += selectedItems
     }
 }

@@ -34,6 +34,9 @@
     <string name="next">next</string>
     <string name="back">Back</string>
     <string name="gaming_set">Gaming Set</string>
+    <string name="money_gold">Gold</string>
+    <string name="equipment">Equipment</string>
+    <string name="save">Save</string>
 
     <!-- Mensajes Varios -->
     <string name="alert_loadding">Loading...</string>
@@ -128,6 +131,18 @@
     <string name="background_sage">Sage</string>
     <string name="background_soldier">Soldier</string>
     <string name="background_customized">Customized</string>
+
+    <!-- Tags de Trasfondos -->
+    <string name="background_tag_soldier">Military Rank</string>
+    <string name="background_tag_criminal">Underworld Contacts</string>
+    <string name="background_tag_acolyte">Shelter of the Faithful</string>
+    <string name="background_tag_sage">Erudite Researcher</string>
+
+    <!-- Descripciones de Tags de Trasfondos -->
+    <string name="background_desc_soldier">Guards, soldiers, and officers respect his authority. He can access barracks or gain audience with local military leaders.</string>
+    <string name="background_desc_criminal">Knows local gang signs, knows where to sell stolen goods, and can gather information in dangerous neighborhoods without being immediately attacked.</string>
+    <string name="background_desc_acolyte">Can receive free healing and lodging at temples of his faith. Religious people trust him automatically.</string>
+    <string name="background_desc_sage">If he doesn\'t know something, he knows where to look for it. The AI allows him to find answers in libraries, universities, or ancient scrolls much faster than others.</string>
     
     <!-- Detalles de Trasfondos -->
     <string name="bg_details_ability_scores">Ability Scores</string>
@@ -154,6 +169,7 @@
     <string name="skill_intelligence">Intelligence (int)</string>
     <string name="skill_wisdom">Wisdom (wis)</string>
     <string name="skill_charisma">Charisma (cha)</string>
+
     <!--Competencias -->
     <string name="skill_insight">Insight</string>
     <string name="skill_religion">Religion</string>
@@ -163,56 +179,6 @@
     <string name="skill_history">History</string>
     <string name="skill_athletics">Athletics</string>
     <string name="skill_intimidation">Intimidation</string>
-
-    <!-- Equipamiento -->
-    <string name="equipment_calligrapher_supplies">Calligrapher’s Supplies</string>
-    <string name="equipment_alchemists_supplies">Alchemist’s supplies</string>
-    <string name="equipment_brewers_supplies">Brewer’s supplies</string>
-    <string name="equipment_carpenters_tools">Carpenter’s tools</string>
-    <string name="equipment_cartographers_tools">Cartographer’s tools</string>
-    <string name="equipment_cobblers_tools">Cobbler’s tools</string>
-    <string name="equipment_cooks_utensils">Cook’s utensils</string>
-    <string name="equipment_glassblowers_tools">Glassblower’s tools</string>
-    <string name="equipment_jewelers_tools">Jeweler’s tools</string>
-    <string name="equipment_leatherworkers_tools">Leatherworker’s tools</string>
-    <string name="equipment_masons_tools">Mason’s tools</string>
-    <string name="equipment_painters_supplies">Painter’s supplies</string>
-    <string name="equipment_potters_tools">Potter’s tools</string>
-    <string name="equipment_smiths_tools">Smith’s tools</string>
-    <string name="equipment_tinkers_tools">Tinker’s tools</string>
-    <string name="equipment_weavers_tools">Weaver’s tools</string>
-    <string name="equipment_woodcarvers_tools">Woodcarver’s tools</string>
-
-    <string name="equipment_dice_set">Dice set</string>
-    <string name="equipment_dragonchess_set">Dragonchess set</string>
-    <string name="equipment_playing_card_set">Playing card set</string>
-    <string name="equipment_three_dragon_ante_set">Three-Dragon Ante set</string>
-
-    <string name="equipment_bagpipes">Bagpipes</string>
-    <string name="equipment_drum">Drum</string>
-    <string name="equipment_dulcimer">Dulcimer</string>
-    <string name="equipment_flute">Flute</string>
-    <string name="equipment_lute">Lute</string>
-    <string name="equipment_lyre">Lyre</string>
-    <string name="equipment_horn">Horn</string>
-    <string name="equipment_pan_flute">Pan flute</string>
-    <string name="equipment_shawm">Shawm</string>
-    <string name="equipment_viol">Viol</string>
-
-    <string name="equipment_disguise_kit">Disguise kit</string>
-    <string name="equipment_forgery_kit">Forgery kit</string>
-    <string name="equipment_herbalism_kit">Herbalism kit</string>
-    <string name="equipment_navigators_tools">Navigator’s tools</string>
-    <string name="equipment_poisoners_kit">Poisoner’s kit</string>
-    <string name="equipment_thieves_tools">Thieves’ Tools</string>
-    <string name="equipment_vehicles_land">Vehicles (Land)</string>
-    <string name="equipment_vehicles_water">Vehicles (Water)</string>
-
-    <!-- Descripción de Equipamiento -->
-    <string name="equipment_acolyte">Calligrapher’s Supplies, Book (prayers), Holy Symbol, Parchment (10 sheets), Robe, 8 GP</string>
-    <string name="equipment_criminal">2 Daggers, Thieve’s Tools, Crowbar, 2 Pouches, Traveler’s Clothes, 16 GP</string>
-    <string name="equipment_sage">Quarterstaff, Calligrapher’s Supplies, Book (history), Parchment (8 sheets), Robe, 8 GP</string>
-    <string name="equipment_soldier">Spear, Shortbow, 20 Arrows, Gaming Set (same as above), Healer’s Kit, Quiver, Traveler’s Clothes, 14 GP</string>
 
     <!-- Alineación Descripción -->
     <string name="am_description_lg">Lawful Good (LG) creatures can be counted on to do the right thing as expected by society. They combine a commitment to oppose evil with the discipline to fight relentlessly.</string>
@@ -255,4 +221,24 @@
     <string name="spells_fly">Fly</string>
     <string name="spells_detect_magic">Detect Magic</string>
     <string name="spells_hold_person">Hold Person</string>
+
+    <!-- ITEMS -->
+    <string name="item_thieves_tools">Thieve´s Tools</string>
+    <string name="item_holy_symbol">Holy Symbol</string>
+    <string name="item_lore_book">Lore Book</string>
+    <string name="item_writing_kit">Writing Kit</string>
+    <!-- Consumibles -->
+    <string name="consumable_healing_basic">Healing Potion</string>
+    <!-- Armaduras -->
+    <string name="armor_leather">Leather Armor</string>
+    <string name="armor_chainmail">Chainmail</string>
+    <string name="armor_shield">Shield</string>
+    <!-- Munición -->
+    <string name="ammo_arrow_std">Arrows</string>
+    <!-- Armas -->
+    <string name="wpn_dagger">Dagger</string>
+    <string name="wpn_shortsword">Short Sword</string>
+    <string name="wpn_longsword">Long Sword</string>
+    <string name="wpn_mace">Mace</string>
+    <string name="wpn_shortbow">Short Bow</string>
 </resources>

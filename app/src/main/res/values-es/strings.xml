@@ -35,6 +35,9 @@
     <string name="next">siguiente</string>
     <string name="back">Atrás</string>
     <string name="gaming_set">Set de Juego</string>
+    <string name="money_gold">Oro</string>
+    <string name="equipment">Equipamiento</string>
+    <string name="save">Guardar</string>
 
     <!-- Mensajes Varios -->
     <string name="alert_loadding">Cargando...</string>
@@ -130,6 +133,18 @@
     <string name="background_soldier">Soldado</string>
     <string name="background_customized">Personalizado</string>
 
+    <!-- Tags de Trasfondos -->
+    <string name="background_tag_soldier">Rango Militar</string>
+    <string name="background_tag_criminal">Contactos en el Bajo Mundo</string>
+    <string name="background_tag_acolyte">Refugio de los Fieles</string>
+    <string name="background_tag_sage">Investigador Erudito</string>
+
+    <!-- Descripciones de Tags de Trasfondos -->
+    <string name="background_desc_soldier">Los guardias, soldados y oficiales respetan su autoridad. Puede acceder a barracones o conseguir audiencia con líderes militares locales.</string>
+    <string name="background_desc_criminal">Conoce las señas de las bandas locales, sabe dónde vender objetos robados y puede conseguir información en los barrios peligrosos sin ser atacado de inmediato.</string>
+    <string name="background_desc_acolyte">Puede recibir curación gratuita y alojamiento en templos de su fe. La gente religiosa confía en él automáticamente.</string>
+    <string name="background_desc_sage">Si no sabe algo, sabe dónde buscarlo. La IA debe permitirle encontrar respuestas en bibliotecas, universidades o pergaminos antiguos mucho más rápido que a otros.</string>
+
     <!-- Detalles de Trasfondos -->
     <string name="bg_details_ability_scores">Puntos de habilidad</string>
     <string name="bg_details_feat">Proeza</string>
@@ -164,56 +179,6 @@
     <string name="skill_history">Historia</string>
     <string name="skill_athletics">Atletismo</string>
     <string name="skill_intimidation">Intimidación</string>
-
-    <!-- Equipamiento -->
-    <string name="equipment_calligrapher_supplies">Suministros de caligrafía</string>
-    <string name="equipment_alchemists_supplies">Suministros de alquimista</string>
-    <string name="equipment_brewers_supplies">Suministros de cervecero</string>
-    <string name="equipment_carpenters_tools">Herramientas de carpintero</string>
-    <string name="equipment_cartographers_tools">Herramientas de cartógrafo</string>
-    <string name="equipment_cobblers_tools">Herramientas de zapatero</string>
-    <string name="equipment_cooks_utensils">Utensilios de cocinero</string>
-    <string name="equipment_glassblowers_tools">Herramientas de soplador de vidrio</string>
-    <string name="equipment_jewelers_tools">Herramientas de joyero</string>
-    <string name="equipment_leatherworkers_tools">Herramientas de curtidor</string>
-    <string name="equipment_masons_tools">Herramientas de albañil</string>
-    <string name="equipment_painters_supplies">Suministros de pintor</string>
-    <string name="equipment_potters_tools">Herramientas de alfarero</string>
-    <string name="equipment_smiths_tools">Herramientas de herrero</string>
-    <string name="equipment_tinkers_tools">Herramientas de hojalatero</string>
-    <string name="equipment_weavers_tools">Herramientas de tejedor</string>
-    <string name="equipment_woodcarvers_tools">Herramientas de tallista</string>
-
-    <string name="equipment_dice_set">Juego de dados</string>
-    <string name="equipment_dragonchess_set">Ajedrez de dragón</string>
-    <string name="equipment_playing_card_set">Baraja de cartas</string>
-    <string name="equipment_three_dragon_ante_set">Juego de Tres Dragones</string>
-
-    <string name="equipment_bagpipes">Gaitas</string>
-    <string name="equipment_drum">Tambor</string>
-    <string name="equipment_dulcimer">Dulcémele</string>
-    <string name="equipment_flute">Flauta</string>
-    <string name="equipment_lute">Laúd</string>
-    <string name="equipment_lyre">Lira</string>
-    <string name="equipment_horn">Cuerno</string>
-    <string name="equipment_pan_flute">Flauta de pan</string>
-    <string name="equipment_shawm">Chirimía</string>
-    <string name="equipment_viol">Viola</string>
-
-    <string name="equipment_disguise_kit">Kit de disfraz</string>
-    <string name="equipment_forgery_kit">Kit de falsificación</string>
-    <string name="equipment_herbalism_kit">Kit de herboristería</string>
-    <string name="equipment_navigators_tools">Herramientas de navegante</string>
-    <string name="equipment_poisoners_kit">Kit de envenenador</string>
-    <string name="equipment_thieves_tools">Herramientas de ladrón</string>
-    <string name="equipment_vehicles_land">Vehículos (Terrestres)</string>
-    <string name="equipment_vehicles_water">Vehículos (Acuáticos)</string>
-
-    <!-- Descripción de Equipamiento -->
-    <string name="equipment_acolyte">Suministros de caligrafía, Libro (oraciones), Símbolo sagrado, Pergamino (10 hojas), Túnica, 8 PO</string>
-    <string name="equipment_criminal">2 Dagas, Herramientas de ladrón, Palanca, 2 Bolsas, Ropa de viajero, 16 PO</string>
-    <string name="equipment_sage">Bastón, Suministros de caligrafía, Libro (historia), Pergamino (8 hojas), Túnica, 8 PO</string>
-    <string name="equipment_soldier">Lanza, Arco corto, 20 Flechas, Set de juego (mismo que el anterior), Kit de curandero, Carcaj, Ropa de viajero, 14 PO</string>
 
     <!-- Alineación Descripción -->
     <string name="am_description_lg">Legal Bueno (LB) Actúan como se espera de una buena persona en sociedad. Combinan el compromiso de oponerse al mal con la disciplina para luchar sin descanso.</string>
@@ -256,4 +221,24 @@
     <string name="spells_fly">Volar</string>
     <string name="spells_detect_magic">Detectar Magia</string>
     <string name="spells_hold_person">Paralizar Persona</string>
+
+    <!-- ITEMS -->
+    <string name="item_thieves_tools">Herramientas de Ladrón</string>
+    <string name="item_holy_symbol">Símbolo Sagrado</string>
+    <string name="item_lore_book">Libro de Conocimiento</string>
+    <string name="item_writing_kit">Kit de Escritura</string>
+    <!-- Consumibles -->
+    <string name="consumable_healing_basic">Poción de Curación</string>
+    <!-- Armaduras -->
+    <string name="armor_leather">Armadura de Cuero</string>
+    <string name="armor_chainmail">Cota de Malla</string>
+    <string name="armor_shield">Escudo</string>
+    <!-- Munición -->
+    <string name="ammo_arrow_std">Flechas</string>
+    <!-- Armas -->
+    <string name="wpn_dagger">Daga</string>
+    <string name="wpn_shortsword">Espada Corta</string>
+    <string name="wpn_longsword">Espada Larga</string>
+    <string name="wpn_mace">Maza</string>
+    <string name="wpn_shortbow">Arco Corto</string>
 </resources>

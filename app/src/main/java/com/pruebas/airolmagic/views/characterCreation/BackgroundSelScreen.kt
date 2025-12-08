@@ -28,12 +28,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.data.BackgroundRepository
-import com.pruebas.airolmagic.data.gamingSetItems
+import com.pruebas.airolmagic.data.lists.BackgroundRepository
+import com.pruebas.airolmagic.data.lists.itemsList
 import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
 import com.pruebas.airolmagic.views.ButtonOptions
-import com.pruebas.airolmagic.views.DropdownButton
 import com.pruebas.airolmagic.views.MenuWithMiddleContent
 
 @Composable
@@ -44,7 +43,6 @@ fun BackgroundSelView(
 ){
     val backgroundOptions = remember { BackgroundRepository.list }
     var selectedBackground by remember { mutableStateOf(backgroundOptions.first()) }
-    var selectedItem by remember { mutableStateOf(R.string.choose_gaming_set) }
     if(characterViewModel.getBackgroundData() != 0) selectedBackground = backgroundOptions.find { it.id == characterViewModel.getBackgroundData() }!!
 
     MenuWithMiddleContent(
@@ -72,14 +70,6 @@ fun BackgroundSelView(
                     )
                 }
             }
-            if(selectedBackground.id == 4){
-                DropdownButton(
-                    label = stringResource(R.string.gaming_set),
-                    items = gamingSetItems,
-                    selectedItem = selectedItem,
-                    onItemSelected = { newItem -> selectedItem = newItem }
-                )
-            }
             Spacer(modifier = Modifier.height(20.dp))
             Column(
                 modifier = Modifier.fillMaxWidth().border(
@@ -93,21 +83,19 @@ fun BackgroundSelView(
                     description = "${stringResource(selectedBackground.abilityScores[0])}, ${stringResource(selectedBackground.abilityScores[1])}, ${stringResource(selectedBackground.abilityScores[2])}"
                 )
                 TextWithLabels(
-                    label = "${stringResource(R.string.bg_details_feat)}: ",
-                    description = stringResource(selectedBackground.feat)
+                    label = "${stringResource(selectedBackground.tagId)}: ",
+                    description = stringResource(selectedBackground.tagDescriptionId)
                 )
                 TextWithLabels(
-                    label = "${stringResource(R.string.bg_details_skills)}: ",
-                    description = "${stringResource(selectedBackground.skills[0])}, ${stringResource(selectedBackground.skills[1])}"
+                    label = "${stringResource(R.string.money_gold)}: ",
+                    description = selectedBackground.gold.toString()
                 )
-                TextWithLabels(
-                    label = "${stringResource(R.string.bg_details_tool_proficiencies)}: ",
-                    description = stringResource(selectedBackground.toolProficiencies)
-                )
-                TextWithLabels(
-                    label = "${stringResource(R.string.bg_details_equipment)}: ",
-                    description = stringResource(selectedBackground.equipment)
-                )
+                selectedBackground.equipment.forEach { itemsList ->
+                    TextWithLabels(
+                        label = "${stringResource(R.string.equipment)}: ",
+                        description = stringResource(itemsList)
+                    )
+                }
             }
         }
     }

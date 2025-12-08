@@ -3,7 +3,7 @@ package com.pruebas.airolmagic.data
 import kotlinx.serialization.Serializable
 
 @Serializable
-class CharacterProfile(
+data class CharacterProfile(
     val id: String = "",
     val userId: String = "",
     val name: String = "",
@@ -15,6 +15,9 @@ class CharacterProfile(
     val characteristics: String = "",
     val alignment: String = "",
     val languages: String = "",
+    val background: String = "",
+    val backgroundTag: String = "",
+    val backgroundTagDetails: String = "",
 
     val race: RaceData = RaceData(),
     val classN: ClassData = ClassData(), //classN es class, pero class es palabra reservada

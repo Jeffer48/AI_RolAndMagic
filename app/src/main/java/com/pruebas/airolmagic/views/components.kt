@@ -357,11 +357,14 @@ fun MenuWithMiddleContent(
     pagTitle: String = "",
     title: String,
     subtitle: String = "",
+    isLastPage: Boolean = false,
     backButton: Boolean = false,
     onBackClicked: () -> Unit,
     onNextClicked: () -> Unit,
     content: @Composable () -> Unit
 ){
+    val rightButton = if(isLastPage) stringResource(R.string.save) else stringResource(R.string.next)
+
     Column(Modifier.fillMaxSize()){
         Column(Modifier.fillMaxWidth()){
             if(pagTitle != "") {
@@ -423,7 +426,7 @@ fun MenuWithMiddleContent(
                 )
             ){
                 Text(
-                    text = stringResource(R.string.next),
+                    text = rightButton,
                     fontFamily = MedievalSharp,
                     fontWeight = FontWeight.Bold,
                     fontSize = 25.sp,

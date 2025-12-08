@@ -46,11 +46,13 @@ fun CharacterCreationNavigation(
         }
 
         composable("extras"){
+            val isMagic = isMagicClass(characterViewModel.getClassData())
             MainScaffold(navController) { ExtrasSelView(
                 characterViewModel = characterViewModel,
                 sessionViewModel = sessionViewModel,
+                isMagicClass = isMagic,
                 onBackClicked = { navController.navigate("stats") },
-                onNextClicked = { if(isMagicClass(characterViewModel.getClassData())) navController.navigate("spells") }
+                onNextClicked = { if(isMagic) navController.navigate("spells") }
             )}
         }
 
