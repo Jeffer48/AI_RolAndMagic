@@ -165,16 +165,3 @@ fun CharacterBox(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun CharacterBoxPrev(){
-    CharacterBox(
-        charName = "Thorin",
-        charClass = "Guerrero",
-        charSpecies = "Humano",
-        charBackground = "Acolito",
-        charBackgroundDetails = "Puede recibir curación gratuita y alojamiento en templos de su fe. La gente religiosa confía en él automáticamente.",
-        onCharacterSelected = {}
-    )
-}

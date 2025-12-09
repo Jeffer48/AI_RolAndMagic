@@ -400,39 +400,18 @@ fun MenuWithMiddleContent(
             horizontalArrangement = Arrangement.Center
         ){
             if(backButton) {
-                Button(
-                    onClick = { onBackClicked() },
+                TransparentYellowButton(
                     modifier = Modifier.weight(1f).height(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                    ),
-                    border = BorderStroke(width = 1.dp, color = colorResource(R.color.yellow_font))
-                ) {
-                    Text(
-                        text = stringResource(R.string.back),
-                        fontFamily = MedievalSharp,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp,
-                        color = colorResource(R.color.yellow_font)
-                    )
-                }
+                    text = stringResource(R.string.back),
+                    onClicked = { onBackClicked() }
+                )
                 Spacer(modifier = Modifier.width(10.dp))
             }
-            Button(
-                onClick = { onNextClicked() },
+            YellowButton(
                 modifier = Modifier.weight(1f).height(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(R.color.yellow_font)
-                )
-            ){
-                Text(
-                    text = rightButton,
-                    fontFamily = MedievalSharp,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 25.sp,
-                    color = colorResource(R.color.black)
-                )
-            }
+                text = rightButton,
+                onClicked = { onNextClicked() }
+            )
         }
     }
 }
@@ -452,6 +431,26 @@ fun YellowButton(modifier: Modifier = Modifier, text: String, onClicked: () -> U
             fontWeight = FontWeight.Bold,
             fontSize = 25.sp,
             color = colorResource(R.color.black)
+        )
+    }
+}
+
+@Composable
+fun TransparentYellowButton(modifier: Modifier = Modifier, text: String, onClicked: () -> Unit){
+    Button(
+        onClick = { onClicked() },
+        modifier = modifier,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+        ),
+        border = BorderStroke(width = 1.dp, color = colorResource(R.color.yellow_font))
+    ) {
+        Text(
+            text = text,
+            fontFamily = MedievalSharp,
+            fontWeight = FontWeight.Bold,
+            fontSize = 25.sp,
+            color = colorResource(R.color.yellow_font)
         )
     }
 }
