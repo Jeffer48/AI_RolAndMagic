@@ -6,6 +6,7 @@
     <string name="password">Password</string>
     <string name="reset_pass">Reset password</string>
     <string name="my_games">My Games</string>
+    <string name="my_characters">My Characters</string>
     <string name="create_lobby">Create lobby</string>
     <string name="join_lobby">Join lobby</string>
     <string name="user_name">User name</string>
@@ -37,6 +38,9 @@
     <string name="money_gold">Gold</string>
     <string name="equipment">Equipment</string>
     <string name="save">Save</string>
+    <string name="select_your_hero">Select you hero</string>
+    <string name="new_character">New Character</string>
+    <string name="select">Select</string>
 
     <!-- Mensajes Varios -->
     <string name="alert_loadding">Loading...</string>

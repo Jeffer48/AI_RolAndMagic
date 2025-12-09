@@ -437,6 +437,25 @@ fun MenuWithMiddleContent(
     }
 }
 
+@Composable
+fun YellowButton(modifier: Modifier = Modifier, text: String, onClicked: () -> Unit){
+    Button(
+        onClick = { onClicked() },
+        modifier = modifier,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorResource(R.color.yellow_font)
+        )
+    ){
+        Text(
+            text = text,
+            fontFamily = MedievalSharp,
+            fontWeight = FontWeight.Bold,
+            fontSize = 25.sp,
+            color = colorResource(R.color.black)
+        )
+    }
+}
+
 //Componentes para titulos
 @Composable
 fun TextSubtitleWhite(text: String){

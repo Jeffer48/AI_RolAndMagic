@@ -12,9 +12,22 @@ import com.pruebas.airolmagic.data.database.*
 import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
+import com.pruebas.airolmagic.viewModels.CharactersListViewModel
 
 class MainActivity : ComponentActivity() {
     private val session: SessionViewModel by viewModels()
+    private val characterList: CharactersListViewModel by viewModels(){
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val characterRepository = CharacterRepository()
+                @Suppress("UNCHECKED_CAST")
+                return CharactersListViewModel(
+                    application,
+                    characterRepository = characterRepository
+                ) as T
+            }
+        }
+    }
     private val character: CharacterViewModel by viewModels{
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -42,7 +55,8 @@ class MainActivity : ComponentActivity() {
                 AppNavigation(
                     navController = navController,
                     sessionViewModel = session,
-                    characterViewModel = character
+                    characterViewModel = character,
+                    charactersListViewModel = characterList
                 )
             }
         }

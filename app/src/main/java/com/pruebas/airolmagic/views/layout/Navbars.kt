@@ -24,11 +24,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavBar(scope: CoroutineScope, drawerState: DrawerState){
+fun NavBar(scope: CoroutineScope, drawerState: DrawerState, title: Int){
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = stringResource(R.string.my_games),
+                text = stringResource(title),
                 fontFamily = MedievalSharp,
                 fontSize = 30.sp
             )

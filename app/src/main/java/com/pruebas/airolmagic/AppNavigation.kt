@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
+import com.pruebas.airolmagic.viewModels.CharactersListViewModel
 import com.pruebas.airolmagic.viewModels.SessionState
 import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.views.*
@@ -16,7 +17,8 @@ import com.pruebas.airolmagic.views.characterCreation.CharacterCreationNavigatio
 fun AppNavigation(
     navController: NavHostController,
     sessionViewModel: SessionViewModel,
-    characterViewModel: CharacterViewModel
+    characterViewModel: CharacterViewModel,
+    charactersListViewModel: CharactersListViewModel
 ){
     val sessionState by sessionViewModel.sessionState.collectAsState()
 
@@ -55,19 +57,30 @@ fun AppNavigation(
         }
 
         composable<CreateLobbyScreen>{
-            MainScaffold(navController) {CreateLobbyView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
+            MainScaffold(navController) {CreateLobbyView(onNavigateToCreateCharacter = { navController.navigate(MyCharactersScreen) })}
         }
 
         composable<JoinGameScreen>{
-            MainScaffold(navController) {JoinGameView(onNavigateToCreateCharacter = { navController.navigate(CharacterCreationScreen) })}
+            MainScaffold(navController) {JoinGameView(onNavigateToCreateCharacter = { navController.navigate(MyCharactersScreen) })}
+        }
+
+        composable<MyCharactersScreen>{
+            MainScaffold(navController) {MyCharactersView(
+                charactersListViewModel = charactersListViewModel,
+                sessionViewModel = sessionViewModel,
+                onCharacterSelected = { character -> navController.navigate(WaitLobbyScreen) },
+                onNewCharacterClicked = { navController.navigate(CharacterCreationScreen) }
+            )}
         }
 
         composable<CharacterCreationScreen>{
             CharacterCreationNavigation(
                 characterViewModel = characterViewModel,
                 sessionViewModel = sessionViewModel,
-                onNavigateToWaitLobby = { navController.navigate(WaitLobbyScreen) },
-                onFailedToCreateCharacter = { navController.navigate(GamesListScreen) }
+                onFailedToCreateCharacter = { navController.navigate(GamesListScreen) },
+                onNavigateToWaitLobby = { navController.navigate(WaitLobbyScreen){
+                    popUpTo(CharacterCreationScreen) { inclusive = true }
+                } }
             )
         }
 

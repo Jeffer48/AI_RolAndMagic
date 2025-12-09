@@ -37,10 +37,16 @@ import com.pruebas.airolmagic.views.layout.SideBar
 fun MainScaffold(navController: NavHostController,sessionViewModel: SessionViewModel = SessionViewModel(), content: @Composable () -> Unit){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val showTopBar = currentRoute == GamesListScreen::class.qualifiedName
+    var showTopBar: Boolean
+    var topBarTitle: Int = R.string.my_games
     val imageBitmap: ImageBitmap = ImageBitmap.imageResource(res = LocalContext.current.resources,id = R.drawable.dark_matter)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    when(currentRoute){
+        GamesListScreen::class.qualifiedName -> { showTopBar = true; topBarTitle = R.string.my_games }
+        else -> showTopBar = false
+    }
 
     val invertColorMatrix = ColorMatrix(
         floatArrayOf(
@@ -63,7 +69,7 @@ fun MainScaffold(navController: NavHostController,sessionViewModel: SessionViewM
         drawerState = drawerState
     ) {
         Scaffold(
-            topBar = { if(showTopBar) NavBar(scope = scope, drawerState = drawerState) },
+            topBar = { if(showTopBar) NavBar(scope = scope, drawerState = drawerState, title = topBarTitle) },
             content = { innerPadding ->
                 Box(
                     modifier = Modifier
