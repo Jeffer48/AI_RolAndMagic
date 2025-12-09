@@ -99,6 +99,7 @@ fun ExtrasSelView(
             Spacer(modifier = Modifier.height(5.dp))
             ColoredTextField(
                 textValue = char_name,
+                placeholder = "Ej. Thorin",
                 onValueChange = { newValue -> char_name = newValue }
             )
             Spacer(modifier = Modifier.height(15.dp))

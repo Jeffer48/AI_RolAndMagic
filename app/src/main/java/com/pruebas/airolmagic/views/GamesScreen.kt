@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pruebas.airolmagic.R
@@ -35,11 +36,23 @@ fun GamesListView(
             Box(
                 modifier = Modifier.fillMaxHeight().weight(1f),
                 contentAlignment = Alignment.Center
-            ){OptionButton(text = R.string.create_lobby, onClick = onNavigateToCreateLobby)}
+            ){
+                TransparentYellowButton(
+                    textSize = 20,
+                    text = stringResource(R.string.join_lobby),
+                    onClicked = { onNavigateToJoinLobby() }
+                )
+            }
             Box(
                 modifier = Modifier.fillMaxHeight().weight(1f),
                 contentAlignment = Alignment.Center
-            ){OptionButton(text = R.string.join_lobby, onClick = onNavigateToJoinLobby)}
+            ){
+                YellowButton(
+                    textSize = 20,
+                    text = stringResource(R.string.create_lobby),
+                    onClicked = { onNavigateToCreateLobby() }
+                )
+            }
         }
     }
 }

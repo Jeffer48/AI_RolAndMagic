@@ -95,13 +95,13 @@ fun TransparentTextField(label: Int, value_txt: String, isError: Boolean = false
 }
 
 @Composable
-fun ColoredTextField(singleLine: Boolean = true, textValue: String, onValueChange: (String) -> Unit){
+fun ColoredTextField(singleLine: Boolean = true, textValue: String, placeholder: String = "", onValueChange: (String) -> Unit){
     TextField(
         modifier = Modifier.fillMaxWidth().height(55.dp)
             .border(width = 1.dp, color = colorResource(R.color.btn_unsel_border), shape = RoundedCornerShape(8.dp)),
         value = textValue,
         singleLine = singleLine,
-        placeholder = { Text(text = "Ej. Thorin...") },
+        placeholder = { Text(text = placeholder) },
         onValueChange = { onValueChange(it) },
         colors = TextFieldDefaults.colors(
             focusedTextColor = colorResource(R.color.semi_white),
@@ -417,7 +417,7 @@ fun MenuWithMiddleContent(
 }
 
 @Composable
-fun YellowButton(modifier: Modifier = Modifier, text: String, onClicked: () -> Unit){
+fun YellowButton(modifier: Modifier = Modifier, text: String, textSize: Int = 25, onClicked: () -> Unit){
     Button(
         onClick = { onClicked() },
         modifier = modifier,
@@ -429,14 +429,14 @@ fun YellowButton(modifier: Modifier = Modifier, text: String, onClicked: () -> U
             text = text,
             fontFamily = MedievalSharp,
             fontWeight = FontWeight.Bold,
-            fontSize = 25.sp,
+            fontSize = textSize.sp,
             color = colorResource(R.color.black)
         )
     }
 }
 
 @Composable
-fun TransparentYellowButton(modifier: Modifier = Modifier, text: String, onClicked: () -> Unit){
+fun TransparentYellowButton(modifier: Modifier = Modifier, text: String, textSize: Int = 25, onClicked: () -> Unit){
     Button(
         onClick = { onClicked() },
         modifier = modifier,
@@ -449,7 +449,7 @@ fun TransparentYellowButton(modifier: Modifier = Modifier, text: String, onClick
             text = text,
             fontFamily = MedievalSharp,
             fontWeight = FontWeight.Bold,
-            fontSize = 25.sp,
+            fontSize = textSize.sp,
             color = colorResource(R.color.yellow_font)
         )
     }

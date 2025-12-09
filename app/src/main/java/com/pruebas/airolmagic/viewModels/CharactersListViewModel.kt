@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.pruebas.airolmagic.data.CharacterProfile
 import com.pruebas.airolmagic.data.database.CharacterRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CharactersListViewModel(
@@ -13,6 +15,7 @@ class CharactersListViewModel(
     private val characterRepository: CharacterRepository
 ): AndroidViewModel(application) {
     private val _charactersList: MutableStateFlow<List<CharacterProfile>> = MutableStateFlow(emptyList())
+    val charactersList: StateFlow<List<CharacterProfile>> = _charactersList.asStateFlow()
 
     fun setCharactersList(userId: String, onSuccess: () -> Unit) {
         viewModelScope.launch {
@@ -20,9 +23,5 @@ class CharactersListViewModel(
             _charactersList.value = list
             onSuccess()
         }
-    }
-
-    fun getCharactersList(): List<CharacterProfile> {
-        return _charactersList.value
     }
 }
