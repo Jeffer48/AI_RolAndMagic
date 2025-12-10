@@ -22,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,20 +37,25 @@ import com.pruebas.airolmagic.data.CharacterProfile
 import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.ui.theme.MedievalSharp
 import com.pruebas.airolmagic.viewModels.CharactersListViewModel
+import com.pruebas.airolmagic.viewModels.GamesViewModel
 import com.pruebas.airolmagic.viewModels.SessionViewModel
 
 @Composable
 fun MyCharactersView(
     charactersListViewModel: CharactersListViewModel,
-    sessionViewModel: SessionViewModel,
-    onCharacterSelected: (CharacterProfile) -> Unit,
-    onNewCharacterClicked: () -> Unit
+    onCharacterSelected: () -> Unit,
+    onNewCharacterClicked: () -> Unit,
+    onNavigateToHome: () -> Unit,
+    gamesViewModel: GamesViewModel,
+    userId: String,
 ) {
+    val showErrorDialog = remember { mutableStateOf(false) }
     val showLoadingDialog = remember { mutableStateOf(true) }
-    val userId: String = sessionViewModel.getUserId()
+    var errorMessage: Int by remember { mutableStateOf(R.string.err_adding_character) }
     val charactersList: List<CharacterProfile> by charactersListViewModel.charactersList.collectAsState()
 
     if(showLoadingDialog.value) LoadingDialog()
+    if(showErrorDialog.value) ErrorDialog(texto = stringResource(errorMessage), onDismissRequest = { showErrorDialog.value = false; onNavigateToHome() })
 
     LaunchedEffect(Unit) {
         charactersListViewModel.setCharactersList(userId = userId, onSuccess = { showLoadingDialog.value = false })
@@ -83,7 +89,18 @@ fun MyCharactersView(
                         charSpecies = charactersList[character].race.name,
                         charBackground = charactersList[character].background,
                         charBackgroundDetails = charactersList[character].backgroundTagDetails,
-                        onCharacterSelected = { onCharacterSelected(charactersList[character]) }
+                        onCharacterSelected = {
+                            showLoadingDialog.value = true
+                            gamesViewModel.joinCharacter(
+                                userId = userId,
+                                character = charactersList[character],
+                                onFinished = { code ->
+                                    showLoadingDialog.value = false
+                                    if(code == 0) onCharacterSelected()
+                                    else showErrorDialog.value = true
+                                }
+                            )
+                        }
                     )
                 }
             }

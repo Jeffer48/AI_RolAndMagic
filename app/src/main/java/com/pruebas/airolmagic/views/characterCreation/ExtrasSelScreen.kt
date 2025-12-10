@@ -32,7 +32,7 @@ import com.pruebas.airolmagic.data.languageItems
 import com.pruebas.airolmagic.data.moralityItems
 import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
-import com.pruebas.airolmagic.viewModels.SessionViewModel
+import com.pruebas.airolmagic.viewModels.GamesViewModel
 import com.pruebas.airolmagic.views.ColoredTextField
 import com.pruebas.airolmagic.views.DropdownBox
 import com.pruebas.airolmagic.views.ErrorDialog
@@ -45,9 +45,10 @@ fun ExtrasSelView(
     characterViewModel: CharacterViewModel,
     onBackClicked: () -> Unit,
     onNextClicked: () -> Unit,
-    sessionViewModel: SessionViewModel,
+    userId: String,
     isMagicClass: Boolean,
-    onFailedToCreateCharacter: () -> Unit
+    onFailedToCreateCharacter: () -> Unit,
+    gamesViewModel: GamesViewModel
 ) {
     var char_name by remember { mutableStateOf(characterViewModel.getCharacterName()) }
     var alignDrop by remember { mutableStateOf(false) }
@@ -60,9 +61,26 @@ fun ExtrasSelView(
     var text_language by remember { mutableStateOf("") }
     var showLoadingDialog by remember { mutableStateOf(false) }
     var showErrorDialog by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf(R.string.err_saving_character) }
 
     if(showLoadingDialog) LoadingDialog()
-    if(showErrorDialog) ErrorDialog(texto = stringResource(R.string.err_saving_character), onDismissRequest = { showErrorDialog = false; onFailedToCreateCharacter() })
+    if(showErrorDialog) ErrorDialog(texto = stringResource(errorMessage), onDismissRequest = { showErrorDialog = false; onFailedToCreateCharacter() })
+
+    fun joinCharacter(){
+        showLoadingDialog = false
+        gamesViewModel.joinCharacter(
+            userId = userId,
+            character = characterViewModel.getCharacter()!!,
+            onFinished = { code ->
+                if(code == 0) onNextClicked()
+                else{
+                    errorMessage = code
+                    showErrorDialog = true
+                }
+            }
+        )
+        onNextClicked()
+    }
 
     text_align = stringResource(align) + " - " + stringResource(morality)
     text_language = stringResource(R.string.language_common) + ", " + stringResource(language)
@@ -75,7 +93,7 @@ fun ExtrasSelView(
         onNextClicked = {
             if(char_name.isNotEmpty()){
                 characterViewModel.setCharacterExtras(
-                    userId = sessionViewModel.getUserId(),
+                    userId = userId,
                     name = char_name,
                     alignment = text_align,
                     languages = text_language,
@@ -87,7 +105,7 @@ fun ExtrasSelView(
                 else{
                     showLoadingDialog = true
                     characterViewModel.saveUserData(
-                        onSuccess = { onNextClicked(); showLoadingDialog = false },
+                        onSuccess = { joinCharacter() },
                         onError = { showErrorDialog = true }
                     )
                 }

@@ -6,15 +6,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.pruebas.airolmagic.data.lists.isMagicClass
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
-import com.pruebas.airolmagic.viewModels.SessionViewModel
+import com.pruebas.airolmagic.viewModels.GamesViewModel
 import com.pruebas.airolmagic.views.MainScaffold
 
 @Composable
 fun CharacterCreationNavigation(
+    userId: String,
     characterViewModel: CharacterViewModel,
-    sessionViewModel: SessionViewModel,
     onNavigateToWaitLobby: () -> Unit,
-    onFailedToCreateCharacter: () -> Unit
+    onFailedToCreateCharacter: () -> Unit,
+    gamesViewModel: GamesViewModel
 ){
     val navController = rememberNavController()
 
@@ -50,8 +51,9 @@ fun CharacterCreationNavigation(
         composable("extras"){
             val isMagic = isMagicClass(characterViewModel.getClassData())
             MainScaffold(navController) { ExtrasSelView(
+                userId = userId,
                 characterViewModel = characterViewModel,
-                sessionViewModel = sessionViewModel,
+                gamesViewModel = gamesViewModel,
                 isMagicClass = isMagic,
                 onBackClicked = { navController.navigate("stats") },
                 onNextClicked = { if(isMagic) navController.navigate("spells") else onNavigateToWaitLobby() },
@@ -61,6 +63,8 @@ fun CharacterCreationNavigation(
 
         composable("spells"){
             MainScaffold(navController) { SpellsSelView(
+                userId = userId,
+                gamesViewModel = gamesViewModel,
                 characterViewModel = characterViewModel,
                 onBackClicked = { navController.navigate("extras") },
                 onNextClicked = { onNavigateToWaitLobby() },

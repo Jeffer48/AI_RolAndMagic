@@ -28,6 +28,7 @@ import com.pruebas.airolmagic.data.lists.getClassCantrips
 import com.pruebas.airolmagic.data.lists.getClassSpells
 import com.pruebas.airolmagic.data.lists.getSpellsAmount
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
+import com.pruebas.airolmagic.viewModels.GamesViewModel
 import com.pruebas.airolmagic.views.ButtonOptions
 import com.pruebas.airolmagic.views.ErrorDialog
 import com.pruebas.airolmagic.views.LoadingDialog
@@ -36,7 +37,9 @@ import com.pruebas.airolmagic.views.TextSubtitleWhite
 
 @Composable
 fun SpellsSelView(
+    userId: String,
     characterViewModel: CharacterViewModel,
+    gamesViewModel: GamesViewModel,
     onBackClicked: () -> Unit,
     onNextClicked: () -> Unit,
     onFailedToCreateCharacter: () -> Unit
@@ -50,9 +53,26 @@ fun SpellsSelView(
     val selectedCantrips = remember { mutableStateListOf<Int>() }
     var showLoadingDialog by remember { mutableStateOf(false) }
     var showErrorDialog by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf(R.string.err_saving_character) }
 
     if(showLoadingDialog) LoadingDialog()
-    if(showErrorDialog) ErrorDialog(texto = stringResource(R.string.err_saving_character), onDismissRequest = { showErrorDialog = false; onFailedToCreateCharacter(); })
+    if(showErrorDialog) ErrorDialog(texto = stringResource(errorMessage), onDismissRequest = { showErrorDialog = false; onFailedToCreateCharacter() })
+
+    fun joinCharacter(){
+        showLoadingDialog = false
+        gamesViewModel.joinCharacter(
+            userId = userId,
+            character = characterViewModel.getCharacter()!!,
+            onFinished = { code ->
+                if(code == 0) onNextClicked()
+                else{
+                    errorMessage = code
+                    showErrorDialog = true
+                }
+            }
+        )
+        onNextClicked()
+    }
 
     MenuWithMiddleContent(
         backButton = true,
@@ -65,7 +85,7 @@ fun SpellsSelView(
                 showLoadingDialog = true
                 characterViewModel.setSpellsAndCantrips(spells = selectedSpells, cantrips = selectedCantrips)
                 characterViewModel.saveUserData(
-                    onSuccess = { onNextClicked(); showLoadingDialog = false },
+                    onSuccess = { joinCharacter() },
                     onError = { showErrorDialog = true }
                 )
             }

@@ -46,6 +46,7 @@
     <string name="alert_loadding">Loading...</string>
     <string name="choose_gaming_set">Choose one kind of Gaming Set</string>
     <string name="placeholder_text">Placeholder text</string>
+    <string name="msg_continue">Continue</string>
 
     <!-- Mensajes de Exito -->
     <string name="msg_success">Success!</string>
@@ -58,6 +59,15 @@
     <string name="err_registered_email">The email you entered is already registered by another adventurer.</string>
     <string name="err_warning">Warning!</string>
     <string name="err_saving_character">Failed to save character</string>
+    <string name="err_creating_game">Failed to create game</string>
+    <string name="err_joining_game">Failed to join game</string>
+    <string name="err_starting_game">Failed to start game</string>
+    <string name="err_duplicate_user_game">The user is already in the game</string>
+    <string name="err_max_players">The game has reached the maximum number of players</string>
+    <string name="err_room_not_found">Room not found</string>
+    <string name="err_user_not_found">User not found</string>
+    <string name="err_adding_character">Failed to add character</string>
+    <string name="err_unknown">Unknown error</string>
 
     <!-- Creación de personaje -->
     <string name="cc_character_name">Character name</string>

@@ -1,0 +1,36 @@
+package com.pruebas.airolmagic.data
+
+import com.google.firebase.firestore.ServerTimestamp
+import kotlinx.serialization.Serializable
+import java.util.Date
+
+@Serializable
+data class GameData(
+    var id: String = "",
+    var name: String = "",
+    var status: Int = 0,
+    var hostId: String = "",
+    var joinCode: String = "",
+    var currentTurn: String = "",
+    @ServerTimestamp
+    @Serializable(with = DateSerializer::class)
+    val createdAt: Date? = null,
+)
+
+@Serializable
+data class PlayersCharacters(
+    var userId: String = "",
+    var userName: String = "",
+    var character: CharacterProfile = CharacterProfile(),
+)
+
+@Serializable
+data class ChatData(
+    var role: String = "",
+    var content: String = "",
+    var userId: String = "",
+    var userName: String = "",
+    @ServerTimestamp
+    @Serializable(with = DateSerializer::class)
+    val createdAt: Date? = null,
+)

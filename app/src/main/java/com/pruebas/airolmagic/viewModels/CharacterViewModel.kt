@@ -41,6 +41,10 @@ class CharacterViewModel(
     private val _inventoryItemsList = MutableStateFlow<List<InventoryItem>>(emptyList())
     private val _spellsCantripsList = MutableStateFlow<List<Int>>(emptyList())
 
+    fun getCharacter(): CharacterProfile?{
+        return _characterData.value
+    }
+
     fun saveUserData(onSuccess: () -> Unit, onError: () -> Unit){
         viewModelScope.launch {
             val intelligence: Int = if (_attributesData.value?.intelligence == null) 0 else _attributesData.value?.intelligence!!

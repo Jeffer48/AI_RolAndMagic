@@ -1,8 +1,6 @@
 package com.pruebas.airolmagic.views
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,10 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,36 +20,39 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
 import com.pruebas.airolmagic.ui.theme.Lora
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun CreateLobbyPrev(){
-    AIRolMagicTheme {
-        Box(Modifier.fillMaxSize().background(colorResource(R.color.bg_black_purple))){
-            CreateLobbyView({})
-        }
-    }
-}
+import com.pruebas.airolmagic.viewModels.GamesViewModel
+import com.pruebas.airolmagic.viewModels.SessionViewModel
 
 @Composable
-fun CreateLobbyView(onNavigateToCreateCharacter: () -> Unit) {
+fun CreateLobbyView(
+    onNavigateToSelCharacter: () -> Unit,
+    onNavigateToHome: () -> Unit,
+    gamesViewModel: GamesViewModel,
+    userId: String
+) {
     var gameName: String by remember { mutableStateOf("") }
-    var apiKey: String by remember { mutableStateOf("") }
-    var baseUrl: String by remember { mutableStateOf("") }
-    var modelName: String by remember { mutableStateOf("") }
+    val showLoadingDialog = remember { mutableStateOf(false) }
+    val showErrorDialog = remember { mutableStateOf(false) }
+
+    if(showLoadingDialog.value) LoadingDialog()
+    if(showErrorDialog.value){
+        ErrorDialog(
+            texto = stringResource(R.string.err_creating_game),
+            onDismissRequest = { showErrorDialog.value = false; onNavigateToHome()
+        })
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxWidth().weight(1f).padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Row(Modifier.height(50.dp)) {
                 Text(
@@ -70,47 +68,6 @@ fun CreateLobbyView(onNavigateToCreateCharacter: () -> Unit) {
                 placeholder = stringResource(R.string.game_name),
                 onValueChange = { new -> gameName = new }
             )
-            Spacer(modifier = Modifier.height(20.dp))
-            Column {
-                Text(
-                    text = stringResource(R.string.opening_scene) + ":",
-                    color = colorResource(R.color.semi_white),
-                    fontFamily = Lora
-                )
-                TextField(
-                    value = "",
-                    onValueChange = {},
-                    modifier = Modifier.height(100.dp).fillMaxWidth(),
-                    placeholder = { Text("Texto de prueba") },
-                )
-            }
-            Spacer(modifier = Modifier.height(40.dp))
-            Text(
-                text = stringResource(R.string.ai_data),
-                color = colorResource(R.color.semi_white),
-                fontFamily = Lora
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            ColoredTextField(
-                singleLine = true,
-                textValue = apiKey,
-                placeholder = stringResource(R.string.api_key),
-                onValueChange = { new -> apiKey = new }
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            ColoredTextField(
-                singleLine = true,
-                textValue = baseUrl,
-                placeholder = stringResource(R.string.base_url),
-                onValueChange = { new -> baseUrl = new }
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            ColoredTextField(
-                singleLine = true,
-                textValue = modelName,
-                placeholder = stringResource(R.string.model_name),
-                onValueChange = { new -> modelName = new }
-            )
         }
         Row(
             modifier = Modifier.fillMaxWidth().height(100.dp),
@@ -119,8 +76,21 @@ fun CreateLobbyView(onNavigateToCreateCharacter: () -> Unit) {
         ){
             YellowButton(
                 modifier = Modifier.height(50.dp).width(200.dp),
-                text = stringResource(R.string.create),
-                onClicked = { onNavigateToCreateCharacter() }
+                text = stringResource(R.string.msg_continue),
+                onClicked = {
+                    if(gameName.isNotEmpty()){
+                        showLoadingDialog.value = true
+                        gamesViewModel.createNewGame(
+                            userId = userId,
+                            gameName = gameName,
+                            onFinished = { state ->
+                                showLoadingDialog.value = false
+                                if(state) onNavigateToSelCharacter()
+                                else showErrorDialog.value = true
+                            }
+                        )
+                    }
+                }
             )
         }
     }

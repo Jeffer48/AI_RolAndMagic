@@ -13,6 +13,7 @@ import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
 import com.pruebas.airolmagic.viewModels.CharactersListViewModel
+import com.pruebas.airolmagic.viewModels.GamesViewModel
 
 class MainActivity : ComponentActivity() {
     private val session: SessionViewModel by viewModels()
@@ -24,6 +25,20 @@ class MainActivity : ComponentActivity() {
                 return CharactersListViewModel(
                     application,
                     characterRepository = characterRepository
+                ) as T
+            }
+        }
+    }
+    private val gamesViewModel: GamesViewModel by viewModels{
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val gameRepository = GameRepository()
+                val generalRepository = GeneralRepository()
+                @Suppress("UNCHECKED_CAST")
+                return GamesViewModel(
+                    application,
+                    gameRepository = gameRepository,
+                    generalRepository = generalRepository
                 ) as T
             }
         }
@@ -56,7 +71,8 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     sessionViewModel = session,
                     characterViewModel = character,
-                    charactersListViewModel = characterList
+                    charactersListViewModel = characterList,
+                    gamesViewModel = gamesViewModel
                 )
             }
         }
