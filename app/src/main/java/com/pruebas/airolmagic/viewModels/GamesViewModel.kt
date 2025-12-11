@@ -1,6 +1,7 @@
 package com.pruebas.airolmagic.viewModels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pruebas.airolmagic.R
@@ -10,6 +11,8 @@ import com.pruebas.airolmagic.data.PlayersCharacters
 import com.pruebas.airolmagic.data.database.GameRepository
 import com.pruebas.airolmagic.data.database.GeneralRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class GamesViewModel(
@@ -18,6 +21,21 @@ class GamesViewModel(
     private val generalRepository: GeneralRepository
 ): AndroidViewModel(application) {
     private val _roomCode = MutableStateFlow<String?>(null)
+    private val _gamesList = MutableStateFlow<List<GameData>>(emptyList())
+    private val _selectedGame = MutableStateFlow<GameData?>(null)
+    var selectedGame: StateFlow<GameData?> = _selectedGame.asStateFlow()
+    val gamesList: StateFlow<List<GameData>> = _gamesList.asStateFlow()
+
+    fun getGamesList(userId: String){
+        viewModelScope.launch {
+            Log.d("MyLogs", "userId: $userId")
+            _gamesList.value = gameRepository.getGamesList(userId)
+        }
+    }
+
+    fun setSelectedGame(game: GameData){
+        _selectedGame.value = game
+    }
 
     fun createNewGame(userId: String, gameName: String, onFinished: (Boolean) -> Unit){
         viewModelScope.launch {
@@ -28,6 +46,8 @@ class GamesViewModel(
                 name = gameName,
                 status = 0,
                 hostId = userId,
+                hostName = userName,
+                playerIds = listOf(userId),
                 joinCode = _roomCode.value!!
             )
 

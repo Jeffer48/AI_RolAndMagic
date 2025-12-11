@@ -13,6 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -24,18 +27,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pruebas.airolmagic.R
+import com.pruebas.airolmagic.data.GameData
 import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.ui.theme.MedievalSharp
+import com.pruebas.airolmagic.viewModels.GamesViewModel
 
 @Composable
-fun WaitLobbyView(){
+fun WaitLobbyView(
+    userId: String,
+    gamesViewModel: GamesViewModel,
+){
+    val game: GameData? by gamesViewModel.selectedGame.collectAsState()
+    val gameName = if(game == null) "" else game!!.name
+    val gameCode = if(game == null) "" else game!!.joinCode
+
     Column(
         modifier = Modifier.fillMaxSize().background(colorResource(R.color.bg_black_purple)),
         verticalArrangement = Arrangement.SpaceBetween
     ){
         Column(horizontalAlignment = Alignment.CenterHorizontally){
             Text(
-                text = "Nombre de la partida",
+                text = gameName,
                 color = colorResource(R.color.semi_white),
                 fontFamily = MedievalSharp,
                 fontSize = 40.sp,
@@ -53,7 +65,7 @@ fun WaitLobbyView(){
             Spacer(Modifier.height(20.dp))
             Row(verticalAlignment = Alignment.CenterVertically){
                 Text(
-                    text = "A4F8K2",
+                    text = gameCode,
                     color = colorResource(R.color.semi_white),
                     fontFamily = Lora,
                     fontSize = 25.sp,

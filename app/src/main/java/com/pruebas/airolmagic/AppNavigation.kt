@@ -64,6 +64,9 @@ fun AppNavigation(
 
         composable<GamesListScreen>{
             MainScaffold(navController) {GamesListView(
+                userId = userId,
+                gamesViewModel = gamesViewModel,
+                onNavigateToLobby = { navController.navigate(WaitLobbyScreen) },
                 onNavigateToJoinLobby = { navController.navigate(JoinGameScreen) },
                 onNavigateToCreateLobby = { navController.navigate(CreateLobbyScreen) }
             )}
@@ -136,7 +139,10 @@ fun AppNavigation(
         }
 
         composable<WaitLobbyScreen>{
-            MainScaffold(navController) {WaitLobbyView()}
+            MainScaffold(navController) {WaitLobbyView(
+                userId = userId,
+                gamesViewModel = gamesViewModel
+            )}
         }
     }
 }

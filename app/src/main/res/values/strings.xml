@@ -42,6 +42,11 @@
     <string name="new_character">New Character</string>
     <string name="select">Select</string>
 
+    <!-- Estatus de la Partida -->
+    <string name="game_status_waiting">Waiting</string>
+    <string name="game_status_ongoing">Ongoing</string>
+    <string name="game_status_finished">Finished</string>
+
     <!-- Mensajes Varios -->
     <string name="alert_loadding">Loading...</string>
     <string name="choose_gaming_set">Choose one kind of Gaming Set</string>

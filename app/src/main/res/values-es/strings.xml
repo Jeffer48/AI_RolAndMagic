@@ -8,7 +8,7 @@
     <string name="reset_pass">Reestablecer contraseña</string>
     <string name="my_games">Mis Partidas</string>
     <string name="my_characters">Mis Personajes</string>
-    <string name="create_lobby">Crear lobby</string>
+    <string name="create_lobby">Crear sala</string>
     <string name="join_lobby">Unirse a partida</string>
     <string name="user_name">Nombre de usuario</string>
     <string name="sign_up">Registrarse</string>
@@ -42,6 +42,11 @@
     <string name="select_your_hero">Selecciona a tu héroe</string>
     <string name="new_character">Nuevo Personaje</string>
     <string name="select">Seleccionar</string>
+
+    <!-- Estatus de la Partida -->
+    <string name="game_status_waiting">Esperando</string>
+    <string name="game_status_ongoing">En curso</string>
+    <string name="game_status_finished">Terminada</string>
 
     <!-- Mensajes Varios -->
     <string name="alert_loadding">Cargando...</string>

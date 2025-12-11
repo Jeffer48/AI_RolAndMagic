@@ -10,8 +10,10 @@ data class GameData(
     var name: String = "",
     var status: Int = 0,
     var hostId: String = "",
+    var hostName: String = "",
     var joinCode: String = "",
     var currentTurn: String = "",
+    var playerIds: List<String> = emptyList(),
     @ServerTimestamp
     @Serializable(with = DateSerializer::class)
     val createdAt: Date? = null,
