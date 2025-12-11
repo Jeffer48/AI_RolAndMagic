@@ -52,6 +52,7 @@
     <string name="choose_gaming_set">Choose one kind of Gaming Set</string>
     <string name="placeholder_text">Placeholder text</string>
     <string name="msg_continue">Continue</string>
+    <string name="text_copied">Copied!</string>
 
     <!-- Mensajes de Exito -->
     <string name="msg_success">Success!</string>

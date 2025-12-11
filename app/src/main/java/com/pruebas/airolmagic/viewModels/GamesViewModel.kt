@@ -10,6 +10,8 @@ import com.pruebas.airolmagic.data.GameData
 import com.pruebas.airolmagic.data.PlayersCharacters
 import com.pruebas.airolmagic.data.database.GameRepository
 import com.pruebas.airolmagic.data.database.GeneralRepository
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,11 +22,14 @@ class GamesViewModel(
     private val gameRepository: GameRepository,
     private val generalRepository: GeneralRepository
 ): AndroidViewModel(application) {
+    private var _playerLobbyJob: Job? = null
+    private val _players = MutableStateFlow<List<PlayersCharacters>>(emptyList())
     private val _roomCode = MutableStateFlow<String?>(null)
     private val _gamesList = MutableStateFlow<List<GameData>>(emptyList())
     private val _selectedGame = MutableStateFlow<GameData?>(null)
     var selectedGame: StateFlow<GameData?> = _selectedGame.asStateFlow()
     val gamesList: StateFlow<List<GameData>> = _gamesList.asStateFlow()
+    val players: StateFlow<List<PlayersCharacters>> = _players.asStateFlow()
 
     fun getGamesList(userId: String){
         viewModelScope.launch {
@@ -35,6 +40,7 @@ class GamesViewModel(
 
     fun setSelectedGame(game: GameData){
         _selectedGame.value = game
+        if(_players.value.isEmpty()) observePlayersCall(game.id)
     }
 
     fun createNewGame(userId: String, gameName: String, onFinished: (Boolean) -> Unit){
@@ -57,8 +63,27 @@ class GamesViewModel(
                 character = CharacterProfile()
             )
 
-            val state: Result<Boolean> = gameRepository.saveGameToFirebase(game = gameData, host =character)
-            if(state.isSuccess) onFinished(true) else onFinished(false)
+            val state: Result<String> = gameRepository.saveGameToFirebase(game = gameData, host =character)
+            state.onSuccess { gameId ->
+                onFinished(true)
+                observePlayersCall(gameId)
+            }
+            state.onFailure {
+                onFinished(false)
+            }
+        }
+    }
+
+    private fun observePlayersCall(roomId: String){
+        _playerLobbyJob?.cancel()
+
+        _playerLobbyJob = viewModelScope.launch {
+            _players.value = emptyList()
+
+            gameRepository.observePlayers(roomId).collect { result ->
+                result.onSuccess { _players.value = it }
+                result.onFailure { error -> Log.e("MyLogs", "Error al obtener jugadores (viewModel)", error) }
+            }
         }
     }
 

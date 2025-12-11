@@ -8,8 +8,9 @@ import com.pruebas.airolmagic.data.CharacterProfile
 import com.pruebas.airolmagic.data.GameData
 import com.pruebas.airolmagic.data.PlayersCharacters
 import com.pruebas.airolmagic.data.generateRoomCode
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import kotlin.collections.emptyList
 
@@ -31,7 +32,7 @@ class GameRepository {
         }
     }
 
-    suspend fun saveGameToFirebase(game: GameData, host: PlayersCharacters): Result<Boolean> {
+    suspend fun saveGameToFirebase(game: GameData, host: PlayersCharacters): Result<String> {
         return try {
             val newGameRef = collectionRef.document()
             val gameId = newGameRef.id
@@ -45,7 +46,7 @@ class GameRepository {
 
             batch.commit().await()
 
-            Result.success(true)
+            Result.success(gameId)
         }catch(e: Exception){
             e.printStackTrace()
             Result.failure(e)
@@ -118,6 +119,30 @@ class GameRepository {
         }catch(e: Exception){
             e.printStackTrace()
             return ""
+        }
+    }
+
+    fun observePlayers(roomId: String): Flow<Result<List<PlayersCharacters>>> = callbackFlow {
+        val playersRef = collectionRef.document(roomId).collection("jugadores")
+        val listener = playersRef.addSnapshotListener { snapshot, error ->
+            if(error != null){
+                Log.e("MyLogs", "Error al escuchar jugadores", error)
+                trySend(Result.failure(error))
+                return@addSnapshotListener
+            }
+
+            if(snapshot != null) {
+                try{
+                    val players = snapshot.toObjects(PlayersCharacters::class.java)
+                    trySend(Result.success(players))
+                }catch(e: Exception) {
+                    trySend(Result.failure(e))
+                }
+            }
+        }
+
+        awaitClose {
+            listener.remove()
         }
     }
 }
