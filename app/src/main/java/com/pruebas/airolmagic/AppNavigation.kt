@@ -48,11 +48,6 @@ fun AppNavigation(
 
         composable<LoginScreen>{
             MainScaffold(navController, sessionViewModel) {LoginView(
-                onNavigateToGames = {
-                    navController.navigate(GamesListScreen){
-                        popUpTo(LoginScreen) { inclusive = true }
-                    }
-                },
                 onNavigateToRegister = { navController.navigate(RegisterScreen) },
                 sessionViewModel = sessionViewModel
             )}

@@ -61,7 +61,9 @@ fun JoinGameView(
             singleLine = true,
             textValue = gameCode,
             placeholder = stringResource(R.string.game_code),
-            onValueChange = { new -> gameCode = new }
+            onValueChange = { new ->
+                if(new.length <= 5) gameCode = new.uppercase()
+            }
         )
         Spacer(modifier = Modifier.height(20.dp))
         YellowButton(

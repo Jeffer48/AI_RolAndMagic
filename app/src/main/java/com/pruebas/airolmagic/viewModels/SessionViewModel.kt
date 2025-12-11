@@ -2,10 +2,10 @@ package com.pruebas.airolmagic.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.functions.functions
-import com.google.firebase.functions.getHttpsCallable
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import com.pruebas.airolmagic.data.UserData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,61 +19,75 @@ sealed class SessionState {
     data class LoggedIn(val user: UserData) : SessionState()
 }
 
-class SessionViewModel: ViewModel() {
+class SessionViewModel : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
+    private val db = FirebaseFirestore.getInstance()
 
     private val _sessionState = MutableStateFlow<SessionState>(SessionState.Loading)
     val sessionState: StateFlow<SessionState> = _sessionState.asStateFlow()
 
+    private val _isLoadingLogin = MutableStateFlow(false)
+    val isLoadingLogin: StateFlow<Boolean> = _isLoadingLogin.asStateFlow()
+
+    private val _loginError = MutableStateFlow<String?>(null)
+    val loginError: StateFlow<String?> = _loginError.asStateFlow()
+
     init {
         auth.addAuthStateListener { firebaseAuth ->
             val firebaseUser = firebaseAuth.currentUser
-            if(firebaseUser != null){
-                viewModelScope.launch {
-                    try{
-                        val userData = callGetUserDataFunction()
-                        _sessionState.value = SessionState.LoggedIn(userData)
-                    }catch(e: Exception){
-                        auth.signOut()
-                        _sessionState.value = SessionState.LoggedOut
-                    }
-                }
-            }else{
+
+            if (_sessionState.value is SessionState.LoggedIn && firebaseUser != null) {
+                return@addAuthStateListener
+            }
+
+            if (firebaseUser != null) {
+                val cachedName = firebaseUser.displayName
+                val email = firebaseUser.email ?: ""
+
+                if (!cachedName.isNullOrBlank()) _sessionState.value = SessionState.LoggedIn(UserData(cachedName, email))
+                else fetchUserDataFallback(firebaseUser)
+            } else {
                 _sessionState.value = SessionState.LoggedOut
             }
         }
     }
 
-    fun onUserLoggedIn(user: UserData) {
-        _sessionState.value = SessionState.LoggedIn(user)
+    fun login(email: String, pass: String) {
+        viewModelScope.launch {
+            _isLoadingLogin.value = true
+            _loginError.value = null
+            try {
+                auth.signInWithEmailAndPassword(email, pass).await()
+            } catch (e: Exception) {
+                _loginError.value = e.message ?: "Error al iniciar sesión"
+            } finally {
+                _isLoadingLogin.value = false
+            }
+        }
     }
+
+    fun clearLoginError() { _loginError.value = null }
 
     fun onUserLoggedOut() {
         auth.signOut()
         _sessionState.value = SessionState.LoggedOut
     }
 
-    fun getUserId(): String {
-        val userId = auth.currentUser?.uid
+    fun getUserId(): String = auth.currentUser?.uid ?: ""
 
-        return userId ?: ""
-    }
+    private fun fetchUserDataFallback(user: FirebaseUser) {
+        viewModelScope.launch {
+            try {
+                val doc = db.collection("usuarios").document(user.uid).get().await()
+                val username = doc.getString("username") ?: "Usuario"
 
-    private suspend fun callGetUserDataFunction(): UserData {
-        val result = Firebase.functions
-            .getHttpsCallable("onGetUserData") { limitedUseAppCheckTokens = true }
-            .call()
-            .await()
+                val updates = userProfileChangeRequest { displayName = username }
+                user.updateProfile(updates)
 
-        val dataMap = result.data as? Map<String, Any>
-            ?: throw Exception("La respuesta de la función estaba vacía o en un formato incorrecto.")
-
-        val username = dataMap["username"] as? String
-            ?: throw Exception("El campo 'username' no se encontró en la respuesta.")
-
-        val email = dataMap["email"] as? String
-            ?: throw Exception("El campo 'email' no se encontró en la respuesta")
-
-        return UserData(username = username, email = email)
+                _sessionState.value = SessionState.LoggedIn(UserData(username, user.email ?: ""))
+            } catch (e: Exception) {
+                _sessionState.value = SessionState.LoggedIn(UserData("Usuario", user.email ?: ""))
+            }
+        }
     }
 }

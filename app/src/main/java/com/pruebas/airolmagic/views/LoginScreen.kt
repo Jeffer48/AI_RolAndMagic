@@ -1,68 +1,35 @@
 package com.pruebas.airolmagic.views
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Text
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.viewModels.LoginState
-import com.pruebas.airolmagic.viewModels.LoginViewModel
 import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.ui.theme.Lora
 
 @Composable
 fun LoginView(
-    onNavigateToGames: () -> Unit,
     onNavigateToRegister: () -> Unit,
     sessionViewModel: SessionViewModel
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf("Error Desconocido") }
-    val viewModel: LoginViewModel = viewModel()
-    val loginState by viewModel.loginState.collectAsState()
-    var showErrorDialog by remember { mutableStateOf(false) }
-    var showLoadingDialog by remember { mutableStateOf(false) }
 
-    if(showLoadingDialog) LoadingDialog()
-    if(showErrorDialog) ErrorDialog(texto = errorMessage, onDismissRequest = { showErrorDialog = false; viewModel.resetState()})
+    val loginError by sessionViewModel.loginError.collectAsState()
+    val isLoading by sessionViewModel.isLoadingLogin.collectAsState()
 
-    LaunchedEffect(loginState) {
-        when(val state = loginState){
-            is LoginState.Success -> {
-                sessionViewModel.onUserLoggedIn(state.user)
-                showLoadingDialog = false
-                onNavigateToGames()
-                viewModel.resetState()
-            }
-            is LoginState.Error -> {
-                errorMessage = state.message
-                showLoadingDialog = false
-                showErrorDialog = true
-            }
-            else -> {}
-        }
+    if(isLoading) LoadingDialog()
+
+    loginError?.let { msg ->
+        ErrorDialog(
+            texto = msg,
+            onDismissRequest = { sessionViewModel.clearLoginError() }
+        )
     }
 
     Column(
@@ -80,18 +47,29 @@ fun LoginView(
                 style = MaterialTheme.typography.headlineLarge
             )
             Spacer(modifier = Modifier.height(20.dp))
-            TransparentTextField(label = R.string.email, value_txt = email, onValueChange = { newValue -> email = newValue })
+
+            TransparentTextField(
+                label = R.string.email,
+                value_txt = email,
+                onValueChange = { email = it }
+            )
             Spacer(modifier = Modifier.height(10.dp))
-            TransparentTextField(label = R.string.password, value_txt = password, onValueChange = { newValue -> password = newValue })
+
+            TransparentTextField(
+                label = R.string.password,
+                value_txt = password,
+                isPassword = true,
+                onValueChange = { password = it }
+            )
             Spacer(modifier = Modifier.height(10.dp))
+
             OutlinedButton(
                 onClick = {
                     if(email.isNotEmpty() && password.isNotEmpty()){
-                        showLoadingDialog = true
-                        viewModel.login(email, password)
+                        sessionViewModel.login(email, password)
                     }
                 },
-                enabled = loginState != LoginState.Loading,
+                enabled = !isLoading,
             ) {
                 Text(
                     text = stringResource(R.string.login),

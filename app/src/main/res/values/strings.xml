@@ -41,6 +41,7 @@
     <string name="select_your_hero">Select you hero</string>
     <string name="new_character">New Character</string>
     <string name="select">Select</string>
+    <string name="already_have_account">Already have an account? Log in</string>
 
     <!-- Estatus de la Partida -->
     <string name="game_status_waiting">Waiting</string>

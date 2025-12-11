@@ -43,11 +43,7 @@ fun GamesListView(
     onNavigateToJoinLobby: () -> Unit,
     onNavigateToCreateLobby: () -> Unit
 ){
-    val showLoadingDialog = remember { mutableStateOf(true) }
     val gamesList: List<GameData> by gamesViewModel.gamesList.collectAsState()
-
-    showLoadingDialog.value = gamesList.isEmpty()
-    if(showLoadingDialog.value) LoadingDialog()
 
     LaunchedEffect(Unit) {
         gamesViewModel.getGamesList(userId = userId)

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.functions.FirebaseFunctionsException
+import com.google.firebase.auth.userProfileChangeRequest // Importante
 import com.google.firebase.functions.functions
 import com.google.firebase.functions.getHttpsCallable
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,38 +34,33 @@ class RegisterViewModel: ViewModel() {
                 val authResult = auth.createUserWithEmailAndPassword(email, password).await()
                 val user = authResult.user
 
-                if(user?.uid != null){
+                if(user != null){
+                    val profileUpdates = userProfileChangeRequest {
+                        displayName = username
+                    }
+                    user.updateProfile(profileUpdates).await()
+
                     callFirestoreFunction(username, email)
+
                     _registrationState.value = RegistrationState.Success
-                }else{
+                } else {
                     throw Exception("Error al crear el usuario")
                 }
             } catch (e: Exception){
                 val errorMessage = e.message ?: "Error desconocido"
                 _registrationState.value = RegistrationState.Error(errorMessage)
-
-                println("Error al registrar: $errorMessage")
-                if(e is FirebaseFunctionsException) println("Error específico de Firebase: ${e.code}, Detalles: ${e.details}")
             }
         }
     }
 
     private suspend fun callFirestoreFunction(username: String, email: String){
-        val data = hashMapOf(
-            "username" to username,
-            "email" to email
-        )
+        val data = hashMapOf("username" to username, "email" to email)
 
-        val result = Firebase.functions
+        Firebase.functions
             .getHttpsCallable("onCreateUser") { limitedUseAppCheckTokens = true }
             .call(data)
             .await()
-
-        val datosRespuesta = result.data as? Map<String, Any>
-        println("Usuario creado correctamente. Respuesta: $datosRespuesta")
     }
 
-    fun resetState(){
-        _registrationState.value = RegistrationState.Idle
-    }
+    fun resetState(){ _registrationState.value = RegistrationState.Idle }
 }

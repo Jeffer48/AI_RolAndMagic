@@ -48,6 +48,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
@@ -73,13 +75,16 @@ fun OptionButton(text: Int, onClick: () -> Unit){
 }
 
 @Composable
-fun TransparentTextField(label: Int, value_txt: String, isError: Boolean = false, onValueChange: (String) -> Unit){
+fun TransparentTextField(label: Int, value_txt: String, isError: Boolean = false, isPassword: Boolean = false, onValueChange: (String) -> Unit){
+    val transformation = if(isPassword) PasswordVisualTransformation() else VisualTransformation.None
+
     OutlinedTextField(
         value = value_txt,
         isError = isError,
         onValueChange = { onValueChange(it) },
         label = { Text(text = stringResource(label)) },
         modifier = Modifier.fillMaxWidth(),
+        visualTransformation = transformation,
         singleLine = true,
         colors = TextFieldDefaults.colors(
             focusedTextColor = colorResource(R.color.semi_white),
