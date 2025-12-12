@@ -33,7 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.data.CharacterProfile
+import com.pruebas.airolmagic.data.objects.CharacterProfile
 import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.ui.theme.MedievalSharp
 import com.pruebas.airolmagic.viewModels.CharactersListViewModel

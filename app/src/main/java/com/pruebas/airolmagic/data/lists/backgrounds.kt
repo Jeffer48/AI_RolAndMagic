@@ -1,7 +1,7 @@
 package com.pruebas.airolmagic.data.lists
 
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.data.BackgroundData
+import com.pruebas.airolmagic.data.objects.BackgroundData
 
 object BackgroundRepository{
     val list = listOf<BackgroundData>(

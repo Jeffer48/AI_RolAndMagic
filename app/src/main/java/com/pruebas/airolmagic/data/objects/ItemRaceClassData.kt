@@ -1,4 +1,4 @@
-package com.pruebas.airolmagic.data
+package com.pruebas.airolmagic.data.objects
 
 import kotlinx.serialization.Serializable
 

@@ -1,7 +1,7 @@
 package com.pruebas.airolmagic.data.database
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.pruebas.airolmagic.data.CharacterProfile
+import com.pruebas.airolmagic.data.objects.CharacterProfile
 import kotlinx.coroutines.tasks.await
 import kotlin.collections.emptyList
 

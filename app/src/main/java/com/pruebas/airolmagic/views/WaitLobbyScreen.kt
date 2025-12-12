@@ -19,6 +19,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -37,27 +39,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.data.GameData
-import com.pruebas.airolmagic.data.PlayersCharacters
+import com.pruebas.airolmagic.data.objects.GameData
+import com.pruebas.airolmagic.data.objects.PlayersCharacters
 import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.ui.theme.MedievalSharp
 import com.pruebas.airolmagic.viewModels.GamesViewModel
+import com.pruebas.airolmagic.viewModels.WatchersViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun WaitLobbyView(
     userId: String,
     gamesViewModel: GamesViewModel,
+    watchersViewModel: WatchersViewModel,
 ){
     val context = LocalContext.current
     val clipboardManager = LocalClipboard.current
     val scope = rememberCoroutineScope()
     val textCopied = stringResource(R.string.text_copied)
-    val playersList: List<PlayersCharacters> by gamesViewModel.players.collectAsStateWithLifecycle()
+    val playersList: List<PlayersCharacters> by watchersViewModel.players.collectAsStateWithLifecycle()
     val game: GameData? by gamesViewModel.selectedGame.collectAsStateWithLifecycle()
     val gameName = if(game == null) "" else game!!.name
     val gameCode = if(game == null) "" else game!!.joinCode
     val hostId = if(game == null) "" else game!!.hostId
+
+    LaunchedEffect(game){ game?.let { watchersViewModel.observePlayersCall(game!!.id) } }
+    DisposableEffect(watchersViewModel){ onDispose { watchersViewModel.cancelObservePlayers() } }
 
     Column(
         modifier = Modifier.fillMaxSize(),

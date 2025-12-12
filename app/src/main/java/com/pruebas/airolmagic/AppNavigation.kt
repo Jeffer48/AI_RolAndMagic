@@ -20,6 +20,7 @@ import com.pruebas.airolmagic.viewModels.CharactersListViewModel
 import com.pruebas.airolmagic.viewModels.GamesViewModel
 import com.pruebas.airolmagic.viewModels.SessionState
 import com.pruebas.airolmagic.viewModels.SessionViewModel
+import com.pruebas.airolmagic.viewModels.WatchersViewModel
 import com.pruebas.airolmagic.views.*
 import com.pruebas.airolmagic.views.characterCreation.CharacterCreationNavigation
 
@@ -29,7 +30,8 @@ fun AppNavigation(
     sessionViewModel: SessionViewModel,
     characterViewModel: CharacterViewModel,
     charactersListViewModel: CharactersListViewModel,
-    gamesViewModel: GamesViewModel
+    gamesViewModel: GamesViewModel,
+    watchersViewModel: WatchersViewModel
 ){
     val context = LocalContext.current
     val exitMsg = stringResource(R.string.press_again_to_exit)
@@ -140,7 +142,8 @@ fun AppNavigation(
         composable<WaitLobbyScreen>{
             MainScaffold(navController) {WaitLobbyView(
                 userId = userId,
-                gamesViewModel = gamesViewModel
+                gamesViewModel = gamesViewModel,
+                watchersViewModel = watchersViewModel
             )}
         }
     }

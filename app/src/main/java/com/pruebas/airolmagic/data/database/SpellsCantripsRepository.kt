@@ -1,6 +1,6 @@
 package com.pruebas.airolmagic.data.database
 
-import com.pruebas.airolmagic.data.InventoryItem
+import com.pruebas.airolmagic.data.objects.InventoryItem
 import kotlinx.coroutines.tasks.await
 
 class SpellsCantripsRepository(private val dataSource: DataSources){

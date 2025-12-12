@@ -3,7 +3,7 @@ package com.pruebas.airolmagic.viewModels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.pruebas.airolmagic.data.CharacterProfile
+import com.pruebas.airolmagic.data.objects.CharacterProfile
 import com.pruebas.airolmagic.data.database.CharacterRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

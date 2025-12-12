@@ -1,7 +1,7 @@
 package com.pruebas.airolmagic.data.database
 
 import com.google.firebase.firestore.QuerySnapshot
-import com.pruebas.airolmagic.data.InventoryItem
+import com.pruebas.airolmagic.data.objects.InventoryItem
 import kotlinx.coroutines.tasks.await
 
 class ItemsRepository(private val dataSource: DataSources){

@@ -1,4 +1,4 @@
-package com.pruebas.airolmagic.data
+package com.pruebas.airolmagic.data.objects
 
 data class UserData(
     val username: String,
