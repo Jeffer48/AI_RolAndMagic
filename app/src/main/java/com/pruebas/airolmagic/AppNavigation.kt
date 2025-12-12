@@ -1,12 +1,17 @@
 package com.pruebas.airolmagic
 
-import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,22 +31,48 @@ fun AppNavigation(
     charactersListViewModel: CharactersListViewModel,
     gamesViewModel: GamesViewModel
 ){
+    val context = LocalContext.current
+    val exitMsg = stringResource(R.string.press_again_to_exit)
+    var lastBackPressTime by remember { mutableLongStateOf(0L) }
     val sessionState by sessionViewModel.sessionState.collectAsState()
     var userId by remember { mutableStateOf("") }
 
-    when(sessionState) {
-        is SessionState.Loading -> {  }
-        is SessionState.LoggedOut -> {
-            navController.navigate(LoginScreen){ popUpTo(LoadingScreen) { inclusive = true } }
-            userId = ""
+    BackHandler(enabled = true) {
+        if(navController.previousBackStackEntry == null){
+            val currentTime = System.currentTimeMillis()
+            if(currentTime - lastBackPressTime < 2000) (context as? MainActivity)?.finish()
+            else {
+                lastBackPressTime = currentTime
+                Toast.makeText(context, exitMsg, Toast.LENGTH_SHORT).show()
+            }
         }
-        is SessionState.LoggedIn -> {
-            navController.navigate(GamesListScreen){ popUpTo(LoadingScreen) { inclusive = true } }
-            userId = sessionViewModel.getUserId()
+    }
+
+    fun clearBackStack(route: Any){
+        navController.navigate(route){
+            popUpTo(0){
+                inclusive = true
+            }
+            launchSingleTop = true
+        }
+    }
+
+    LaunchedEffect(sessionState) {
+        when(val state = sessionState) {
+            is SessionState.Loading -> {}
+            is SessionState.LoggedOut -> {
+                clearBackStack(LoginScreen)
+                userId = ""
+            }
+            is SessionState.LoggedIn -> {
+                clearBackStack(GamesListScreen)
+                userId = sessionViewModel.getUserId()
+            }
         }
     }
 
     NavHost(navController, startDestination = LoadingScreen){
+
         composable<LoadingScreen>{
             MainScaffold(navController, sessionViewModel) { LoadingView() }
         }
@@ -70,12 +101,7 @@ fun AppNavigation(
         composable<CreateLobbyScreen>{
             MainScaffold(navController) {CreateLobbyView(
                 onNavigateToSelCharacter = { navController.navigate(MyCharactersScreen) },
-                onNavigateToHome = {
-                    navController.navigate(GamesListScreen){
-                        popUpTo(0) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                },
+                onNavigateToHome = { clearBackStack(GamesListScreen) },
                 gamesViewModel = gamesViewModel,
                 userId = userId
             )}
@@ -86,12 +112,7 @@ fun AppNavigation(
                 userId = userId,
                 gamesViewModel = gamesViewModel,
                 onNavigateToCreateCharacter = { navController.navigate(MyCharactersScreen) },
-                onNavigateToHome = {
-                    navController.navigate(GamesListScreen){
-                        popUpTo(0) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                },
+                onNavigateToHome = { clearBackStack(GamesListScreen) },
             )}
         }
 
@@ -100,19 +121,9 @@ fun AppNavigation(
                 userId = userId,
                 charactersListViewModel = charactersListViewModel,
                 gamesViewModel = gamesViewModel,
-                onCharacterSelected = {
-                    navController.navigate(WaitLobbyScreen){
-                        popUpTo(0) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                },
+                onCharacterSelected = { clearBackStack(WaitLobbyScreen) },
                 onNewCharacterClicked = { navController.navigate(CharacterCreationScreen) },
-                onNavigateToHome = {
-                    navController.navigate(GamesListScreen){
-                        popUpTo(0) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                },
+                onNavigateToHome = { clearBackStack(GamesListScreen) },
             )}
         }
 
@@ -121,15 +132,8 @@ fun AppNavigation(
                 userId = userId,
                 characterViewModel = characterViewModel,
                 gamesViewModel = gamesViewModel,
-                onFailedToCreateCharacter = {
-                    navController.navigate(GamesListScreen){
-                        popUpTo(0) { inclusive = true }
-                        launchSingleTop = true
-                    }
-                },
-                onNavigateToWaitLobby = { navController.navigate(WaitLobbyScreen){
-                    popUpTo(CharacterCreationScreen) { inclusive = true }
-                } }
+                onFailedToCreateCharacter = { clearBackStack(GamesListScreen) },
+                onNavigateToWaitLobby = { clearBackStack(WaitLobbyScreen) }
             )
         }
 

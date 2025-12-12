@@ -43,6 +43,7 @@
     <string name="new_character">Nuevo Personaje</string>
     <string name="select">Seleccionar</string>
     <string name="already_have_account">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="press_again_to_exit">Presione nuevamente para salir</string>
 
     <!-- Estatus de la Partida -->
     <string name="game_status_waiting">Esperando</string>

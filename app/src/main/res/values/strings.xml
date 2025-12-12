@@ -42,6 +42,7 @@
     <string name="new_character">New Character</string>
     <string name="select">Select</string>
     <string name="already_have_account">Already have an account? Log in</string>
+    <string name="press_again_to_exit">Press back again to exit</string>
 
     <!-- Estatus de la Partida -->
     <string name="game_status_waiting">Waiting</string>
