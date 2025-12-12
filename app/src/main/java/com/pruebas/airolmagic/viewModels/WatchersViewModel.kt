@@ -6,13 +6,16 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pruebas.airolmagic.data.objects.PlayersCharacters
 import com.pruebas.airolmagic.data.database.WatchersRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WatchersViewModel(
+@HiltViewModel
+class WatchersViewModel @Inject constructor(
     application: Application,
     private val watchersRepository: WatchersRepository,
 ): AndroidViewModel(application) {

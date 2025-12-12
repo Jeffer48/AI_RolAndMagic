@@ -10,12 +10,15 @@ import com.pruebas.airolmagic.data.objects.GameData
 import com.pruebas.airolmagic.data.objects.PlayersCharacters
 import com.pruebas.airolmagic.data.database.GameRepository
 import com.pruebas.airolmagic.data.database.GeneralRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class GamesViewModel(
+@HiltViewModel
+class GamesViewModel @Inject constructor(
     application: Application,
     private val gameRepository: GameRepository,
     private val generalRepository: GeneralRepository

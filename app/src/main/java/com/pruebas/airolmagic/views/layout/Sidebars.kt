@@ -30,7 +30,7 @@ import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.views.LoginScreen
 
 @Composable
-fun SideBar(navController: NavHostController,sessionViewModel: SessionViewModel){
+fun SideBar(navController: NavHostController, onLogout: () -> Unit){
     val borderColor = colorResource(R.color.yellow_font)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -82,7 +82,7 @@ fun SideBar(navController: NavHostController,sessionViewModel: SessionViewModel)
             ){
                 Button(
                     onClick = {
-                        sessionViewModel.onUserLoggedOut()
+                        onLogout()
                         navController.navigate(LoginScreen){ popUpTo(currentRoute.toString()) { inclusive = true } }
                     },
                 ) {

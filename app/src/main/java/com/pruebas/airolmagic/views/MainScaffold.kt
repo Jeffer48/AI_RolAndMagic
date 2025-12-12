@@ -34,7 +34,7 @@ import com.pruebas.airolmagic.views.layout.NavBar
 import com.pruebas.airolmagic.views.layout.SideBar
 
 @Composable
-fun MainScaffold(navController: NavHostController,sessionViewModel: SessionViewModel = SessionViewModel(), content: @Composable () -> Unit){
+fun MainScaffold(navController: NavHostController, sessionViewModel: SessionViewModel, content: @Composable () -> Unit){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     var showTopBar: Boolean
@@ -65,7 +65,7 @@ fun MainScaffold(navController: NavHostController,sessionViewModel: SessionViewM
     }
 
     ModalNavigationDrawer(
-        drawerContent = { SideBar(navController,sessionViewModel) },
+        drawerContent = { SideBar(navController, { sessionViewModel.onUserLoggedOut() }) },
         drawerState = drawerState
     ) {
         Scaffold(

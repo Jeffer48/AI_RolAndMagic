@@ -7,11 +7,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.userProfileChangeRequest // Importante
 import com.google.firebase.functions.functions
 import com.google.firebase.functions.getHttpsCallable
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 sealed class RegistrationState{
     object Success: RegistrationState()
@@ -20,9 +22,10 @@ sealed class RegistrationState{
     data class Error(val message: String): RegistrationState()
 }
 
-class RegisterViewModel: ViewModel() {
-    private val auth = FirebaseAuth.getInstance()
-
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val auth: FirebaseAuth
+): ViewModel() {
     private val _registrationState = MutableStateFlow<RegistrationState>(RegistrationState.Idle)
     val registrationState: StateFlow<RegistrationState> = _registrationState.asStateFlow()
 

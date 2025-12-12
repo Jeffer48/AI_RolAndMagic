@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.pruebas.airolmagic.data.lists.isMagicClass
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
 import com.pruebas.airolmagic.viewModels.GamesViewModel
+import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.views.MainScaffold
 
 @Composable
@@ -15,17 +16,18 @@ fun CharacterCreationNavigation(
     characterViewModel: CharacterViewModel,
     onNavigateToWaitLobby: () -> Unit,
     onFailedToCreateCharacter: () -> Unit,
-    gamesViewModel: GamesViewModel
+    gamesViewModel: GamesViewModel,
+    sessionViewModel: SessionViewModel
 ){
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "class"){
         composable("class"){
-            MainScaffold(navController) { ClassSelView(characterViewModel = characterViewModel, onNextClicked = { navController.navigate("background") }) }
+            MainScaffold(navController, sessionViewModel) { ClassSelView(characterViewModel = characterViewModel, onNextClicked = { navController.navigate("background") }) }
         }
 
         composable("background"){
-            MainScaffold(navController) { BackgroundSelView(
+            MainScaffold(navController, sessionViewModel) { BackgroundSelView(
                 characterViewModel = characterViewModel,
                 onBackClicked = { navController.navigate("class") },
                 onNextClicked = { navController.navigate("species") }
@@ -33,7 +35,7 @@ fun CharacterCreationNavigation(
         }
 
         composable("species") {
-            MainScaffold(navController) { SpeciesSelView(
+            MainScaffold(navController, sessionViewModel) { SpeciesSelView(
                 characterViewModel = characterViewModel,
                 onBackClicked = { navController.navigate("background") },
                 onNextClicked = { navController.navigate("stats") }
@@ -41,7 +43,7 @@ fun CharacterCreationNavigation(
         }
 
         composable("stats"){
-            MainScaffold(navController) { StatsSelView(
+            MainScaffold(navController, sessionViewModel) { StatsSelView(
                 characterViewModel = characterViewModel,
                 onBackClicked = { navController.navigate("species") },
                 onNextClicked = { navController.navigate("extras") }
@@ -50,7 +52,7 @@ fun CharacterCreationNavigation(
 
         composable("extras"){
             val isMagic = isMagicClass(characterViewModel.getClassData())
-            MainScaffold(navController) { ExtrasSelView(
+            MainScaffold(navController, sessionViewModel) { ExtrasSelView(
                 userId = userId,
                 characterViewModel = characterViewModel,
                 gamesViewModel = gamesViewModel,
@@ -62,7 +64,7 @@ fun CharacterCreationNavigation(
         }
 
         composable("spells"){
-            MainScaffold(navController) { SpellsSelView(
+            MainScaffold(navController, sessionViewModel) { SpellsSelView(
                 userId = userId,
                 gamesViewModel = gamesViewModel,
                 characterViewModel = characterViewModel,

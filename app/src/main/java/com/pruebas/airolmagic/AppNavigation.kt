@@ -87,11 +87,11 @@ fun AppNavigation(
         }
 
         composable<RegisterScreen> {
-            MainScaffold(navController,sessionViewModel) {RegisterView(onNavigateToLogin = { navController.navigate(LoginScreen) })}
+            MainScaffold(navController, sessionViewModel) {RegisterView(onNavigateToLogin = { navController.navigate(LoginScreen) })}
         }
 
         composable<GamesListScreen>{
-            MainScaffold(navController) {GamesListView(
+            MainScaffold(navController, sessionViewModel) {GamesListView(
                 userId = userId,
                 gamesViewModel = gamesViewModel,
                 onNavigateToLobby = { navController.navigate(WaitLobbyScreen) },
@@ -101,7 +101,7 @@ fun AppNavigation(
         }
 
         composable<CreateLobbyScreen>{
-            MainScaffold(navController) {CreateLobbyView(
+            MainScaffold(navController, sessionViewModel) {CreateLobbyView(
                 onNavigateToSelCharacter = { navController.navigate(MyCharactersScreen) },
                 onNavigateToHome = { clearBackStack(GamesListScreen) },
                 gamesViewModel = gamesViewModel,
@@ -110,7 +110,7 @@ fun AppNavigation(
         }
 
         composable<JoinGameScreen>{
-            MainScaffold(navController) {JoinGameView(
+            MainScaffold(navController, sessionViewModel) {JoinGameView(
                 userId = userId,
                 gamesViewModel = gamesViewModel,
                 onNavigateToCreateCharacter = { navController.navigate(MyCharactersScreen) },
@@ -119,7 +119,7 @@ fun AppNavigation(
         }
 
         composable<MyCharactersScreen>{
-            MainScaffold(navController) {MyCharactersView(
+            MainScaffold(navController, sessionViewModel) {MyCharactersView(
                 userId = userId,
                 charactersListViewModel = charactersListViewModel,
                 gamesViewModel = gamesViewModel,
@@ -135,12 +135,13 @@ fun AppNavigation(
                 characterViewModel = characterViewModel,
                 gamesViewModel = gamesViewModel,
                 onFailedToCreateCharacter = { clearBackStack(GamesListScreen) },
-                onNavigateToWaitLobby = { clearBackStack(WaitLobbyScreen) }
+                onNavigateToWaitLobby = { clearBackStack(WaitLobbyScreen) },
+                sessionViewModel = sessionViewModel
             )
         }
 
         composable<WaitLobbyScreen>{
-            MainScaffold(navController) {WaitLobbyView(
+            MainScaffold(navController, sessionViewModel) {WaitLobbyView(
                 userId = userId,
                 gamesViewModel = gamesViewModel,
                 watchersViewModel = watchersViewModel

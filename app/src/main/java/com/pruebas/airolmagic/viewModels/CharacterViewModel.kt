@@ -19,9 +19,12 @@ import com.pruebas.airolmagic.data.objects.WalletData
 import com.pruebas.airolmagic.data.database.CharacterRepository
 import com.pruebas.airolmagic.data.database.SpellsCantripsRepository
 import com.pruebas.airolmagic.data.database.ItemsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CharacterViewModel(
+@HiltViewModel
+class CharacterViewModel @Inject constructor(
     application: Application,
     private val scRepository: SpellsCantripsRepository,
     private val itemsRepository: ItemsRepository,
