@@ -1,6 +1,7 @@
 package com.pruebas.airolmagic.views
 
 import android.content.ClipData
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -70,6 +71,7 @@ fun WaitLobbyView(
         game?.let {
             watchersViewModel.observePlayersCall(game!!.id)
         }
+        Log.w("MyLogs", "Game: $game")
     }
     DisposableEffect(watchersViewModel){ onDispose { watchersViewModel.cancelObservePlayers() } }
 

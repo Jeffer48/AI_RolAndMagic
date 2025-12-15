@@ -59,6 +59,7 @@ class GamesViewModel @Inject constructor(
 
             val state: Result<String> = gameRepository.saveGameToFirebase(game = gameData, host =character)
             state.onSuccess { gameId ->
+                setSelectedGame(gameData)
                 onFinished(true)
             }
             state.onFailure {

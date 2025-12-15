@@ -1,6 +1,5 @@
 package com.pruebas.airolmagic.views
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -38,7 +37,6 @@ import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.ui.theme.MedievalSharp
 import com.pruebas.airolmagic.viewModels.CharactersListViewModel
 import com.pruebas.airolmagic.viewModels.GamesViewModel
-import com.pruebas.airolmagic.viewModels.SessionViewModel
 
 @Composable
 fun MyCharactersView(

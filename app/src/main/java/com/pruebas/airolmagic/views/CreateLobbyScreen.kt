@@ -22,9 +22,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.viewModels.GamesViewModel
-import com.pruebas.airolmagic.viewModels.SessionViewModel
 
 @Composable
 fun CreateLobbyView(
