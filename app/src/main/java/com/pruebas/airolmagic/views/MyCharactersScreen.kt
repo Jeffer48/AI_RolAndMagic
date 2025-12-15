@@ -82,7 +82,6 @@ fun MyCharactersView(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ){
                 items(count = charactersList.size){ character ->
-                    Log.w("MyLogs", "Character: $character")
                     CharacterBox(
                         charName = charactersList[character].name,
                         charClass = charactersList[character].classN.name,

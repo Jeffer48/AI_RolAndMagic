@@ -36,5 +36,8 @@ class WatchersViewModel @Inject constructor(
         }
     }
 
-    fun cancelObservePlayers(){ _playerLobbyJob?.cancel() }
+    fun cancelObservePlayers(){
+        _playerLobbyJob?.cancel()
+        _players.value = emptyList()
+    }
 }

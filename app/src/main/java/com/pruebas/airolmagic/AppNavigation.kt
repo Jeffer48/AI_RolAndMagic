@@ -1,5 +1,6 @@
 package com.pruebas.airolmagic
 
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
@@ -52,9 +53,14 @@ fun AppNavigation(
 
     fun clearBackStack(route: Any){
         navController.navigate(route){
-            popUpTo(0){
-                inclusive = true
+            if(route == GamesListScreen){
+                popUpTo(0){ inclusive = true }
+            }else{
+                popUpTo<GamesListScreen> {
+                    inclusive = false
+                }
             }
+
             launchSingleTop = true
         }
     }
@@ -144,7 +150,8 @@ fun AppNavigation(
             MainScaffold(navController, sessionViewModel) {WaitLobbyView(
                 userId = userId,
                 gamesViewModel = gamesViewModel,
-                watchersViewModel = watchersViewModel
+                watchersViewModel = watchersViewModel,
+                onNonSelectedCharacter = { navController.navigate(MyCharactersScreen) }
             )}
         }
     }

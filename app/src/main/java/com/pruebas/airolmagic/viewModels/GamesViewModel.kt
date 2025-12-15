@@ -1,7 +1,6 @@
 package com.pruebas.airolmagic.viewModels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pruebas.airolmagic.R
@@ -31,12 +30,12 @@ class GamesViewModel @Inject constructor(
 
     fun getGamesList(userId: String){
         viewModelScope.launch {
-            Log.d("MyLogs", "userId: $userId")
             _gamesList.value = gameRepository.getGamesList(userId)
         }
     }
 
     fun setSelectedGame(game: GameData){ _selectedGame.value = game }
+    fun setRoomCode(code: String){ _roomCode.value = code }
 
     fun createNewGame(userId: String, gameName: String, onFinished: (Boolean) -> Unit){
         viewModelScope.launch {
