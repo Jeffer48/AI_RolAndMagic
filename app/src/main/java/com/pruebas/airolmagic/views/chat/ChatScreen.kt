@@ -38,24 +38,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
 import com.pruebas.airolmagic.R
 import com.pruebas.airolmagic.ui.theme.Lora
-
-@Preview(showBackground = true)
-@Composable
-fun ChatScreenPreview(){
-    AIRolMagicTheme(){
-        ChatView("")
-    }
-}
+import com.pruebas.airolmagic.viewModels.ChatViewModel
 
 @Composable
-fun ChatView(chatViewModel: Any) {
-    Column(Modifier.fillMaxSize().background(colorResource(R.color.bg_black_purple))){
+fun ChatView(chatViewModel: ChatViewModel) {
+    Column(Modifier.fillMaxSize().padding(vertical = 5.dp)){
         Column(Modifier.fillMaxWidth().weight(1f).padding(horizontal = 5.dp)) {
             NarratorBox("Las antorchas de la pared se encienden solas, revelando una sombra alargada en el trono.")
             Spacer(Modifier.height(10.dp))
@@ -88,15 +79,10 @@ fun TextZone(){
                 color = Color(0xFF0D1117)
             ) {
                 TextField(
-                    modifier = Modifier.fillMaxWidth()
-                        .border(
-                            width = 1.dp,
-                            color = colorResource(R.color.btn_unsel_border),
-                            shape = RoundedCornerShape(25.dp)
-                        ),
+                    modifier = Modifier.fillMaxWidth().border(width = 1.dp, color = colorResource(R.color.btn_unsel_border), shape = RoundedCornerShape(25.dp)),
                     value = message,
                     placeholder = { Text(text = "") },
-                    onValueChange = { },
+                    onValueChange = { message = it },
                     colors = TextFieldDefaults.colors(
                         focusedTextColor = colorResource(R.color.semi_white),
                         unfocusedTextColor = colorResource(R.color.semi_white),
