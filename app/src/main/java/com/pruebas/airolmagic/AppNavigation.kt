@@ -1,6 +1,5 @@
 package com.pruebas.airolmagic
 
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
@@ -18,12 +17,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
 import com.pruebas.airolmagic.viewModels.CharactersListViewModel
+import com.pruebas.airolmagic.viewModels.ChatViewModel
 import com.pruebas.airolmagic.viewModels.GamesViewModel
 import com.pruebas.airolmagic.viewModels.SessionState
 import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.viewModels.WatchersViewModel
 import com.pruebas.airolmagic.views.*
 import com.pruebas.airolmagic.views.characterCreation.CharacterCreationNavigation
+import com.pruebas.airolmagic.views.chat.ChatScaffold
+import com.pruebas.airolmagic.views.chat.ChatView
 
 @Composable
 fun AppNavigation(
@@ -32,7 +34,8 @@ fun AppNavigation(
     characterViewModel: CharacterViewModel,
     charactersListViewModel: CharactersListViewModel,
     gamesViewModel: GamesViewModel,
-    watchersViewModel: WatchersViewModel
+    watchersViewModel: WatchersViewModel,
+    chatViewModel: ChatViewModel
 ){
     val context = LocalContext.current
     val exitMsg = stringResource(R.string.press_again_to_exit)
@@ -151,8 +154,13 @@ fun AppNavigation(
                 userId = userId,
                 gamesViewModel = gamesViewModel,
                 watchersViewModel = watchersViewModel,
-                onNonSelectedCharacter = { navController.navigate(MyCharactersScreen) }
+                onNonSelectedCharacter = { navController.navigate(MyCharactersScreen) },
+                onStartGame = { clearBackStack(ChatScreen) }
             )}
+        }
+
+        composable<ChatScreen>{
+            ChatScaffold(navController) { ChatView(chatViewModel = chatViewModel) }
         }
     }
 }

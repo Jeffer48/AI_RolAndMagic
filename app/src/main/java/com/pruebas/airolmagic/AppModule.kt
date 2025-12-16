@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import com.pruebas.airolmagic.data.database.CharacterRepository
+import com.pruebas.airolmagic.data.database.ChatRepository
 import com.pruebas.airolmagic.data.database.DataSources
 import com.pruebas.airolmagic.data.database.GameRepository
 import com.pruebas.airolmagic.data.database.GeneralRepository
@@ -37,6 +38,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideCharacterRepository(): CharacterRepository { return CharacterRepository() }
+
+    @Provides
+    @Singleton
+    fun provideChatRepository(): ChatRepository { return ChatRepository() }
 
     @Provides
     @Singleton

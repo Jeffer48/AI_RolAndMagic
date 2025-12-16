@@ -7,11 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.navigation.compose.rememberNavController
 import com.pruebas.airolmagic.viewModels.SessionViewModel
-import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
 import com.pruebas.airolmagic.viewModels.CharacterViewModel
 import com.pruebas.airolmagic.viewModels.CharactersListViewModel
 import com.pruebas.airolmagic.viewModels.GamesViewModel
 import com.pruebas.airolmagic.viewModels.WatchersViewModel
+import com.pruebas.airolmagic.viewModels.ChatViewModel
+import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
     private val gamesViewModel: GamesViewModel by viewModels()
     private val watchersViewModel: WatchersViewModel by viewModels()
     private val character: CharacterViewModel by viewModels()
+    private val chatViewModel: ChatViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +36,8 @@ class MainActivity : ComponentActivity() {
                     characterViewModel = character,
                     charactersListViewModel = characterList,
                     gamesViewModel = gamesViewModel,
-                    watchersViewModel = watchersViewModel
+                    watchersViewModel = watchersViewModel,
+                    chatViewModel = chatViewModel
                 )
             }
         }

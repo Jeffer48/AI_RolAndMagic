@@ -56,7 +56,6 @@ fun SideBar(navController: NavHostController, onLogout: () -> Unit){
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxSize()
-            //.verticalScroll(rememberScrollState())
         ) {
             Row(
                 modifier = Modifier.height(100.dp).fillMaxWidth(),

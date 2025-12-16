@@ -1,7 +1,6 @@
 package com.pruebas.airolmagic.views
 
 import android.content.ClipData
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -55,6 +54,7 @@ fun WaitLobbyView(
     gamesViewModel: GamesViewModel,
     watchersViewModel: WatchersViewModel,
     onNonSelectedCharacter: () -> Unit,
+    onStartGame: () -> Unit,
 ){
     val context = LocalContext.current
     val clipboardManager = LocalClipboard.current
@@ -71,7 +71,6 @@ fun WaitLobbyView(
         game?.let {
             watchersViewModel.observePlayersCall(game!!.id)
         }
-        Log.w("MyLogs", "Game: $game")
     }
     DisposableEffect(watchersViewModel){ onDispose { watchersViewModel.cancelObservePlayers() } }
 
@@ -87,7 +86,9 @@ fun WaitLobbyView(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Column(
-            modifier = Modifier.fillMaxWidth().weight(1f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text(
@@ -142,7 +143,9 @@ fun WaitLobbyView(
             )
             Spacer(Modifier.height(10.dp))
             LazyColumn(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ){
                 items(playersList.size){ index ->
@@ -152,14 +155,16 @@ fun WaitLobbyView(
         }
         if(hostId == userId) {
             Row(
-                modifier = Modifier.fillMaxWidth().height(80.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 YellowButton(
                     modifier = Modifier.height(50.dp),
                     text = stringResource(R.string.start_game),
-                    onClicked = {}
+                    onClicked = { onStartGame() }
                 )
             }
         }
@@ -176,12 +181,19 @@ fun PlayerBox(player: PlayersCharacters){
     val characterSpecies = player.character.race.name.ifEmpty { textSpecies }
 
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .background(color = colorResource(R.color.btn_unsel_darkblue))
-            .border(width = 1.dp, color = colorResource(R.color.btn_unsel_border), shape = RoundedCornerShape(10.dp))
+            .border(
+                width = 1.dp,
+                color = colorResource(R.color.btn_unsel_border),
+                shape = RoundedCornerShape(10.dp)
+            )
     ){
         Row(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){

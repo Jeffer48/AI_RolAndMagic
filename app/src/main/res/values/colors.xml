@@ -17,4 +17,7 @@
     <color name="btn_unsel_border">#0f3460</color>
     <color name="btn_sel_blue">#0F3460</color>
     <color name="btn_sel_border">#F7B731</color>
+    <color name="bg_bb_user">#1E293B</color>
+    <color name="bg_bb_narrator">#1E1611</color>
+    <color name="narrator_font_color">#FEF9C3</color>
 </resources>

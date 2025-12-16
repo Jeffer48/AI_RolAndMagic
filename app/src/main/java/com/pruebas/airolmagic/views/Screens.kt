@@ -28,3 +28,6 @@ object GamesListScreen
 
 @Serializable
 object MyCharactersScreen
+
+@Serializable
+object ChatScreen
