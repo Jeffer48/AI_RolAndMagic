@@ -57,6 +57,7 @@
     <string name="placeholder_text">Placeholder text</string>
     <string name="msg_continue">Continue</string>
     <string name="text_copied">Copied!</string>
+    <string name="users_without_character">There are users without character</string>
 
     <!-- Mensajes de Exito -->
     <string name="msg_success">Success!</string>

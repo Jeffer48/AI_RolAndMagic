@@ -27,14 +27,3 @@ data class PlayersCharacters(
     var userName: String = "",
     var character: CharacterProfile = CharacterProfile(),
 )
-
-@Serializable
-data class ChatData(
-    var role: String = "",
-    var content: String = "",
-    var userId: String = "",
-    var userName: String = "",
-    @ServerTimestamp
-    @Serializable(with = DateSerializer::class)
-    val createdAt: Date? = null,
-)

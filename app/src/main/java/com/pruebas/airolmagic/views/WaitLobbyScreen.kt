@@ -22,6 +22,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +46,7 @@ import com.pruebas.airolmagic.data.objects.GameData
 import com.pruebas.airolmagic.data.objects.PlayersCharacters
 import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.ui.theme.MedievalSharp
+import com.pruebas.airolmagic.viewModels.ChatViewModel
 import com.pruebas.airolmagic.viewModels.GamesViewModel
 import com.pruebas.airolmagic.viewModels.WatchersViewModel
 import kotlinx.coroutines.launch
@@ -53,9 +56,11 @@ fun WaitLobbyView(
     userId: String,
     gamesViewModel: GamesViewModel,
     watchersViewModel: WatchersViewModel,
+    chatViewModel: ChatViewModel,
     onNonSelectedCharacter: () -> Unit,
     onStartGame: () -> Unit,
 ){
+    val showWarningDialog = remember { mutableStateOf(false) }
     val context = LocalContext.current
     val clipboardManager = LocalClipboard.current
     val scope = rememberCoroutineScope()
@@ -66,6 +71,8 @@ fun WaitLobbyView(
     val gameName = if(game == null) "" else game!!.name
     val gameCode = if(game == null) "" else game!!.joinCode
     val hostId = if(game == null) "" else game!!.hostId
+
+    if(showWarningDialog.value) WarningDialog(texto = stringResource(R.string.users_without_character), onDismissRequest = { showWarningDialog.value = false })
 
     LaunchedEffect(game){
         game?.let {
@@ -78,6 +85,20 @@ fun WaitLobbyView(
         val roomCode = game?.joinCode
         if(roomCode != null) gamesViewModel.setRoomCode(roomCode)
         onNonSelectedCharacter()
+    }
+
+    fun startGame(){
+        var userWithoutCharacter = false
+
+        playersList.forEach { player ->
+            if(player.character == CharacterProfile()) userWithoutCharacter = true
+        }
+
+        if(!userWithoutCharacter){
+            chatViewModel.setSelectedGame(game!!)
+            chatViewModel.setPlayersList(playersList)
+            onStartGame()
+        }else showWarningDialog.value = true
     }
 
     Column(
@@ -164,7 +185,7 @@ fun WaitLobbyView(
                 YellowButton(
                     modifier = Modifier.height(50.dp),
                     text = stringResource(R.string.start_game),
-                    onClicked = { onStartGame() }
+                    onClicked = { startGame() }
                 )
             }
         }

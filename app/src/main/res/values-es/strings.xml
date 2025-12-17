@@ -58,6 +58,7 @@
     <string name="placeholder_text">Placeholder text</string>
     <string name="msg_continue">Continuar</string>
     <string name="text_copied">¡Copiado!</string>
+    <string name="users_without_character">Hay usuarios sin personaje</string>
 
     <!-- Mensajes de Exito -->
     <string name="msg_success">¡Éxito!</string>

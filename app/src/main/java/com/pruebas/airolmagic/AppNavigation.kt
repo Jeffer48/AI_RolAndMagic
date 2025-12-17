@@ -152,6 +152,7 @@ fun AppNavigation(
         composable<WaitLobbyScreen>{
             MainScaffold(navController, sessionViewModel) {WaitLobbyView(
                 userId = userId,
+                chatViewModel = chatViewModel,
                 gamesViewModel = gamesViewModel,
                 watchersViewModel = watchersViewModel,
                 onNonSelectedCharacter = { navController.navigate(MyCharactersScreen) },
