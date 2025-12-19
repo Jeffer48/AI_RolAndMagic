@@ -37,6 +37,8 @@ class WatchersRepository {
 
     fun observeMessages(roomId: String): Flow<Result<List<MessageData>>> = callbackFlow {
         val messagesRef = db.collection("partidas").document(roomId).collection("mensajes")
+            .orderBy("createdAt", com.google.firebase.firestore.Query.Direction.ASCENDING)
+
         val listener = messagesRef.addSnapshotListener { snapshot, error ->
             if(error != null){
                 Log.e("MyLogs", "Error al escuchar mensajes", error)

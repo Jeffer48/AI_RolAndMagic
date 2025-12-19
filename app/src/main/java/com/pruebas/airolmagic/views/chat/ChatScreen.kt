@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -56,19 +57,27 @@ fun ChatView(
     val chatMessages by chatViewModel.chatMessages.collectAsState()
     val selectedGame by chatViewModel.selectedGame.collectAsState()
     var message: String by remember { mutableStateOf("") }
+    val listState = rememberLazyListState()
 
-    LaunchedEffect(chatViewModel) { chatViewModel.watcherMessages() }
+    LaunchedEffect(chatViewModel) {
+        chatViewModel.watcherMessages()
+        if (chatMessages.isNotEmpty()) {
+            listState.animateScrollToItem(chatMessages.size - 1)
+        }
+    }
     DisposableEffect(chatViewModel){ onDispose { chatViewModel.cancelObservePlayers() } }
 
     Column(Modifier.fillMaxSize().padding(vertical = 5.dp)){
         LazyColumn(
+            state = listState,
             modifier = Modifier.fillMaxWidth().weight(1f).padding(horizontal = 5.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
             items(chatMessages.size){index ->
                 val data = chatMessages[index]
                 val isMe = userId == data.userId
-                if(data.role == "user") RoleplayUserBubble(isMe = isMe, characterName = data.characterName, message = data.content, timestamp = data.createdAt.toString(), accentColor = Color(0xFFC084FC))
+                val timestampStr = data.createdAt?.toString() ?: "Enviando..."
+                if(data.role == "user") RoleplayUserBubble(isMe = isMe, characterName = data.characterName, message = data.content, timestamp = timestampStr, accentColor = Color(0xFFC084FC))
                 if(data.role == "assistant") NarratorBox(text = data.content)
             }
         }
