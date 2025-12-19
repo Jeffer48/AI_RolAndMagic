@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -25,6 +26,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,26 +49,42 @@ import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.viewModels.ChatViewModel
 
 @Composable
-fun ChatView(chatViewModel: ChatViewModel) {
+fun ChatView(
+    userId: String,
+    chatViewModel: ChatViewModel
+) {
+    val chatMessages by chatViewModel.chatMessages.collectAsState()
+    val selectedGame by chatViewModel.selectedGame.collectAsState()
+    var message: String by remember { mutableStateOf("") }
+
+    LaunchedEffect(chatViewModel) { chatViewModel.watcherMessages() }
+    DisposableEffect(chatViewModel){ onDispose { chatViewModel.cancelObservePlayers() } }
+
     Column(Modifier.fillMaxSize().padding(vertical = 5.dp)){
-        Column(Modifier.fillMaxWidth().weight(1f).padding(horizontal = 5.dp)) {
-            NarratorBox("Las antorchas de la pared se encienden solas, revelando una sombra alargada en el trono.")
-            Spacer(Modifier.height(10.dp))
-            RoleplayUserBubble(isMe = false, characterName = "Elara", message = "Hola, soy otro jugador", timestamp = "11:57", accentColor = Color(0xFFC084FC))
-            Spacer(Modifier.height(10.dp))
-            RoleplayUserBubble(isMe = true, characterName = "Hardy", message = "Hola, soy Hardy", timestamp = "12:00", accentColor = Color(0xFFC084FC))
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth().weight(1f).padding(horizontal = 5.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ){
+            items(chatMessages.size){index ->
+                val data = chatMessages[index]
+                val isMe = userId == data.userId
+                if(data.role == "user") RoleplayUserBubble(isMe = isMe, characterName = data.characterName, message = data.content, timestamp = data.createdAt.toString(), accentColor = Color(0xFFC084FC))
+                if(data.role == "assistant") NarratorBox(text = data.content)
+            }
         }
         Spacer(modifier = Modifier.height(1.dp).fillMaxWidth().background(colorResource(R.color.btn_unsel_border)))
         Box(Modifier.fillMaxWidth().background(color = colorResource(R.color.bg_black_purple))){
-            TextZone()
+            TextZone(
+                message = message,
+                onUpdateMessage = { new -> message = new },
+                onSendClicked = { chatViewModel.sendMessage(message = message, userId = userId); message = "" }
+            )
         }
     }
 }
 
 @Composable
-fun TextZone(){
-    var message: String by remember { mutableStateOf("") }
-
+fun TextZone(message: String, onUpdateMessage: (String) -> Unit = {}, onSendClicked: () -> Unit = {}){
     Box(
         modifier = Modifier.fillMaxWidth().background(colorResource(R.color.btn_unsel_darkblue)).padding(all = 15.dp),
         contentAlignment = Alignment.Center
@@ -82,7 +102,7 @@ fun TextZone(){
                     modifier = Modifier.fillMaxWidth().border(width = 1.dp, color = colorResource(R.color.btn_unsel_border), shape = RoundedCornerShape(25.dp)),
                     value = message,
                     placeholder = { Text(text = "") },
-                    onValueChange = { message = it },
+                    onValueChange = { onUpdateMessage(it) },
                     colors = TextFieldDefaults.colors(
                         focusedTextColor = colorResource(R.color.semi_white),
                         unfocusedTextColor = colorResource(R.color.semi_white),
@@ -98,8 +118,9 @@ fun TextZone(){
             }
             Spacer(modifier = Modifier.size(10.dp))
             Box(
-                modifier = Modifier.size(55.dp).clickable(onClick = {})
-                    .background(color = Color(0xFFAE8200), shape = RoundedCornerShape(10.dp)),
+                modifier = Modifier.size(55.dp)
+                    .background(color = Color(0xFFAE8200), shape = RoundedCornerShape(10.dp))
+                    .clickable(onClick = { onSendClicked() }),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
@@ -120,7 +141,7 @@ fun NarratorBox(text: String){
         horizontalArrangement = Arrangement.Center
     ){
         Box(
-            modifier = Modifier.fillMaxWidth(0.7f)
+            modifier = Modifier.fillMaxWidth(0.9f)
                 .border(width = 1.dp, color = Color(0xFF5c450e), shape = RoundedCornerShape(5.dp))
                 .background(color = colorResource(R.color.bg_bb_narrator))
         ){

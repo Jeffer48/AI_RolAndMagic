@@ -1,7 +1,6 @@
 package com.pruebas.airolmagic.data.objects
 
 import com.google.firebase.firestore.ServerTimestamp
-import com.pruebas.airolmagic.data.objects.CharacterProfile
 import com.pruebas.airolmagic.data.DateSerializer
 import kotlinx.serialization.Serializable
 import java.util.Date
@@ -16,6 +15,7 @@ data class GameData(
     var joinCode: String = "",
     var currentTurn: String = "",
     var playerIds: List<String> = emptyList(),
+    val language: String = "Español",
     @ServerTimestamp
     @Serializable(with = DateSerializer::class)
     val createdAt: Date? = null,

@@ -46,6 +46,7 @@
     <string name="press_again_to_exit">Presione nuevamente para salir</string>
     <string name="send_button">Botón mandar mensaje</string>
     <string name="narrator">Narrador</string>
+    <string name="app_language">Español</string>
 
     <!-- Estatus de la Partida -->
     <string name="game_status_waiting">Esperando</string>
@@ -80,6 +81,7 @@
     <string name="err_user_not_found">Usuario no encontrado</string>
     <string name="err_adding_character">Error al añadir el personaje</string>
     <string name="err_unknown">Error desconocido</string>
+    <string name="err_game_started">La partida ya ha comenzado</string>
 
     <!-- Creación de personaje -->
     <string name="cc_character_name">Nombre de personaje</string>

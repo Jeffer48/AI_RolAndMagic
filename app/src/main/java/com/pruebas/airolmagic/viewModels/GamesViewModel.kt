@@ -37,7 +37,7 @@ class GamesViewModel @Inject constructor(
     fun setSelectedGame(game: GameData){ _selectedGame.value = game }
     fun setRoomCode(code: String){ _roomCode.value = code }
 
-    fun createNewGame(userId: String, gameName: String, onFinished: (Boolean) -> Unit){
+    fun createNewGame(userId: String, gameName: String, language: String, onFinished: (Boolean) -> Unit){
         viewModelScope.launch {
             val userName: String = generalRepository.getUserName(userId)
             _roomCode.value = gameRepository.getUniqueCode()
@@ -48,7 +48,8 @@ class GamesViewModel @Inject constructor(
                 hostId = userId,
                 hostName = userName,
                 playerIds = listOf(userId),
-                joinCode = _roomCode.value!!
+                joinCode = _roomCode.value!!,
+                language = language
             )
 
             val character = PlayersCharacters(

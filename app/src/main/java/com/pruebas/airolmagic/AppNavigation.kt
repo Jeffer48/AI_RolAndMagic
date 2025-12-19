@@ -102,7 +102,9 @@ fun AppNavigation(
         composable<GamesListScreen>{
             MainScaffold(navController, sessionViewModel) {GamesListView(
                 userId = userId,
+                chatViewModel = chatViewModel,
                 gamesViewModel = gamesViewModel,
+                onNavigateToGame = { navController.navigate(ChatScreen) },
                 onNavigateToLobby = { navController.navigate(WaitLobbyScreen) },
                 onNavigateToJoinLobby = { navController.navigate(JoinGameScreen) },
                 onNavigateToCreateLobby = { navController.navigate(CreateLobbyScreen) }
@@ -156,12 +158,16 @@ fun AppNavigation(
                 gamesViewModel = gamesViewModel,
                 watchersViewModel = watchersViewModel,
                 onNonSelectedCharacter = { navController.navigate(MyCharactersScreen) },
-                onStartGame = { clearBackStack(ChatScreen) }
+                onStartGame = { clearBackStack(ChatScreen) },
+                onError = { clearBackStack(GamesListScreen) }
             )}
         }
 
         composable<ChatScreen>{
-            ChatScaffold(navController) { ChatView(chatViewModel = chatViewModel) }
+            ChatScaffold(navController) { ChatView(
+                userId = userId,
+                chatViewModel = chatViewModel
+            )}
         }
     }
 }

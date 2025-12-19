@@ -54,6 +54,9 @@ class GameRepository {
             val snapshot = collectionRef.whereEqualTo("joinCode", roomCode).limit(1).get().await()
             if(snapshot.isEmpty) return Result.success(R.string.err_room_not_found)
 
+            val gameStatus = snapshot.documents.first().getLong("status")?.toInt()
+            if(gameStatus == 1) return Result.success(R.string.err_game_started)
+
             val gameRef = snapshot.documents.first()
             val playersRef = gameRef.reference.collection("jugadores")
             val playersSnapshot = playersRef.get().await()

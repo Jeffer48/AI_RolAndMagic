@@ -31,6 +31,7 @@ fun CreateLobbyView(
     gamesViewModel: GamesViewModel,
     userId: String
 ) {
+    val language = stringResource(R.string.app_language)
     var gameName: String by remember { mutableStateOf("") }
     val showLoadingDialog = remember { mutableStateOf(false) }
     val showErrorDialog = remember { mutableStateOf(false) }
@@ -81,6 +82,7 @@ fun CreateLobbyView(
                         gamesViewModel.createNewGame(
                             userId = userId,
                             gameName = gameName,
+                            language = language,
                             onFinished = { state ->
                                 showLoadingDialog.value = false
                                 if(state) onNavigateToSelCharacter()

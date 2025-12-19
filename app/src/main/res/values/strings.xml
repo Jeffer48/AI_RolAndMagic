@@ -45,6 +45,7 @@
     <string name="press_again_to_exit">Press back again to exit</string>
     <string name="send_button">Send message button</string>
     <string name="narrator">Narrator</string>
+    <string name="app_language">English</string>
 
     <!-- Estatus de la Partida -->
     <string name="game_status_waiting">Waiting</string>
@@ -79,6 +80,7 @@
     <string name="err_user_not_found">User not found</string>
     <string name="err_adding_character">Failed to add character</string>
     <string name="err_unknown">Unknown error</string>
+    <string name="err_game_started">Game already started</string>
 
     <!-- Creación de personaje -->
     <string name="cc_character_name">Character name</string>

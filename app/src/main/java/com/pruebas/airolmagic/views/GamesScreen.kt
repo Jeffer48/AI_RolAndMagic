@@ -30,15 +30,18 @@ import com.pruebas.airolmagic.R
 import com.pruebas.airolmagic.data.objects.GameData
 import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.ui.theme.MedievalSharp
+import com.pruebas.airolmagic.viewModels.ChatViewModel
 import com.pruebas.airolmagic.viewModels.GamesViewModel
 
 @Composable
 fun GamesListView(
     userId: String,
     gamesViewModel: GamesViewModel,
+    chatViewModel: ChatViewModel,
     onNavigateToLobby: () -> Unit,
     onNavigateToJoinLobby: () -> Unit,
-    onNavigateToCreateLobby: () -> Unit
+    onNavigateToCreateLobby: () -> Unit,
+    onNavigateToGame: () -> Unit
 ){
     val gamesList: List<GameData> by gamesViewModel.gamesList.collectAsState()
 
@@ -54,12 +57,19 @@ fun GamesListView(
                 modifier = Modifier.fillMaxWidth().weight(1f),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ){
-                items(count = gamesList.size){ game ->
+                items(count = gamesList.size){ index ->
+                    val game = gamesList[index]
                     GameButton(
-                        game = gamesList[game],
+                        game = game,
                         onSelected = {
-                            gamesViewModel.setSelectedGame(gamesList[game])
-                            onNavigateToLobby()
+                            if(game.status == 0) {
+                                gamesViewModel.setSelectedGame(game)
+                                onNavigateToLobby()
+                            }else{
+                                chatViewModel.setSelectedGame(game)
+                                chatViewModel.getAndSetPlayersList(game.id)
+                                onNavigateToGame()
+                            }
                         }
                     )
                 }

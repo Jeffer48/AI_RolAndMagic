@@ -59,8 +59,11 @@ fun WaitLobbyView(
     chatViewModel: ChatViewModel,
     onNonSelectedCharacter: () -> Unit,
     onStartGame: () -> Unit,
+    onError: () -> Unit
 ){
     val showWarningDialog = remember { mutableStateOf(false) }
+    val showErrorDialog = remember { mutableStateOf(false) }
+    val showLoadingDialog = chatViewModel.isLoading.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val clipboardManager = LocalClipboard.current
     val scope = rememberCoroutineScope()
@@ -72,6 +75,8 @@ fun WaitLobbyView(
     val gameCode = if(game == null) "" else game!!.joinCode
     val hostId = if(game == null) "" else game!!.hostId
 
+    if(showLoadingDialog.value) LoadingDialog()
+    if(showErrorDialog.value) ErrorDialog(texto = stringResource(R.string.err_unknown), onDismissRequest = { showErrorDialog.value = false; onError() })
     if(showWarningDialog.value) WarningDialog(texto = stringResource(R.string.users_without_character), onDismissRequest = { showWarningDialog.value = false })
 
     LaunchedEffect(game){
@@ -97,7 +102,10 @@ fun WaitLobbyView(
         if(!userWithoutCharacter){
             chatViewModel.setSelectedGame(game!!)
             chatViewModel.setPlayersList(playersList)
-            onStartGame()
+            chatViewModel.startGame(onFinish = { result ->
+                if(result == 1) onStartGame()
+                else showErrorDialog.value = true
+            })
         }else showWarningDialog.value = true
     }
 
