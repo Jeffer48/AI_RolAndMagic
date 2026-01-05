@@ -1,6 +1,5 @@
 package com.pruebas.airolmagic.views
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -13,21 +12,22 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pruebas.airolmagic.R
 import com.pruebas.airolmagic.viewModels.RegisterViewModel
 import com.pruebas.airolmagic.viewModels.RegistrationState
 import com.pruebas.airolmagic.ui.theme.Lora
 
 @Composable
-fun RegisterView(onNavigateToLogin: () -> Unit) {
+fun RegisterView(
+    registerViewModel: RegisterViewModel,
+    onNavigateToLogin: () -> Unit
+) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passConfirm by remember { mutableStateOf("") }
 
-    val viewModel: RegisterViewModel = viewModel()
-    val registrationState by viewModel.registrationState.collectAsState()
+    val registrationState by registerViewModel.registrationState.collectAsState()
 
     var errorMessage by remember { mutableStateOf("Error Desconocido") }
     var showErrorDialog by remember { mutableStateOf(false) }
@@ -41,7 +41,7 @@ fun RegisterView(onNavigateToLogin: () -> Unit) {
             texto = errorMessage,
             onDismissRequest = {
                 showErrorDialog = false
-                viewModel.resetState()
+                registerViewModel.resetState()
             }
         )
     }
@@ -146,7 +146,7 @@ fun RegisterView(onNavigateToLogin: () -> Unit) {
                 if (!emailError && !passwordError && !confirmPassError &&
                     username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()
                 ) {
-                    viewModel.registerUser(username, email, password)
+                    registerViewModel.registerUser(username, email, password)
                 }
             }
         ) {

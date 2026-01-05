@@ -19,6 +19,7 @@ import com.pruebas.airolmagic.viewModels.CharacterViewModel
 import com.pruebas.airolmagic.viewModels.CharactersListViewModel
 import com.pruebas.airolmagic.viewModels.ChatViewModel
 import com.pruebas.airolmagic.viewModels.GamesViewModel
+import com.pruebas.airolmagic.viewModels.RegisterViewModel
 import com.pruebas.airolmagic.viewModels.SessionState
 import com.pruebas.airolmagic.viewModels.SessionViewModel
 import com.pruebas.airolmagic.viewModels.WatchersViewModel
@@ -35,7 +36,8 @@ fun AppNavigation(
     charactersListViewModel: CharactersListViewModel,
     gamesViewModel: GamesViewModel,
     watchersViewModel: WatchersViewModel,
-    chatViewModel: ChatViewModel
+    chatViewModel: ChatViewModel,
+    registerViewModel: RegisterViewModel
 ){
     val context = LocalContext.current
     val exitMsg = stringResource(R.string.press_again_to_exit)
@@ -96,7 +98,10 @@ fun AppNavigation(
         }
 
         composable<RegisterScreen> {
-            MainScaffold(navController, sessionViewModel) {RegisterView(onNavigateToLogin = { navController.navigate(LoginScreen) })}
+            MainScaffold(navController, sessionViewModel) {RegisterView(
+                registerViewModel = registerViewModel,
+                onNavigateToLogin = { navController.navigate(LoginScreen) }
+            )}
         }
 
         composable<GamesListScreen>{

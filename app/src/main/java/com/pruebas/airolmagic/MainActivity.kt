@@ -13,6 +13,7 @@ import com.pruebas.airolmagic.viewModels.GamesViewModel
 import com.pruebas.airolmagic.viewModels.WatchersViewModel
 import com.pruebas.airolmagic.viewModels.ChatViewModel
 import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
+import com.pruebas.airolmagic.viewModels.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
     private val watchersViewModel: WatchersViewModel by viewModels()
     private val character: CharacterViewModel by viewModels()
     private val chatViewModel: ChatViewModel by viewModels()
+    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +39,8 @@ class MainActivity : ComponentActivity() {
                     charactersListViewModel = characterList,
                     gamesViewModel = gamesViewModel,
                     watchersViewModel = watchersViewModel,
-                    chatViewModel = chatViewModel
+                    chatViewModel = chatViewModel,
+                    registerViewModel = registerViewModel
                 )
             }
         }
