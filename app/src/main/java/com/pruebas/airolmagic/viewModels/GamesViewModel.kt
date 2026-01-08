@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,6 +32,15 @@ class GamesViewModel @Inject constructor(
     fun getGamesList(userId: String){
         viewModelScope.launch {
             _gamesList.value = gameRepository.getGamesList(userId)
+        }
+    }
+
+    fun deleteGame(gameId: String, userId: String, onError: () -> Unit){
+        viewModelScope.launch {
+            val result = gameRepository.deleteGame(gameId)
+
+            if(result.isSuccess) getGamesList(userId)
+            else onError()
         }
     }
 

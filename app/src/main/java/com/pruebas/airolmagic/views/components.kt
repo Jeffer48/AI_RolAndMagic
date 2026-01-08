@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,8 +16,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -51,14 +48,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.PopupProperties
 import com.pruebas.airolmagic.R
-import com.pruebas.airolmagic.ui.theme.AIRolMagicTheme
 import com.pruebas.airolmagic.ui.theme.Lora
 import com.pruebas.airolmagic.ui.theme.MedievalSharp
 
@@ -268,6 +263,72 @@ fun LoadingDialog(){
                     color = colorResource(R.color.yellow_font),
                     fontSize = 15.sp
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun ConfirmDialog(texto: String, txtHead: String, onConfirm: () ->Unit, onCancel: () -> Unit){
+    Dialog(onDismissRequest = { onCancel }){
+        Card(
+            modifier = Modifier.width(500.dp).height(220.dp),
+            shape = RoundedCornerShape(10.dp),
+            border = BorderStroke(width = 2.dp, color = colorResource(R.color.yellow_font)),
+            colors = CardDefaults.cardColors(
+                containerColor = colorResource(R.color.bg_black_purple)
+            )
+        ){
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ){
+                Text(
+                    text = txtHead,
+                    textAlign = TextAlign.Center,
+                    color = colorResource(R.color.yellow_font),
+                    fontFamily = MedievalSharp,
+                    fontSize = 30.sp,
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = texto,
+                    textAlign = TextAlign.Center,
+                    color = colorResource(R.color.semi_white),
+                    fontFamily = Lora,
+                    fontSize = 15.sp
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(horizontalArrangement = Arrangement.SpaceBetween){
+                    Button(
+                        onClick = { onCancel() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Gray
+                        )
+                    ){
+                        Text(
+                            text = stringResource(R.string.cancel),
+                            fontFamily = Lora,
+                            color = Color.White,
+                            fontSize = 15.sp
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(30.dp))
+                    Button(
+                        onClick = { onConfirm() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(R.color.success)
+                        )
+                    ){
+                        Text(
+                            text = stringResource(R.string.confirm),
+                            fontFamily = Lora,
+                            color = colorResource(R.color.semi_white),
+                            fontSize = 15.sp
+                        )
+                    }
+                }
             }
         }
     }

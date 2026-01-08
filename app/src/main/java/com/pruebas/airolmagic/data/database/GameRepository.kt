@@ -28,6 +28,16 @@ class GameRepository {
         }
     }
 
+    suspend fun deleteGame(gameId: String): Result<String>{
+        return try {
+            collectionRef.document(gameId).delete().await()
+            Result.success(gameId)
+        }catch(e: Exception){
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
+
     suspend fun saveGameToFirebase(game: GameData, host: PlayersCharacters): Result<String> {
         return try {
             val newGameRef = collectionRef.document()
